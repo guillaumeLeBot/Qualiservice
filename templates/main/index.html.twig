@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Qualiservice Expédition{% endblock %}
+
+{% block body%}
+    <div class="container" style="text-align: center; color: #E0145F;">
+        <h1>Qualiservice Livraison/Expédition</h1>
+    </div>
+    <div class="container" style="padding: 150px;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-success" style="max-width: 18rem;"" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Calendrier des Livraisons/Epéditions </h5>
+                        
+                        <p class="card-text">Consultez le calendrier des réception/expédition en cliquant ici</p>
+                        <a href="{{path('app_calendar')}}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Liste des Livraisons/Epéditions</h5>
+                        <p class="card-text">Voir toutes les réceptions ou les expéditions en cliquant ici</p>
+                        <a href="/delivery" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-info" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Création Livraison/Epédition</h5>
+                        <p class="card-text">Créer une réception ou une expédition en cliquant ici</p>
+                        <a href="/delivery/new" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock%}

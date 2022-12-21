@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Qualiservice liste{% endblock %}
+
+{% block body %}
+    <h1>Liste reception/expédition</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Jour d'appel</th>
+                <th>Heure d'appel</th>
+                <th>Heure d'arrivée</th>
+                <th>début rendez vous</th>
+                <th>Fin de rendez vous</th>
+                <th>Heure de départ</th>
+                <th>Numéro de commande</th>
+                <th>Livré/Expédié</th>
+                <th>Batiment</th>
+                <th>Platforme</th>
+                <th>Fournisseur</th>
+                <th>Client</th>
+                <th>Cariste</th>
+                <th>Nombre de palettes</th>
+                <th>Marchandise</th>
+                <th>Commentaire</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for delivery_schedule in delivery_schedules %}
+            <tr>
+                <td>{{ delivery_schedule.dayCall ? delivery_schedule.dayCall|date('Y-m-d') : '' }}</td>
+                <td>{{ delivery_schedule.hoursCall ? delivery_schedule.hoursCall|date('H:i:s') : '' }}</td>
+                <td>{{ delivery_schedule.arrivalTime ? delivery_schedule.arrivalTime|date('H:i:s') : '' }}</td>
+                <td>{{ delivery_schedule.appointement ? delivery_schedule.appointement|date('H:i:s') : '' }}</td>
+                <td>{{ delivery_schedule.endingAppointement ? delivery_schedule.endingAppointement|date('H:i:s') : '' }}</td>
+                <td>{{ delivery_schedule.departureTime ? delivery_schedule.departureTime|date('H:i:s') : '' }}</td>
+                <td>{{ delivery_schedule.commandNumber }}</td>
+                <td>{{ delivery_schedule.deliveredShipped }}</td>
+                <td>{{ delivery_schedule.building }}</td>
+                <td>{{ delivery_schedule.platform }}</td>
+                <td>{{ delivery_schedule.supplier }}</td>
+                <td>{{ delivery_schedule.customer }}</td>
+                <td>{{ delivery_schedule.driver }}</td>
+                <td>{{ delivery_schedule.palletsNumbers }}</td>
+                <td>{{ delivery_schedule.merchandise }}</td>
+                <td>{{ delivery_schedule.comment }}</td>
+                <td>{{ delivery_schedule.backgroundColor }}</td>
+                <td>{{ delivery_schedule.textColor }}</td>
+                <td>
+                    <a href="{{ path('app_delivery_schedule_show', {'id': delivery_schedule.id}) }}"><i class="fa-solid fa-eye"></i>Détail</a>
+                </td>
+                {# <td>
+                    <a href="{{ path('app_delivery_schedule_edit', {'id': delivery_schedule.id}) }}"><i class="fa-sharp fa-solid fa-pen-to-square"></i>Modifier</a>
+
+                </td> #}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-success" href="{{ path('app_delivery_schedule_new') }}">Créer une réception/expédition</a>
+{% endblock %}
