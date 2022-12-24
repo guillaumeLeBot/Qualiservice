@@ -21,12 +21,23 @@
 </style>
 {% endblock %}
 {% block navbar %}
-<div class="container">
-    <a class="btn btn-primary" href="/" role="button">retourner au menu</a>
+<div class="container" style="margin-top:25px">
+    <div class="row">
+        <div class="col-md-4">
+            <a class="btn btn-primary" href="/" role="button">retourner au menu</a>
+        </div>
+        <div class="col-md-4">
+                <a class="btn btn-success" href="{{ path('app_delivery_schedule_new')}}" role="button">Créer une Livraison/expếdition</a>
+        </div>
+        <div class="col-md-4">
+                <a class="btn btn-info" href="{{ path('app_delivery_schedule_index') }}" role="button">retourner à la liste</a>
+        </div>
+    </div>
 </div>
+
 {% endblock navbar%}
 {% block body %}
-<div class="container">
+<div class="container" style="margin-top:70px">
     <div id="calendrier">
     </div>
 </div>
@@ -53,14 +64,10 @@
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/edit`
         let donnees = {
-            "title": e.event.title,
-            "description": e.event.extendedProps.description,
-            "start": e.event.start,
-            "end": e.event.end,
-            "backgroundColor": e.event.backgroundColor,
-            "borderColor": e.event.borderColor,
-            "textColor": e.event.textColor,
-            "allDay": e.event.allDay
+            "arrivalTime": e.event.arrivalTime,
+            "driver": e.event.driver,
+            "departureTime": e.event.departureTime,
+           
         }
 
         let xhr = new XMLHttpRequest
