@@ -40,7 +40,7 @@ class DeliveryScheduleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_delivery_schedule_show', methods: ['GET'])]
+    #[Route('/{id}/show', name: 'app_delivery_schedule_show', methods: ['GET'])]
     public function show(DeliverySchedule $deliverySchedule): Response
     {
         return $this->render('delivery_schedule/show.html.twig', [
@@ -66,7 +66,7 @@ class DeliveryScheduleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_delivery_schedule_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_delivery_schedule_delete', methods: ['POST'])]
     public function delete(Request $request, DeliverySchedule $deliverySchedule, DeliveryScheduleRepository $deliveryScheduleRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$deliverySchedule->getId(), $request->request->get('_token'))) {

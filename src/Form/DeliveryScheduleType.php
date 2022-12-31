@@ -75,21 +75,26 @@ class DeliveryScheduleType extends AbstractType
                 'label' => 'Fournisseur',
                 'choices' => [
                     'fournisseur1' => 'fournisseur1',
-                    'fournisseur2' => 'fournisseur2'
+                    'fournisseur2' => 'fournisseur2',
+                    'fournisseur3' => 'fournisseur3',
+                    'fournisseur4' => 'fournisseur4'
                 ]
             ])
             ->add('customer', ChoiceType::class, [
                 'label' => 'Client',
                 'choices' => [
-                    'client1' => 'client1',
-                    'client2' => 'client2'
+                    'Loreal' => 'Loreal',
+                    'Art beauty' => 'Art beauty',
+                    'Alkos' => 'Alkos',
+                    'Bodmer & Fils' => 'Bodmer & Fils'
                 ]
             ])
             ->add('driver', ChoiceType::class, [
                 'label' => 'Cariste',
                 'choices' => [
-                    'carite1' => 'cariste1',
-                    'carite2' => 'cariste2',
+                    'Fabien' => 'Fabien',
+                    'Vivien' => 'Vivien',
+                    'Robert' => 'Robert',
                 ]
             ])
             ->add('palletsNumbers', IntegerType::class, [
