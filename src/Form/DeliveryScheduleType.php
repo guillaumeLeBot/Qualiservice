@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class DeliveryScheduleType extends AbstractType
 {
@@ -46,7 +47,7 @@ class DeliveryScheduleType extends AbstractType
                     'Réception/Expédition' => 'Réception/Expédition',
                     'Transfert' => 'Transfert',
                     'Destruction' => 'Destruction',
-                    'Inventaire' => 'Inventaire'
+                    'Inventaire' => 'Inventaire',
                 ],
             ] )
             ->add('building', ChoiceType::class, [
@@ -57,7 +58,7 @@ class DeliveryScheduleType extends AbstractType
                     'Royal Canin' => 'Royal Canin',
                     'JDC1/JDC2' => 'JDC1/JDC2',
                     'JDC2/JDC1' => 'JDC2/JDC1',
-                    'Quai salle carton' => 'Quai salle carton'
+                    'Quai salle carton' => 'Quai salle carton',
                 ],
             ])
             ->add('platform', ChoiceType::class, [
@@ -67,17 +68,44 @@ class DeliveryScheduleType extends AbstractType
                     'Vémars/Cloé' => 'Vémars/Cloé',
                     'saint Vulbas' => 'saint Vulbas',
                     'SPI' => 'SPI',
-                    'SPI/Saint Vulbas' => 'SPI/Saint Vulbas'
+                    'SPI/Saint Vulbas' => 'SPI/Saint Vulbas',
                 ],
+            ])           
+            ->add('supplier', ChoiceType::class, [
+                'label' => 'Fournisseur',
+                'choices' => [
+                    'fournisseur1' => 'fournisseur1',
+                    'fournisseur2' => 'fournisseur2',
+                    'fournisseur3' => 'fournisseur3',
+                    'fournisseur4' => 'fournisseur4'
+                ]
             ])
-            ->add('building')
-            ->add('platform')
-            ->add('supplier')
-            ->add('customer')
-            ->add('driver')
-            ->add('palletsNumbers')
-            ->add('merchandise')
-            ->add('comment')
+            ->add('customer', ChoiceType::class, [
+                'label' => 'Client',
+                'choices' => [
+                    'Loreal' => 'Loreal',
+                    'Art beauty' => 'Art beauty',
+                    'Alkos' => 'Alkos',
+                    'Bodmer & Fils' => 'Bodmer & Fils'
+                ]
+            ])
+            ->add('driver', ChoiceType::class, [
+                'label' => 'Cariste',
+                'choices' => [
+                    'Fabien' => 'Fabien',
+                    'Vivien' => 'Vivien',
+                    'Robert' => 'Robert',
+                ]
+            ])
+            ->add('palletsNumbers', IntegerType::class, [
+                'label' => 'Nombre de palettes'
+            ])
+            ->add('merchandise', TextType::class, [
+                'label' => 'Marchandises'
+            ])
+            ->add('comment', TextType::class, [
+                'label' => 'commentaire'
+            ])
            
         ;
     }

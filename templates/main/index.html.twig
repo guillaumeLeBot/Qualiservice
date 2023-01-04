@@ -1,41 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Qualiservice Expédition{% endblock %}
-
-{% block body%}
-    <div class="container" style="text-align: center; color: #E0145F;">
-        <h1>Qualiservice Livraison/Expédition</h1>
-    </div>
-    <div class="container" style="padding: 150px;">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card text-white bg-success" style="max-width: 18rem;"" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Calendrier des Livraisons/Epéditions </h5>
-                        
-                        <p class="card-text">Consultez le calendrier des réception/expédition en cliquant ici</p>
-                        <a href="{{path('app_calendar')}}" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-warning" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Liste des Livraisons/Epéditions</h5>
-                        <p class="card-text">Voir toutes les réceptions ou les expéditions en cliquant ici</p>
-                        <a href="/delivery" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-info" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Création Livraison/Epédition</h5>
-                        <p class="card-text">Créer une réception ou une expédition en cliquant ici</p>
-                        <a href="/delivery/new" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block title %}Qualiservice{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/main.css') }}"  />
+{% endblock %}
+{% block body%}    
+    <div id="calendrier"></div>
+    
 {% endblock%}
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+<script>
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier")
+
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'timeGridDay',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start: 'prev,next, timeGridDay,list',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek'
+            },
+            buttonText: {
+                day: 'Aujoud\'hui',
+                week: 'Semaine',
+                month: 'Mois',
+                list: 'Liste'
+            },
+            events: {{ data| raw }},
+            nowIndicator: true,
+            editable: true,
+            eventResizableFromStart: true,
+            eventObject: true
+        })
+
+    calendar.on('eventChange', (e) => {
+        let url = `/api/${e.event.id}/edit`
+        let donnees = {
+            "title": e.event.title,
+            "description": e.event.extendedProps.description,
+            "start": e.event.start,
+            "end": e.event.end,
+            "backgroundColor": e.event.backgroundColor,
+            "borderColor": e.event.borderColor,
+            "textColor": e.event.textColor,
+            "allDay": e.event.allDay
+        }
+    
+    {# calendar.addEvent(event[, let url = `/api/${e.event.id}/edit`]) #}
+
+
+        let ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open("PUT", url, true)
+        ajaxRequest.send(JSON.stringify(donnees))
+       
+    })
+
+    calendar.render()
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,394 @@
+
+
+input {
+    display: none;
+}
+
+label {
+    cursor: pointer;
+}
+/* boutton du calendrier */
+.calendar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+    height: 54px;
+    background: #f33 linear-gradient(to bottom, #f33 50%, #d11515 50%);
+    border-radius: 0px;
+    box-shadow: 0px 15px 25px -10px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0px 3px 5px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515;
+    color: #fff;
+    letter-spacing: 0.4px;
+    overflow: hidden;
+    outline: 0 !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+.calendar:before,
+.calendar:after {
+    content: " ";
+    width: 20px;
+    max-width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.135s ease-in-out;
+    transition: all 0.135s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.15s;
+}
+
+.calendar:before {
+    left: 0;
+    background: linear-gradient(45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(-45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to right, #f33, #d11515);
+}
+
+.calendar:after {
+    right: 0;
+    background: linear-gradient(-45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to left, #f33, #d11515);
+}
+
+.calendar:hover {
+    transform: scale(1.07);
+    box-shadow: 0px 25px 40px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+}
+
+input:checked~.calendar {
+    padding: 0 18.5px;
+    background: rgba(255, 51, 51, 0);
+    box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 4px #f33, inset 0px 0px 0px 0px #d11515;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0px 3px 5px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0);
+    color: #f33;
+    transform: scale(0.7) rotate(-6deg);
+    transition: all 0.25s ease-in-out, text-shadow 0s ease-in-out, box-shadow 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65), text-shadow 0s ease-in-out, box-shadow 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65);
+    transition-delay: 0.135s;
+}
+
+input:checked~.calendar:before,
+input:checked~.calendar:after {
+    transition-delay: 0s;
+}
+
+input:checked~.calendar:before {
+    transform: translateX(-100%);
+}
+
+input:checked~.calendar:after {
+    transform: translateX(100%);
+}
+
+input:checked~.calendar+span {
+    color: rgba(255, 51, 51, 0.1875);
+    transform: translateY(56px);
+}
+
+span {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "Didact Gothic";
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    z-index: -1;
+    transition: all 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.135s;
+}
+/* boutton de liste */
+
+.list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+    height: 54px;
+    background: #f33 linear-gradient(to bottom, #f33 50%, #d11515 50%);
+    border-radius: 0px;
+    box-shadow: 0px 15px 25px -10px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0px 3px 5px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515;
+    color: #fff;
+    letter-spacing: 0.4px;
+    overflow: hidden;
+    outline: 0 !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+.list:before,
+.list:after {
+    content: " ";
+    width: 20px;
+    max-width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.135s ease-in-out;
+    transition: all 0.135s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.15s;
+}
+
+.list:before {
+    left: 0;
+    background: linear-gradient(45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(-45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to right, #f33, #d11515);
+}
+
+.list:after {
+    right: 0;
+    background: linear-gradient(-45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to left, #f33, #d11515);
+}
+
+.list:hover {
+    transform: scale(1.07);
+    box-shadow: 0px 25px 40px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+}
+
+input:checked~.list {
+    padding: 0 18.5px;
+    background: rgba(255, 51, 51, 0);
+    box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 4px #f33, inset 0px 0px 0px 0px #d11515;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0px 3px 5px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0);
+    color: #f33;
+    transform: scale(0.7) rotate(-6deg);
+    transition: all 0.25s ease-in-out, text-shadow 0s ease-in-out, box-shadow 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65), text-shadow 0s ease-in-out, box-shadow 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65);
+    transition-delay: 0.135s;
+}
+
+input:checked~.list:before,
+input:checked~.list:after {
+    transition-delay: 0s;
+}
+
+input:checked~.list:before {
+    transform: translateX(-100%);
+}
+
+input:checked~.list:after {
+    transform: translateX(100%);
+}
+
+input:checked~.list+span {
+    color: rgba(255, 51, 51, 0.1875);
+    transform: translateY(56px);
+}
+
+span {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "Didact Gothic";
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    z-index: -1;
+    transition: all 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.135s;
+}
+
+/* boutton de creation */
+
+.create {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+    height: 54px;
+    background: #f33 linear-gradient(to bottom, #f33 50%, #d11515 50%);
+    border-radius: 0px;
+    box-shadow: 0px 15px 25px -10px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0px 3px 5px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515;
+    color: #fff;
+    letter-spacing: 0.4px;
+    overflow: hidden;
+    outline: 0 !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+.create:before,
+.create:after {
+    content: " ";
+    width: 20px;
+    max-width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.135s ease-in-out;
+    transition: all 0.135s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.15s;
+}
+
+.create:before {
+    left: 0;
+    background: linear-gradient(45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(-45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to right, #f33, #d11515);
+}
+
+.create:after {
+    right: 0;
+    background: linear-gradient(-45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to left, #f33, #d11515);
+}
+
+.create:hover {
+    transform: scale(1.07);
+    box-shadow: 0px 25px 40px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+}
+
+input:checked~.create {
+    padding: 0 18.5px;
+    background: rgba(255, 51, 51, 0);
+    box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 4px #f33, inset 0px 0px 0px 0px #d11515;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0px 3px 5px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0);
+    color: #f33;
+    transform: scale(0.7) rotate(-6deg);
+    transition: all 0.25s ease-in-out, text-shadow 0s ease-in-out, box-shadow 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65), text-shadow 0s ease-in-out, box-shadow 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65);
+    transition-delay: 0.135s;
+}
+
+input:checked~.create:before,
+input:checked~.create:after {
+    transition-delay: 0s;
+}
+
+input:checked~.create:before {
+    transform: translateX(-100%);
+}
+
+input:checked~.create:after {
+    transform: translateX(100%);
+}
+
+input:checked~.create+span {
+    color: rgba(255, 51, 51, 0.1875);
+    transform: translateY(56px);
+}
+
+span {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "Didact Gothic";
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    z-index: -1;
+    transition: all 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.135s;
+}
+
+/* boutton de reset password */
+
+.reset {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 20px;
+    height: 54px;
+    background: #f33 linear-gradient(to bottom, #f33 50%, #d11515 50%);
+    border-radius: 0px;
+    box-shadow: 0px 15px 25px -10px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+    font-size: 20px;
+    text-align: center;
+    text-shadow: 0px 3px 5px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515, 0px 5px 10px #d11515;
+    color: #fff;
+    letter-spacing: 0.4px;
+    overflow: hidden;
+    outline: 0 !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+.reset:before,
+.reset:after {
+    content: " ";
+    width: 20px;
+    max-width: 30%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.135s ease-in-out;
+    transition: all 0.135s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.15s;
+}
+
+.reset:before {
+    left: 0;
+    background: linear-gradient(45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(-45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to right, #f33, #d11515);
+}
+
+.reset:after {
+    right: 0;
+    background: linear-gradient(-45deg, transparent calc(200% / 3), rgba(255, 51, 51, 1) calc(200% / 3)), linear-gradient(45deg, rgba(209, 21, 21, 1) calc(100% / 3), transparent calc(100% / 3)), linear-gradient(to left, #f33, #d11515);
+}
+
+.reset:hover {
+    transform: scale(1.07);
+    box-shadow: 0px 25px 40px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 0px rgba(255, 51, 51, 0), inset 0px -27px 0px 0px #d11515;
+}
+
+input:checked~.reset {
+    padding: 0 18.5px;
+    background: rgba(255, 51, 51, 0);
+    box-shadow: 0px 5px 15px -5px rgba(0, 0, 0, 0.3), inset 0px 0px 0px 4px #f33, inset 0px 0px 0px 0px #d11515;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    text-shadow: 0px 3px 5px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0), 0px 5px 10px rgba(209, 21, 21, 0);
+    color: #f33;
+    transform: scale(0.7) rotate(-6deg);
+    transition: all 0.25s ease-in-out, text-shadow 0s ease-in-out, box-shadow 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65), text-shadow 0s ease-in-out, box-shadow 0.45s cubic-bezier(0.6, -0.9, 0.39, 1.65);
+    transition-delay: 0.135s;
+}
+
+input:checked~.reset:before,
+input:checked~.reset:after {
+    transition-delay: 0s;
+}
+
+input:checked~.reset:before {
+    transform: translateX(-100%);
+}
+
+input:checked~.reset:after {
+    transform: translateX(100%);
+}
+
+input:checked~.reset+span {
+    color: rgba(255, 51, 51, 0.1875);
+    transform: translateY(56px);
+}
+
+span {
+    display: block;
+    margin-bottom: 10px;
+    font-family: "Didact Gothic";
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    z-index: -1;
+    transition: all 0.25s ease-in-out;
+    transition: all 0.45s cubic-bezier(0.74, 0.16, 0.24, 0.92);
+    transition-delay: 0.135s;
+}

@@ -9,7 +9,9 @@
 >- Cloner ce repository dans le dossier "app".
 >- Changer les variables d'environnement.
 >- Lancer les containers docker via docker-compose.
->- Creer la base de donner avec la commande "symfony console doctrine:database:create".
+>- Dans le container php lancer la commande "composer install"
+### Si le dossier "migration" est vide
 >- Creer les migrations avec la commande "symfony console make:migration"
+### Dans tous les cas
 >- Lancer les migrations avec la commande "symfony console doctrine:migration:migrate"
 ### Enjoy :)
