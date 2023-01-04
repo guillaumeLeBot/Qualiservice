@@ -1,61 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Qualiservice Calendrier{% endblock %}
-
-{% block stylesheets %}
-    <style>
-        body {
-            background-color: #ebebeb
-        }
-
-        #calendrier {
-            width: 75%;
-            background-color: #ffffff;
-            margin: auto;
-        }
-    </style>
-{% endblock %}
+{% block title %}Calendar index{% endblock %}
 
 {% block body %}
-<div class="container" style="margin-top:70px">
-    <div id="calendrier">
-    </div>
-</div>
+    <h1>Calendar index</h1>
 
-{% endblock %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Description</th>
+                <th>All_day</th>
+                <th>Background_color</th>
+                <th>Border_color</th>
+                <th>Text_color</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for calendar in calendars %}
+            <tr>
+                <td>{{ calendar.id }}</td>
+                <td>{{ calendar.title }}</td>
+                <td>{{ calendar.start ? calendar.start|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ calendar.end ? calendar.end|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ calendar.description }}</td>
+                <td>{{ calendar.allDay ? 'Yes' : 'No' }}</td>
+                <td>{{ calendar.backgroundColor }}</td>
+                <td>{{ calendar.borderColor }}</td>
+                <td>{{ calendar.textColor }}</td>
+                <td>
+                    <a href="{{ path('calendar_show', {'id': calendar.id}) }}">show</a>
+                    <a href="{{ path('calendar_edit', {'id': calendar.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-{% block javascripts %}
-<script>
-    window.onload = () => {
-        let calendarElt = document.querySelector("#calendrier")
-        let calendar = new FullCalendar.Calendar(calendarElt, {
-            initialView: 'timeGridWeek',
-            locale: 'fr',
-            timeZone: 'Europe/Paris',
-            headerToolbar: {
-                start: 'prev,next today',
-                center: 'title',
-                end: 'dayGridMonth,timeGridWeek'
-            },
-            events: {{ data| raw }},
-    editable: true,
-        eventResizableFromStart: true
-        })
-    calendar.on('eventChange', (e) => {
-        let url = `/api/${e.event.id}/edit`
-        let data = {
-            "arrivalTime": e.event.arrivalTime,
-            "driver": e.event.driver,
-            "departureTime": e.event.departureTime,
-           
-        }
-
-        let xhr = new XMLHttpRequest
-        xhr.open("PUT", url)
-        xhr.send(JSON.stringify(data))
-    })
-    calendar.render()
-    }
-</script>
-
+    <a href="{{ path('calendar_new') }}">Create new</a>
 {% endblock %}

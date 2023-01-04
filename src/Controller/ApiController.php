@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\DeliverySchedule;
+use App\Entity\Calendar;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\DeliverySchedule;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiController extends AbstractController
 {
-    /**
-     * @Route("/api", name="api")
-     */
+    
+    #[Route('/api', name: 'api')]
     public function index()
     {
         return $this->render('api/index.html.twig', [
@@ -22,44 +22,52 @@ class ApiController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/api/{id}/edit", name="api_event_edit", methods={"PUT"})
-     */
-    public function majEvent(?DeliverySchedule $deliverySchedule, Request $request, EntityManagerInterface $em)
+    
+    #[Route('/api/{id}/edit', name:'api_event_edit', methods:['PUT'])]
+
+    public function majEvent(?Calendar $calendar, Request $request, ManagerRegistry $doctrine)
     {
+        $em = $doctrine->getManager();
         // On récupère les données
         $donnees = json_decode($request->getContent());
 
         if(
-            isset($donnees->arrivalTime) && !empty($donnees->arrivalTime) &&
-            isset($donnees->driver) && !empty($donnees->driver) &&
-            isset($donnees->departureTime) && !empty($donnees->departureTime) 
+            isset($donnees->title) && !empty($donnees->title) &&
+            isset($donnees->start) && !empty($donnees->start) &&
+            isset($donnees->description) && !empty($donnees->description) &&
+            isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
+            isset($donnees->borderColor) && !empty($donnees->borderColor) &&
+            isset($donnees->textColor) && !empty($donnees->textColor)
         ){
             // Les données sont complètes
             // On initialise un code
             $code = 200;
 
             // On vérifie si l'id existe
-            if(!$deliverySchedule){
+            if(!$calendar){
                 // On instancie un rendez-vous
-                $deliverySchedule = new DeliverySchedule;
+                $calendar = new Calendar;
 
                 // On change le code
                 $code = 201;
             }
 
             // On hydrate l'objet avec les données
-            $deliverySchedule->setArrivalTime($donnees->arrivalTime);
-            $deliverySchedule->setDriver($donnees->driver);
-            if($donnees->dayCall){
-                $deliverySchedule->setDepartureTime(new DateTime($donnees->departureTime));
+            $calendar->setTitle($donnees->title);
+            $calendar->setDescription($donnees->description);
+            $calendar->setStart(new DateTime($donnees->start));
+            if($donnees->allDay){
+                $calendar->setEnd(new DateTime($donnees->start));
             }else{
-                $deliverySchedule->setDepartureTime(new DateTime($donnees->departureTime));
+                $calendar->setEnd(new DateTime($donnees->end));
             }
+            $calendar->setAllDay($donnees->allDay);
+            $calendar->setBackgroundColor($donnees->backgroundColor);
+            $calendar->setBorderColor($donnees->borderColor);
+            $calendar->setTextColor($donnees->textColor);
            
 
-            $em = $this->$this->getDoctrine();
-            $em->persist($deliverySchedule);
+            $em->persist($calendar);
             $em->flush();
 
             // On retourne le code

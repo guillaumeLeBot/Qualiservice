@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Qualiservice{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+{% endblock %}
+{% block body%}
+
+<div class="container" style="padding: 150px;">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="container">
+                <input type="checkbox" name="calendar-button" id="calendar-button"
+                    onclick="location.href='/register'" />
+                <label class="calendar" for="calendar-button">Création de compte</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="container">
+                <input type="checkbox" name="list-button" id="list-button" onclick="location.href='/login'" />
+                <label class="list" for="list-button">Connexion</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="container">
+                <input type="checkbox" name="create-button" id="create-button" onclick="location.href='/logout'" />
+                <label class="create" for="create-button">Déconnexion</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="container">
+                <input type="checkbox" name="reset-password" id="reset-password"
+                    onclick="location.href='/reset-password'" />
+                <label class="reset" for="reset-password">Mot de passe oublié</label>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

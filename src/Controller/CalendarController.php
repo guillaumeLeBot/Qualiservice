@@ -2,45 +2,82 @@
 
 namespace App\Controller;
 
-use App\Repository\DeliveryScheduleRepository;
+use App\Entity\Calendar;
+use App\Form\CalendarType;
+use App\Repository\CalendarRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/calendar')]
 class CalendarController extends AbstractController
 {
-     #[Route('/calendar', name: 'app_calendar')]
-    public function index(DeliveryScheduleRepository $delivery): Response
+    
+    #[Route('/', name: 'calendar_index', methods: ['GET'])]
+    public function index(CalendarRepository $calendarRepository): Response
     {
-       $events = $delivery->findAll();
+        return $this->render('calendar/index.html.twig', [
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
 
-        $rdvs = [];
+   
+    #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, CalendarRepository $calendarRepository): Response
+    {
+        $calendar = new Calendar();
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
 
-        foreach($events as $event){
-            $rdvs[] = [
-                
-                'id' => $event->getId(),
-                'dayCall' => $event->getDayCall()->format('Y-m-d H:i:s'),
-                'hoursCall' => $event->getHoursCall()->format('Y-m-d H:i:s'),
-                'arrivalTime' => $event->getArrivalTime()->format('H:i:s'),
-                'appointement' => $event->getAppointement()->format('H:i:s'),
-                'endingAppointement' => $event->getEndingAppointement()->format('H:i:s'),
-                'departureTime' => $event->getDepartureTime()->format('H:i:s'),
-                'commandNumber' => $event->getCommandNumber(),
-                'deliveredShipped' => $event->getDeliveredShipped(),
-                'building' => $event->getBuilding(),
-                'platform' => $event->getPlatform(),
-                'supplier' => $event->getSupplier(),
-                'customer' => $event->getCustomer(),
-                'driver' => $event->getDriver(),
-                'palletsNumbers' => $event->getPalletsNumbers(),
-                'merchandise' => $event->getMerchandise(),
-                'comment' => $event->getComment(),
-            ];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $calendarRepository->save($calendar, true);
+
+            return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $data = json_encode($rdvs);
+        return $this->render('calendar/new.html.twig', [
+            'calendar' => $calendar,
+            'form' => $form->createView(),
+        ]);
+    }
 
-        return $this->render('calendar/index.html.twig', compact('data'));
+   
+    #[Route('/{id}/show', name: 'calendar_show', methods: ['GET'])]
+    public function show(Calendar $calendar): Response
+    {
+        return $this->render('calendar/show.html.twig', [
+            'calendar' => $calendar,
+        ]);
+    }
+
+   
+    #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
+    public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
+    {
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $calendarRepository->save($calendar, true);
+
+            return $this->redirectToRoute('app_delivery_schedule_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('calendar/edit.html.twig', [
+            'calendar' => $calendar,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    
+    #[route('/{id}', name:'calendar_delete', methods:['DELETE'])]
+    public function delete(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$calendar->getId(), $request->request->get('_token'))) {
+            $calendarRepository->remove($calendar, true);
+        }
+
+        return $this->redirectToRoute('calendar_index');
     }
 }
