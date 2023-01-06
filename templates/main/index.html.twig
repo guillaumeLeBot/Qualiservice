@@ -2,19 +2,47 @@
 
 {% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/main.css') }}"  />
+<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 {% endblock %}
-{% block body%}    
-    <div id="calendrier"></div>
-    
+{% block body%}
+    <!-- Modal HTML -->
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="modal-title" class="modal-title"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" />
+                        </div>                        
+                        <div class="form-group">
+                            <label for="background-color">Background Color</label>
+                            <input type="color" class="form-control" id="background-color" />
+                        </div>
+                        <div class="form-group">
+                            <label for="text-color">Text Color</label>
+                            <input type="color" class="form-control" id="text-color" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="save-button">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="calendar"></div>
 {% endblock%}
 {% block javascripts %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
-    window.onload = () => {
-        let calendarElt = document.querySelector("#calendrier")
-
+    document.addEventListener('DOMContentLoaded', function () {
+        let calendarElt = document.querySelector("#calendar")
         let calendar = new FullCalendar.Calendar(calendarElt, {
             initialView: 'timeGridDay',
             locale: 'fr',
@@ -25,7 +53,7 @@
                 end: 'dayGridMonth,timeGridWeek'
             },
             buttonText: {
-                day: 'Aujoud\'hui',
+                day: 'Jour',
                 week: 'Semaine',
                 month: 'Mois',
                 list: 'Liste'
@@ -34,9 +62,7 @@
             nowIndicator: true,
             editable: true,
             eventResizableFromStart: true,
-            eventObject: true
         })
-
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/edit`
         let donnees = {
@@ -49,18 +75,41 @@
             "textColor": e.event.textColor,
             "allDay": e.event.allDay
         }
-    
-    {# calendar.addEvent(event[, let url = `/api/${e.event.id}/edit`]) #}
-
 
         let ajaxRequest = new XMLHttpRequest();
         ajaxRequest.open("PUT", url, true)
         ajaxRequest.send(JSON.stringify(donnees))
-       
-    })
 
+    })
+       calendar.on('eventClick', (e)=> {
+            // open the modal
+            $('#modal').modal('show');
+            // set the modal's title to the event's title
+            $('#modal-title').text(e.event.title);
+           
+            // set the modal's background color to the event's color
+            $('#background-color').val(e.event.backgroundColor);
+            // set the modal's text color to the event's text color
+            $('#text-color').val(e.event.textColor);
+       
+        });
+
+        // save changes and close the modal when the save button is clicked
+        $('#save-button').click( (e) => {
+            // update the event's title
+            e.event.title.setProp('title', $('#title').val());
+            // update the event's background color
+            e.event.backgroundColor.setProp('backgroundColor', $('#background-color').val());
+            // update the event's text color
+            e.event.textColor.setProp('textColor', $('#text-color').val());
+            // update the calendar
+            calendar.updateSize(e);
+            // close the modal
+            $('#modal').modal('hide');
+      
+        });
     calendar.render()
-    }
+});
 </script>
 
 {% endblock %}

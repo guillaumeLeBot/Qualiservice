@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CalendarVanillaController!{% endblock %}
+
+{% block body %}
+
+{% for month in months %}
+<table>
+    <thead>
+        <tr>
+            <th colspan="7">{{ month.name }}</th>
+        </tr>
+        <tr>
+            {% for day in month.daysOfWeek %}
+            <th>{{ day }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in month.weeks %}
+        <tr>
+            {% for day in week %}
+            <td>{{ day }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}
