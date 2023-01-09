@@ -96,7 +96,13 @@ class ApiController extends AbstractController
             isset($donnees->description) && !empty($donnees->description) &&
             isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
             isset($donnees->borderColor) && !empty($donnees->borderColor) &&
-            isset($donnees->textColor) && !empty($donnees->textColor)
+            isset($donnees->textColor) && !empty($donnees->textColor)&&
+            isset($donnees->pallets_number) && !empty($donnees->pallets_number)&&
+            isset($donnees->building) && !empty($donnees->building)&&
+            isset($donnees->supplier) && !empty($donnees->supplier)&&
+            isset($donnees->customer) && !empty($donnees->customer)&&
+            isset($donnees->driver) && !empty($donnees->driver)&&
+            isset($donnees->merchandise) && !empty($donnees->textColor)
         ){
             // Les données sont complètes
             // On initialise un code
@@ -124,6 +130,12 @@ class ApiController extends AbstractController
             $calendar->setBackgroundColor($donnees->backgroundColor);
             $calendar->setBorderColor($donnees->borderColor);
             $calendar->setTextColor($donnees->textColor);
+            $calendar->setPalletsNumber($donnees->pallets_number);
+            $calendar->setBuilding($donnees->building);
+            $calendar->setSupplier($donnees->supplier);
+            $calendar->setCustomer($donnees->customer);
+            $calendar->setDriver($donnees->driver);
+            $calendar->setMerchandise($donnees->merchandise);
            
 
             $em->persist($calendar);

@@ -38,6 +38,27 @@ class Calendar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $text_color = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $palletsNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $building = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $supplier = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $customer = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $driver = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $merchandise = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -135,6 +156,90 @@ class Calendar
     public function setTextColor(?string $text_color): self
     {
         $this->text_color = $text_color;
+
+        return $this;
+    }
+
+    public function getPalletsNumber(): ?int
+    {
+        return $this->palletsNumber;
+    }
+
+    public function setPalletsNumber(?int $palletsNumber): self
+    {
+        $this->palletsNumber = $palletsNumber;
+
+        return $this;
+    }
+
+    public function getBuilding(): ?string
+    {
+        return $this->building;
+    }
+
+    public function setBuilding(?string $building): self
+    {
+        $this->building = $building;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?string
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?string $supplier): self
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?string
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?string $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getDriver(): ?string
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?string $driver): self
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    public function getMerchandise(): ?string
+    {
+        return $this->merchandise;
+    }
+
+    public function setMerchandise(?string $merchandise): self
+    {
+        $this->merchandise = $merchandise;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

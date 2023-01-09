@@ -33,7 +33,12 @@ class MainController extends AbstractController
                 'backgroundColor' => $event->getBackgroundColor(),
                 'borderColor' => $event->getBorderColor(),
                 'textColor' => $event->getTextColor(),
-                'allDay' => $event->isAllDay(),
+                'pallets_number' => $event->getPalletsNumber(),
+                'building' => $event->getBuilding(),
+                'supplier' => $event->getSupplier(),
+                'customer' => $event->getCustomer(),
+                'driver' => $event->getDriver(),
+                'merchandise' => $event->getMerchandise(),
             ];
         }
 

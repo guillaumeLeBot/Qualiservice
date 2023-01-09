@@ -61,7 +61,7 @@ class CalendarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $calendarRepository->save($calendar, true);
 
-            return $this->redirectToRoute('app_delivery_schedule_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_calendar');
         }
 
         return $this->render('calendar/edit.html.twig', [
