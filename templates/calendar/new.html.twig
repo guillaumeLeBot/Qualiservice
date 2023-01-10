@@ -4,10 +4,10 @@
 
 {% block body %}
     <div class="container">
-    <h1>Création d'un évènement</h1>
+    <h1>Création</h1>
+        <a class="btn btn-info" href="{{ path('app_calendar') }}">Retour au calendrier</a>
         {{ include('calendar/_form.html.twig') }}
 
-        <a class="btn btn-info" href="{{ path('calendar_index') }}">Retour à la liste</a>
     </div>
 
 {% endblock %}

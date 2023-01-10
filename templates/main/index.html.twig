@@ -1,40 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Qualiservice{% endblock %}
-{% block stylesheets %}
+{% block stylesheets %}    
 <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 {% endblock %}
 {% block body%}
-    <!-- Modal HTML -->
-    <div id="modal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="modal-title" class="modal-title"></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control" id="title" />
-                        </div>                        
-                        <div class="form-group">
-                            <label for="background-color">Background Color</label>
-                            <input type="color" class="form-control" id="background-color" />
-                        </div>
-                        <div class="form-group">
-                            <label for="text-color">Text Color</label>
-                            <input type="color" class="form-control" id="text-color" />
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="save-button">Enregistrer</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div id="calendar"></div>
 {% endblock%}
 {% block javascripts %}
@@ -57,63 +27,39 @@
                     list: 'Liste'
                 },
                 events: {{ data| raw }},
-            nowIndicator: true,
-            editable: true,
-            eventResizableFromStart: true,
-            eventDataTransform: function (eventData) {
-            eventData.pallets_number = event.pallets_number;
-            return eventData;
-            },
-            eventRender: function (event, element) {
-                element.find('.fc-title').append("<br/><span class='small'>" + event.pallets_number + "</span>");
-            }
+                nowIndicator: true,
+                editable: true,
+                dayClick: true,
+                eventResizableFromStart: true,
+                eventObject: true,
         })
         calendar.on('eventChange', (e) => {
-            let url = `/api/${e.event.id}/edit`
-            let donnees = {
-                "title": e.event.title,
-                "description": e.event.extendedProps.description,
-                "start": e.event.start,
-                "end": e.event.end,                
-                "allDay": e.event.allDay,
-                "pallets_number": e.event.pallets_number,
-                "building": e.event.building,
-                "supplier": e.event.supplier,
-                "customer": e.event.customer,
-                "driver": e.event.driver,
-                "merchandise": e.event.merchandise
-            }
+                let url = `/api/${e.event.id}/drag_edit`
+                let donnees = {
+                    "title": e.event.title,
+                    "description": e.event.extendedProps.description,
+                    "start": e.event.start,
+                    "end": e.event.end,
+                    "backgroundColor": e.event.backgroundColor,
+                    "borderColor": e.event.borderColor,
+                    "textColor": e.event.textColor,
+                    "allDay": e.event.allDay
+                };
 
-            let ajaxRequest = new XMLHttpRequest();
-            ajaxRequest.open("PUT", url, true)
-            ajaxRequest.send(JSON.stringify(donnees))
-
+                let ajaxRequest = new XMLHttpRequest();
+                ajaxRequest.open("PUT", url, true)
+                ajaxRequest.send(JSON.stringify(donnees))
         })
         calendar.on('eventClick', (e) => {
-           window.location.href = `/calendar/${e.event.id}/edit` ;
+                window.location.href = `/calendar/${e.event.id}/edit`;
+            });
+        calendar.on('dateClick', function (info) {
+            const start = info.dateStr;
+            const end = info.dateStr;
+            window.location.href = `/calendar/new?start=${start}&end=${end}`;
         });
-        calendar.on('click', '.fc-day', function (event) {
-                var start = event.start;
-                var dateString = start.format();
-                window.location.href = '/calendar/new?date=' + dateString;
-            });
-        
-        
+    
         calendar.render()
-        $('#calendar').fullCalendar({
-                eventDataTransform: function (eventData) {
-                    eventData.nom = "John";
-                    eventData.prenom = "Doe";
-                    return eventData;
-                },
-                eventRender: function (event, element) {
-                element.find('.fc-title').append("<br/><span class='small'>" + event.nom + " " + event.prenom + "</span>");
-            }
-            });
-                    calendar.render()
-
 })
 </script>
-
 {% endblock %}
-

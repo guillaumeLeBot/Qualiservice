@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DriverController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Driver {{driver.driver}}</th>
+                    <th>Planning</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                <tr>
+                    <td>{{ driver.driver }}</td>
+                    <td>
+                        {% for task in driver.tasks %}
+                        {{ task.name }} <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -26,6 +26,7 @@ class CalendarController extends AbstractController
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CalendarRepository $calendarRepository): Response
     {
+        $calendar = new \DateTime($request->query->get('start'));
         $calendar = new Calendar();
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
@@ -33,7 +34,8 @@ class CalendarController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $calendarRepository->save($calendar, true);
 
-            return $this->redirectToRoute('calendar_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_calendar');
+
         }
 
         return $this->render('calendar/new.html.twig', [
@@ -71,13 +73,14 @@ class CalendarController extends AbstractController
     }
 
     
-    #[route('/{id}', name:'calendar_delete', methods:['DELETE'])]
+    #[route('/{id}/delete', name:'calendar_delete', methods:['POST'])]
     public function delete(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$calendar->getId(), $request->request->get('_token'))) {
             $calendarRepository->remove($calendar, true);
         }
 
-        return $this->redirectToRoute('calendar_index');
+        return $this->redirectToRoute('app_calendar');
+
     }
 }

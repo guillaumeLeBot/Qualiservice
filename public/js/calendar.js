@@ -19,6 +19,35 @@ document.addEventListener('DOMContentLoaded', function () {
     nowIndicator: true,
     editable: true,
     eventResizableFromStart: true,
+    customButtons: {
+    addEventButton: {
+        text: 'Add Event',
+        click: function () {
+            $('#modal').modal('show');
+        }
+    }
+},
+    eventRender: function (event, element) {
+        // Add the event fields to the element
+        element.find('.fc-title').append("<br/><span class='small'>" + event.pallets_number + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.description + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.building + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.supplier + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.customer + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.driver + "</span>");
+        element.find('.fc-title').append("<br/><span class='small'>" + event.merchandise + "</span>");
+        // Add the tooltips
+        element.attr("data-toggle", "tooltip");
+        element.attr("data-html", "true");
+        element.attr("title", `Pallets Number: ${event.pallets_number}<br>
+                                Description: ${event.description}<br>
+                                Building: ${event.building}<br>
+                                Supplier: ${event.supplier}<br>
+                                Customer: ${event.customer}<br>
+                                Driver: ${event.driver}<br>
+                                Merchandise: ${event.merchandise}`);
+    },
+            
         })
 calendar.on('eventChange', (e) => {
     let url = `/api/${e.event.id}/edit`
@@ -27,10 +56,13 @@ calendar.on('eventChange', (e) => {
         "description": e.event.extendedProps.description,
         "start": e.event.start,
         "end": e.event.end,
-        "backgroundColor": e.event.backgroundColor,
-        "borderColor": e.event.borderColor,
-        "textColor": e.event.textColor,
-        "allDay": e.event.allDay
+        "allDay": e.event.allDay,
+        "pallets_number": e.event.extendedProps.pallets_number,
+        "building": e.event.building,
+        "supplier": e.event.supplier,
+        "customer": e.event.customer,
+        "driver": e.event.driver,
+        "merchandise": e.event.merchandise
     }
 
     let ajaxRequest = new XMLHttpRequest();
@@ -39,30 +71,37 @@ calendar.on('eventChange', (e) => {
 
 })
 calendar.on('eventClick', (e) => {
-    // open the modal
-    $('#modal').modal('show');
-    // set the modal's title to the event's title
-    $('#modal-title').text(e.event.title);
+    window.location.href = `/calendar/${e.event.id}/edit`;
+});
+$('#save-button').on('click', function () {
+    let eventData = {
+        title: $('#title').val(),
+        backgroundColor: $('#background-color').val(),
+        textColor: $('#text-color').val()
+    };
 
-    // set the modal's background color to the event's color
-    $('#background-color').val(e.event.backgroundColor);
-    // set the modal's text color to the event's text color
-    $('#text-color').val(e.event.textColor);
-
+    $.ajax({
+        url: '/calendar/new',
+        method: 'POST',
+        data: JSON.stringify(eventData),
+        success: function (response) {
+            // Add the new event to the calendar
+            calendar.addEvent(response);
+            // Hide the modal form
+            $('#modal').modal('hide');
+        }
+    });
+});
+calendar.on('dayClick', function (date, jsEvent, view) {
+    let allEvents = calendar.getEvents();
+    let isEvent = allEvents.some(function (event) {
+        return event.start <= date && event.end > date;
+    });
+    if (!isEvent) {
+        window.location.href = '/calendar/new?date=' + date.toISOString();
+    }
 });
 
-// save changes and close the modal when the save button is clicked
-$('#save-button').click((e) => {
-    // update the event's title
-    e.event.title.setProp('title', $('#title').val());
-    // update the event's background color
-    e.event.backgroundColor.setProp('backgroundColor', $('#background-color').val());
-    // update the event's text color
-    e.event.textColor.setProp('textColor', $('#text-color').val());
-    // update the calendar
-    calendar.updateSize(e);
-    // close the modal
-    $('#modal').modal('hide');
-
-});
 calendar.render()
+$('[data-toggle="tooltip"]').tooltip();
+})

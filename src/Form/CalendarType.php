@@ -2,12 +2,18 @@
 
 namespace App\Form;
 
+use App\Entity\Drivers;
+use App\Entity\Building;
 use App\Entity\Calendar;
+use App\Entity\Customer;
+use App\Entity\Supplier;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -17,68 +23,76 @@ class CalendarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', ChoiceType::class, [
+                'label' => 'Mode',
+                'choices' => [
+                    'reception' => 'reception',
+                    'Expédition' => 'Expédition',
+                    'Envoi Direct' => 'Envoi Direct',
+                    'Destruction' => 'Destruction',
+                    'Inventaire' => 'Inventaire',
+                ],
+            ])
             ->add('start', DateTimeType::class, [
+                'label' => 'Début',
                 'date_widget' => 'single_text'
             ])
             ->add('end', DateTimeType::class, [
-                'date_widget' => 'single_text'
+                'label' => 'Fin',
+                'date_widget' => 'single_text',
             ])
             ->add('description', TextType::class, [
-                'label' => 'description'
+                'label' => 'Marchandise',
+                'required' => false
             ])
-            ->add('all_day')
-            ->add('background_color', ColorType::class)
-            ->add('text_color', ColorType::class)
+           
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nombre de palettes'
             ])
-             ->add('building', ChoiceType::class, [
-                'label' => 'Batiment',
-                'choices' => [
-                    'JDC1' => 'JDC1',
-                    'JDC2' => 'JDC2',
-                    'Royal Canin' => 'Royal Canin',
-                    'JDC1/JDC2' => 'JDC1/JDC2',
-                    'JDC2/JDC1' => 'JDC2/JDC1',
-                    'Quai salle carton' => 'Quai salle carton',
-                ],
+            ->add('building', EntityType::class, [
+                'class' => Building::class,
+                'choice_label' => 'name',
             ])
-            ->add('supplier', ChoiceType::class, [
-                'label' => 'Fournisseur',
-                'choices' => [
-                    'fournisseur1' => 'fournisseur1',
-                    'fournisseur2' => 'fournisseur2',
-                    'fournisseur3' => 'fournisseur3',
-                    'fournisseur4' => 'fournisseur4'
-                ]
+            ->add('supplier', EntityType::class, [
+                'class' => Supplier::class,
+                'choice_label' => 'name',
             ])
-            ->add('customer', ChoiceType::class, [
-                'label' => 'Client',
-                'choices' => [
-                    'Loreal' => 'Loreal',
-                    'Art beauty' => 'Art beauty',
-                    'Alkos' => 'Alkos',
-                    'Bodmer & Fils' => 'Bodmer & Fils'
-                ]
+            ->add('customer', EntityType::class, [
+                'class' => Customer::class,
+                'choice_label' => 'name',
             ])
-            ->add('driver', ChoiceType::class, [
-                'label' => 'Cariste',
-                'choices' => [
-                    'Fabien' => 'Fabien',
-                    'Vivien' => 'Vivien',
-                    'Robert' => 'Robert',
-                ]
+            ->add('driver', EntityType::class, [
+                'class' => Drivers::class,
+                'choice_label' => 'name',
             ])
             ->add('comment', TextType::class, [
-                'label' => 'commentaire'
+                'label' => 'Commentaire',
+                'required' => false
             ])
-            
-            
-            
-        ;
-    }
+            ->add('background_color', TextType::class, [
+                'label' => 'couleur de fond',
+                'required' => false,
+                'data' => '#ff8000'
+            ])
+            ->add('text_color', TextType::class, [
+                'label' => 'couleur du text',
+                'required' => false,
+                'data' => '#ff8000'
+            ]);
+           
+     $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
 
+            if ($data->getTitle() === 'reception') {
+                $form->get('background_color')->setData('#0000FF');
+                $form->get('text_color')->setData('#FFFFFF');
+            }elseif($data->getTitle() === 'Expédition'){
+                $form->get('background_color')->setData('#FF0000');
+                $form->get('text_color')->setData('#FFFFFF');
+            }
+        });
+    }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
