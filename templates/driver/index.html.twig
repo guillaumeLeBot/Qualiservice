@@ -1,27 +1,37 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
+{% endblock %}
 {% block title %}Hello DriverController!{% endblock %}
 
 {% block body %}
-    {% for driver in drivers %}
-    <h2>{{ driver.name }}</h2>
     <table>
-        <tr>
-            <th>Task</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Description</th>
-            <th>All Day</th>
-        </tr>
-        {% for calendar in driver.calendars %}
-        <tr>
-            <td>{{ calendar.title }}</td>
-            <td>{{ calendar.start</td>
-            <td>{{ calendar.end</td>
-            <td>{{ calendar.description }}</td>
-            <td>{% if calendar.all_day %}Yes{% else %}No{% endif %}</td>
-        </tr>
-        {% endfor %}
+        <thead>
+            <tr>
+                <th>Cariste</th>
+                <th>Mode</th>
+                <th>Nombre de palettes</th>
+                <th>Marchandise</th>
+                <th>Client</th>
+                <th>Fournisseur</th>
+                <th>Bâtiment</th>
+                <th>Commentaire</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>{{ event.driver }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.pallets_number }}</td>
+                <td>{{ event.description }}</td>
+                <td>{{ event.customer }}</td>
+                <td>{{ event.supplier }}</td>
+                <td>{{ event.building }}</td>
+                <td>{{ event.comment }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-    {% endfor %}
+
 {% endblock %}
