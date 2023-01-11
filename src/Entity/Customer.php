@@ -18,16 +18,12 @@ class Customer
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Calendar::class, inversedBy: 'customers')]
-    private Collection $property_customer;
-
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Calendar::class)]
-    private Collection $customer;
+    private Collection $calendars;
 
     public function __construct()
     {
-        $this->property_customer = new ArrayCollection();
-        $this->customer = new ArrayCollection();
+        $this->calendars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,51 +46,27 @@ class Customer
     /**
      * @return Collection<int, Calendar>
      */
-    public function getPropertyCustomer(): Collection
+    public function getCalendars(): Collection
     {
-        return $this->property_customer;
+        return $this->calendars;
     }
 
-    public function addPropertyCustomer(Calendar $propertyCustomer): self
+    public function addCalendar(Calendar $calendar): self
     {
-        if (!$this->property_customer->contains($propertyCustomer)) {
-            $this->property_customer->add($propertyCustomer);
+        if (!$this->calendars->contains($calendar)) {
+            $this->calendars->add($calendar);
+            $calendar->setCustomer($this);
         }
 
         return $this;
     }
 
-    public function removePropertyCustomer(Calendar $propertyCustomer): self
+    public function removeCalendar(Calendar $calendar): self
     {
-        $this->property_customer->removeElement($propertyCustomer);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Calendar>
-     */
-    public function getCustomer(): Collection
-    {
-        return $this->customer;
-    }
-
-    public function addCustomer(Calendar $customer): self
-    {
-        if (!$this->customer->contains($customer)) {
-            $this->customer->add($customer);
-            $customer->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomer(Calendar $customer): self
-    {
-        if ($this->customer->removeElement($customer)) {
+        if ($this->calendars->removeElement($calendar)) {
             // set the owning side to null (unless already changed)
-            if ($customer->getCustomer() === $this) {
-                $customer->setCustomer(null);
+            if ($calendar->getCustomer() === $this) {
+                $calendar->setCustomer(null);
             }
         }
 

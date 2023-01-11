@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(CalendarRepository $calendarRepository): Response
+    public function index(): Response
     {
         return $this->render('main/nav.html.twig');
     }
@@ -26,22 +26,11 @@ class MainController extends AbstractController
         foreach($events as $event){
             $rdvs[] = [
                 'id' => $event->getId(),
+                'title' => $event->getTitle(),                
                 'start' => $event->getStart()->format('Y-m-d H:i:s'),
                 'end' => $event->getEnd()->format('Y-m-d H:i:s'),
-                'title' => $event->getTitle(),
-                'description' => $event->getDescription(),
-                'backgroundColor' => $event->getBackgroundColor(),
-                'borderColor' => $event->getBorderColor(),
-                'textColor' => $event->getTextColor(),
-                'pallets_number' => $event->getPalletsNumber(),
-                'building' => $event->getBuilding(),
-                'supplier' => $event->getSupplier(),
-                'customer' => $event->getCustomer(),
-                'driver' => $event->getDriver(),
-                'merchandise' => $event->getMerchandise(),
             ];
         }
-
         $data = json_encode($rdvs);
 
         return $this->render('main/index.html.twig', compact('data'));

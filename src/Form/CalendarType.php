@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Drivers;
+use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
 use App\Entity\Customer;
@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -26,7 +27,7 @@ class CalendarType extends AbstractType
             ->add('title', ChoiceType::class, [
                 'label' => 'Mode',
                 'choices' => [
-                    'reception' => 'reception',
+                    'Reception' => 'Reception',
                     'Expédition' => 'Expédition',
                     'Envoi Direct' => 'Envoi Direct',
                     'Destruction' => 'Destruction',
@@ -34,35 +35,57 @@ class CalendarType extends AbstractType
                 ],
             ])
             ->add('start', DateTimeType::class, [
-                'label' => 'Début',
-                'date_widget' => 'single_text'
+                'label' => 'Début rendez vous',
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'data' => new \DateTime(),
             ])
             ->add('end', DateTimeType::class, [
-                'label' => 'Fin',
+                'label' => 'Fin rendez vous',
                 'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                'data' => new \DateTime(),
             ])
-            ->add('description', TextType::class, [
+            ->add('come', TimeType::class, [
+                'label' => 'Arrivée camion',
+            ])
+            ->add('deparure', TimeType::class, [
+                'label' => 'Départ Camion',
+            ])
+            ->add('description', ChoiceType::class, [
                 'label' => 'Marchandise',
-                'required' => false
+                'required' => true,
+                'choices' => [
+                    'Réceptioné' => 'Réceptioné',
+                    'Refusé' => 'Refusé',
+                    'Récept/Contrôlé' => 'Récept/Contrôlé',
+                    'Récept/Contrôlée/enregistré' => 'Récept/Contrôlée/enregistré',
+                    'Expédié/Contrôlée/enregistré' => 'Expédié/Contrôlée/enregistré',
+                    'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
+                ],
             ])
            
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nombre de palettes'
             ])
             ->add('building', EntityType::class, [
+                'label' => 'Bâtiment',
                 'class' => Building::class,
                 'choice_label' => 'name',
             ])
             ->add('supplier', EntityType::class, [
+                'label' => 'Fournisseurs',
                 'class' => Supplier::class,
                 'choice_label' => 'name',
             ])
             ->add('customer', EntityType::class, [
+                'label' => 'Client',
                 'class' => Customer::class,
                 'choice_label' => 'name',
             ])
             ->add('driver', EntityType::class, [
-                'class' => Drivers::class,
+                'label' => 'Cariste',
+                'class' => Driver::class,
                 'choice_label' => 'name',
             ])
             ->add('comment', TextType::class, [
@@ -84,10 +107,11 @@ class CalendarType extends AbstractType
             $data = $event->getData();
             $form = $event->getForm();
 
-            if ($data->getTitle() === 'reception') {
+            if ($data->getTitle() === 'Reception') {
                 $form->get('background_color')->setData('#0000FF');
                 $form->get('text_color')->setData('#FFFFFF');
-            }elseif($data->getTitle() === 'Expédition'){
+            }
+            if($data->getTitle() === 'Expédition'){
                 $form->get('background_color')->setData('#FF0000');
                 $form->get('text_color')->setData('#FFFFFF');
             }

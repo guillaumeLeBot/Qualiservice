@@ -18,16 +18,12 @@ class Supplier
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Calendar::class, inversedBy: 'suppliers')]
-    private Collection $property_supplier;
-
     #[ORM\OneToMany(mappedBy: 'supplier', targetEntity: Calendar::class)]
-    private Collection $supplier;
+    private Collection $calendars;
 
     public function __construct()
     {
-        $this->property_supplier = new ArrayCollection();
-        $this->supplier = new ArrayCollection();
+        $this->calendars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -50,51 +46,27 @@ class Supplier
     /**
      * @return Collection<int, Calendar>
      */
-    public function getPropertySupplier(): Collection
+    public function getCalendars(): Collection
     {
-        return $this->property_supplier;
+        return $this->calendars;
     }
 
-    public function addPropertySupplier(Calendar $propertySupplier): self
+    public function addCalendar(Calendar $calendar): self
     {
-        if (!$this->property_supplier->contains($propertySupplier)) {
-            $this->property_supplier->add($propertySupplier);
+        if (!$this->calendars->contains($calendar)) {
+            $this->calendars->add($calendar);
+            $calendar->setSupplier($this);
         }
 
         return $this;
     }
 
-    public function removePropertySupplier(Calendar $propertySupplier): self
+    public function removeCalendar(Calendar $calendar): self
     {
-        $this->property_supplier->removeElement($propertySupplier);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Calendar>
-     */
-    public function getSupplier(): Collection
-    {
-        return $this->supplier;
-    }
-
-    public function addSupplier(Calendar $supplier): self
-    {
-        if (!$this->supplier->contains($supplier)) {
-            $this->supplier->add($supplier);
-            $supplier->setSupplier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSupplier(Calendar $supplier): self
-    {
-        if ($this->supplier->removeElement($supplier)) {
+        if ($this->calendars->removeElement($calendar)) {
             // set the owning side to null (unless already changed)
-            if ($supplier->getSupplier() === $this) {
-                $supplier->setSupplier(null);
+            if ($calendar->getSupplier() === $this) {
+                $calendar->setSupplier(null);
             }
         }
 

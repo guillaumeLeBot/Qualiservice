@@ -3,27 +3,25 @@
 {% block title %}Hello DriverController!{% endblock %}
 
 {% block body %}
-    <div class="container">
-        
-        <table>
-            <thead>
-                <tr>
-                    <th>Driver {{driver.driver}}</th>
-                    <th>Planning</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for driver in drivers %}
-                <tr>
-                    <td>{{ driver.driver }}</td>
-                    <td>
-                        {% for task in driver.tasks %}
-                        {{ task.name }} <br>
-                        {% endfor %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    {% for driver in drivers %}
+    <h2>{{ driver.name }}</h2>
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Description</th>
+            <th>All Day</th>
+        </tr>
+        {% for calendar in driver.calendars %}
+        <tr>
+            <td>{{ calendar.title }}</td>
+            <td>{{ calendar.start</td>
+            <td>{{ calendar.end</td>
+            <td>{{ calendar.description }}</td>
+            <td>{% if calendar.all_day %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
 {% endblock %}

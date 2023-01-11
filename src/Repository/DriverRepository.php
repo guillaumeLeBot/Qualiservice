@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Drivers;
+use App\Entity\Driver;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Drivers>
+ * @extends ServiceEntityRepository<Driver>
  *
- * @method Drivers|null find($id, $lockMode = null, $lockVersion = null)
- * @method Drivers|null findOneBy(array $criteria, array $orderBy = null)
- * @method Drivers[]    findAll()
- * @method Drivers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Driver|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Driver|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Driver[]    findAll()
+ * @method Driver[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DriversRepository extends ServiceEntityRepository
+class DriverRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Drivers::class);
+        parent::__construct($registry, Driver::class);
     }
 
-    public function save(Drivers $entity, bool $flush = false): void
+    public function save(Driver $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class DriversRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Drivers $entity, bool $flush = false): void
+    public function remove(Driver $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class DriversRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Drivers[] Returns an array of Drivers objects
+//     * @return Driver[] Returns an array of Driver objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class DriversRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Drivers
+//    public function findOneBySomeField($value): ?Driver
 //    {
 //        return $this->createQueryBuilder('d')
 //            ->andWhere('d.exampleField = :val')

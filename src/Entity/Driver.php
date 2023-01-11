@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\BuildingRepository;
+use App\Repository\DriverRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BuildingRepository::class)]
-class Building
+#[ORM\Entity(repositoryClass: DriverRepository::class)]
+class Driver
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,7 +18,7 @@ class Building
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'building', targetEntity: Calendar::class)]
+    #[ORM\OneToMany(mappedBy: 'driver', targetEntity: Calendar::class)]
     private Collection $calendars;
 
     public function __construct()
@@ -55,7 +55,7 @@ class Building
     {
         if (!$this->calendars->contains($calendar)) {
             $this->calendars->add($calendar);
-            $calendar->setBuilding($this);
+            $calendar->setDriver($this);
         }
 
         return $this;
@@ -65,8 +65,8 @@ class Building
     {
         if ($this->calendars->removeElement($calendar)) {
             // set the owning side to null (unless already changed)
-            if ($calendar->getBuilding() === $this) {
-                $calendar->setBuilding(null);
+            if ($calendar->getDriver() === $this) {
+                $calendar->setDriver(null);
             }
         }
 

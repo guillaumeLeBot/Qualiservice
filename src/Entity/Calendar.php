@@ -44,25 +44,25 @@ class Calendar
     private ?int $palletsNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $merchandise = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
 
-    #[ORM\ManyToOne(inversedBy: 'driver')]
-    private ?Drivers $driver = null;
-
-    #[ORM\ManyToOne(inversedBy: 'building')]
-    private ?Building $building = null;
-
-    #[ORM\ManyToOne(inversedBy: 'supplier')]
-    private ?Supplier $supplier = null;
-
-    #[ORM\ManyToOne(inversedBy: 'customer')]
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Customer $customer = null;
 
-    #[ORM\ManyToOne(inversedBy: 'mode')]
-    private ?Mode $mode = null;
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Supplier $supplier = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Driver $driver = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Building $building = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $come = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deparure = null;
 
     public function getId(): ?int
     {
@@ -177,18 +177,6 @@ class Calendar
         return $this;
     }
 
-    public function getMerchandise(): ?string
-    {
-        return $this->merchandise;
-    }
-
-    public function setMerchandise(?string $merchandise): self
-    {
-        $this->merchandise = $merchandise;
-
-        return $this;
-    }
-
     public function getComment(): ?string
     {
         return $this->comment;
@@ -201,12 +189,36 @@ class Calendar
         return $this;
     }
 
-    public function getDriver(): ?Drivers
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): self
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    public function getDriver(): ?Driver
     {
         return $this->driver;
     }
 
-    public function setDriver(?Drivers $driver): self
+    public function setDriver(?Driver $driver): self
     {
         $this->driver = $driver;
 
@@ -225,38 +237,26 @@ class Calendar
         return $this;
     }
 
-    public function getSupplier(): ?Supplier
+    public function getCome(): ?\DateTimeInterface
     {
-        return $this->supplier;
+        return $this->come;
     }
 
-    public function setSupplier(?Supplier $supplier): self
+    public function setCome(?\DateTimeInterface $come): self
     {
-        $this->supplier = $supplier;
+        $this->come = $come;
 
         return $this;
     }
 
-    public function getCustomer(): ?Customer
+    public function getDeparure(): ?\DateTimeInterface
     {
-        return $this->customer;
+        return $this->deparure;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setDeparure(?\DateTimeInterface $deparure): self
     {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getMode(): ?Mode
-    {
-        return $this->mode;
-    }
-
-    public function setMode(?Mode $mode): self
-    {
-        $this->mode = $mode;
+        $this->deparure = $deparure;
 
         return $this;
     }

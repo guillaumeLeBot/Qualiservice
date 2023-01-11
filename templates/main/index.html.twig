@@ -1,65 +1,64 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Qualiservice{% endblock %}
-{% block stylesheets %}    
+{% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 {% endblock %}
 {% block body%}
-    <div id="calendar"></div>
+<div id="calendar"></div>
+
 {% endblock%}
 {% block javascripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-            let calendarElt = document.querySelector("#calendar")
-            let calendar = new FullCalendar.Calendar(calendarElt, {
-                initialView: 'timeGridDay',
-                locale: 'fr',
-                timeZone: 'Europe/Paris',
-                headerToolbar: {
-                    start: 'prev,next, timeGridDay,list',
-                    center: 'title',
-                    end: 'dayGridMonth,timeGridWeek'
-                },
-                buttonText: {
-                    day: 'Jour',
-                    week: 'Semaine',
-                    month: 'Mois',
-                    list: 'Liste'
-                },
-                events: {{ data| raw }},
-                nowIndicator: true,
-                editable: true,
-                dayClick: true,
-                eventResizableFromStart: true,
-                eventObject: true,
-        })
-        calendar.on('eventChange', (e) => {
-                let url = `/api/${e.event.id}/drag_edit`
-                let donnees = {
-                    "title": e.event.title,
-                    "description": e.event.description,
-                    "start": e.event.start,
-                    "end": e.event.end,
-                    "backgroundColor": e.event.backgroundColor,
-                    "borderColor": e.event.borderColor,
-                    "textColor": e.event.textColor,
-                    "allDay": e.event.allDay
-                };
 
-                let ajaxRequest = new XMLHttpRequest();
-                ajaxRequest.open("PUT", url, true)
-                ajaxRequest.send(JSON.stringify(donnees))
+<script>
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendar")
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'timeGridDay',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start: 'prev,next, timeGridDay,list',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek'
+            },
+            buttonText: {
+                day: 'Aujoud\'hui',
+                week: 'Semaine',
+                month: 'Mois',
+                list: 'Liste'
+            },
+            events: {{ data| raw }},
+            nowIndicator: true,
+            editable: true,
+            eventResizableFromStart: true,
         })
-        calendar.on('eventClick', (e) => {
-                window.location.href = `/calendar/${e.event.id}/edit`;
-            });
-        calendar.on('dateClick', function (info) {
-            const start = info.dateStr;
-            const end = info.dateStr;
-            window.location.href = `/calendar/new?start=${start}&end=${end}`;
-        });
+
+    calendar.on('eventChange', (e) => {
+        let url = `/api/${e.event.id}/drag_edit`
+        let donnees = {
+            "title": e.event.title,
+            "start": e.event.start,
+            "end": e.event.end,
+        };
+        let ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open("PUT", url, true)
+        ajaxRequest.send(JSON.stringify(donnees))
+    });
     
-        calendar.render()
-})
+    calendar.on('eventClick', (e) => {
+        window.location.href = `/calendar/${e.event.id}/edit`;
+    });    
+
+    calendar.on('dateClick', function (info) {
+        const start = info.dateStr;
+        const end = info.dateStr;
+        window.location.href = `/calendar/new?start=${start}&end=${end}`;
+        // Call the hydrate function after the page has loaded
+        
+    });
+    calendar.render()
+    }
 </script>
+
 {% endblock %}
