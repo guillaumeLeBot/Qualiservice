@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CalendarRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -63,6 +61,12 @@ class Calendar
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deparure = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $commandNumber = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Platform $platform = null;
 
     public function getId(): ?int
     {
@@ -257,6 +261,30 @@ class Calendar
     public function setDeparure(?\DateTimeInterface $deparure): self
     {
         $this->deparure = $deparure;
+
+        return $this;
+    }
+
+    public function getCommandNumber(): ?string
+    {
+        return $this->commandNumber;
+    }
+
+    public function setCommandNumber(string $commandNumber): self
+    {
+        $this->commandNumber = $commandNumber;
+
+        return $this;
+    }
+
+    public function getPlatform(): ?Platform
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(?Platform $platform): self
+    {
+        $this->platform = $platform;
 
         return $this;
     }

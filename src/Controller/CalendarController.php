@@ -61,7 +61,6 @@ class CalendarController extends AbstractController
         ]);
     }
 
-   
     #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
     public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
     {

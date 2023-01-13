@@ -38,6 +38,7 @@ class CalendarRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
 
 //    /**
 //     * @return Calendar[] Returns an array of Calendar objects

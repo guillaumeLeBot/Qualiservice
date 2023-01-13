@@ -25,9 +25,6 @@ class DriverController extends AbstractController
             $event = [
                 'title' => $calendar->getTitle(),
                 'description' => $calendar->getDescription(),
-                'background_color' => $calendar->getBackgroundColor(),
-                'border_color' => $calendar->getBorderColor(),
-                'text_color' => $calendar->getTextColor(),
                 'pallets_number' => $calendar->getPalletsNumber(),
                 'comment' => $calendar->getComment(),
                 'customer' => $calendar->getCustomer()->getName(),

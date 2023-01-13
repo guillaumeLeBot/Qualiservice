@@ -5,7 +5,9 @@ namespace App\Form;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
+use App\Entity\Command;
 use App\Entity\Customer;
+use App\Entity\Platform;
 use App\Entity\Supplier;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -64,9 +66,8 @@ class CalendarType extends AbstractType
                     'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
                 ],
             ])
-           
             ->add('pallets_number', IntegerType::class, [
-                'label' => 'Nombre de palettes'
+                'label' => 'Nbre de palettes'
             ])
             ->add('building', EntityType::class, [
                 'label' => 'Bâtiment',
@@ -78,9 +79,18 @@ class CalendarType extends AbstractType
                 'class' => Supplier::class,
                 'choice_label' => 'name',
             ])
+            ->add('command_number', TextType::class, [
+                'label' => 'N° de commande',
+                'required' => false
+            ])
             ->add('customer', EntityType::class, [
                 'label' => 'Client',
                 'class' => Customer::class,
+                'choice_label' => 'name',
+            ])
+            ->add('platform', EntityType::class, [
+                'label' => 'Platform',
+                'class' => Platform::class,
                 'choice_label' => 'name',
             ])
             ->add('driver', EntityType::class, [
@@ -102,20 +112,7 @@ class CalendarType extends AbstractType
                 'required' => false,
                 'data' => '#ff8000'
             ]);
-           
-     $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $data = $event->getData();
-            $form = $event->getForm();
-
-            if ($data->getTitle() === 'Reception') {
-                $form->get('background_color')->setData('#0000FF');
-                $form->get('text_color')->setData('#FFFFFF');
-            }
-            if($data->getTitle() === 'Expédition'){
-                $form->get('background_color')->setData('#FF0000');
-                $form->get('text_color')->setData('#FFFFFF');
-            }
-        });
+     
     }
     public function configureOptions(OptionsResolver $resolver)
     {

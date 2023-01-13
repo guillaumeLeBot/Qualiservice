@@ -1,82 +1,88 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
 {% endblock %}
-{{ form_start(form) }}
-   <div class="form-group">
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.title) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.pallets_number) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.start) }}
-            </div>
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.end) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.come) }}
-            </div>
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.deparure) }}
-            </div>
-            {% if form.vars.data.deparure %}
-            <div class="form-group">
-                <div class="row">
-                    <div class="col md-6">
-                        <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
-                    </div>
+<div class="container">
+    {{ form_start(form) }}
+    <div class="form-group">
+            <div class="row">
+                <div class="col md-4">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col md-4">
+                    {{ form_row(form.command_number) }}
+                </div>
+                <div class="col md-4">
+                    {{ form_row(form.pallets_number) }}
                 </div>
             </div>
-            {% else %}
-            <div style="display: none;">
-                <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
+            <div class="row">
+                <div class="col md-6 clockpicker">
+                    {{ form_row(form.start) }}
+                </div>
+                <div class="col md-6 clockpicker">
+                    {{ form_row(form.end) }}
+                </div>
             </div>
-            {% endif %}
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.building) }}
+            <div class="row">
+                <div class="col md-6 clockpicker">
+                    {{ form_row(form.come) }}
+                </div>
+                <div class="col md-6 clockpicker">
+                    {{ form_row(form.deparure) }}
+                </div>
+                {% if form.vars.data.deparure %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col md-6">
+                            <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div style="display: none;">
+                    <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
+                </div>
+                {% endif %}
             </div>
-            <div class="col md-6">
-                {{ form_row(form.driver) }}
+            <div class="row">
+                <div class="col md-6">
+                    {{ form_row(form.building) }}
+                </div>
+                <div class="col md-6">
+                    {{ form_row(form.driver) }}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.customer) }}
+            <div class="row">
+                <div class="col md-4">
+                    {{ form_row(form.customer) }}
+                </div>
+                <div class="col md-4">
+                    {{ form_row(form.supplier) }}
+                </div>
+                <div class="col md-4">
+                    {{ form_row(form.platform) }}
+                </div>
             </div>
-            <div class="col md-6">
-                {{ form_row(form.supplier) }}
+            <div class="row">
+                <div class="col md-6">
+                    {{ form_row(form.description) }}
+                </div>
+                <div class="col md-6">
+                    {{ form_row(form.comment) }}
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.description) }}
+            <div class="row color">
+                <div class="col md-6">
+                    {{ form_row(form.background_color, { 'attr': {'class': 'bg-color'} }) }}
+                </div>
+                <div class="col md-6">
+                    {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
+                </div>
             </div>
-            <div class="col md-6">
-                {{ form_row(form.comment) }}
-            </div>
-        </div>
-        <div class="row color">
-            <div class="col md-6">
-                {{ form_row(form.background_color, { 'attr': {'class': 'bg-color'} }) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
-            </div>
-        </div>
-   </div>
-    
-   
-    <button class="btn btn-success">{{ button_label|default('Enregister') }}</button>
-{{ form_end(form) }}
+    </div>
+        <button class="btn btn-success">{{ button_label|default('Enregister') }}</button>
+    {{ form_end(form) }}
+</div>
 
 
 <script>

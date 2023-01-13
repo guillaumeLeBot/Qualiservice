@@ -92,12 +92,22 @@ INSERT INTO customer (name) VALUES ('STRATUS PACKAING');
 INSERT INTO customer (name) VALUES ('TWF');
 
 INSERT INTO customer (name) VALUES ('VAPEXPO');
-
 INSERT INTO customer (name) VALUES ('CORA');
-
 INSERT INTO customer (name) VALUES ('STOEIZIE');
 
-INSERT INTO customer (name) VALUES ('NON renseigné');
-INSERT INTO supplier (name) VALUES ('NON renseigné');
-INSERT INTO driver (name) VALUES ('NON renseigné');
-INSERT INTO building (name) VALUES ('NON renseigné');
+INSERT INTO customer (name) VALUES ('NON RENSEIGNE');
+INSERT INTO supplier (name) VALUES ('NON RENSEIGNE');
+INSERT INTO building (name) VALUES ('NON RENSEIGNE');
+INSERT INTO platform (name) VALUES ('NON RENSEIGNE');
+
+INSERT INTO platform (name) VALUES ('Cloé');
+INSERT INTO platform (name) VALUES ('Vémars / Cloé');
+INSERT INTO platform (name) VALUES ('St Vuilbas');
+INSERT INTO platform (name) VALUES ('Vémars');
+INSERT INTO platform (name) VALUES ('SPI');
+INSERT INTO platform (name) VALUES ('SPI / St Vuilbas ');
+
+INSERT INTO `calendar` (`id`, `customer_id`, `supplier_id`, `driver_id`, `building_id`, `title`, `start`, `end`, `description`, `all_day`, `background_color`, `border_color`, `text_color`, `pallets_number`, `comment`, `come`, `deparure`, `command_number`) VALUES
+(1, 1, 1, 1, 1, 'Reception', '2023-01-13 08:30:00', '2023-01-13 09:30:00', 'Réceptioné', NULL, '#ff8000', NULL, '#ff8000', 10, NULL, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '124568'),
+(2, 13, 16, 2, 2, 'Expédition', '2023-01-13 10:00:00', '2023-01-13 11:00:00', 'Expédié/Contrôlée/enregistré', NULL, '#ff8000', NULL, '#ff8000', 5, NULL, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '455689'),
+(3, 20, 13, 4, 4, 'Envoi Direct', '2023-01-13 07:23:00', '2023-01-13 07:23:00', 'Expédié/Contrôlée/enregistré', NULL, '#ff8000', NULL, '#ff8000', 1, NULL, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '0616861111');
