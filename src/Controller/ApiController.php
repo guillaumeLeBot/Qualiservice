@@ -23,7 +23,7 @@ class ApiController extends AbstractController
     }
 
     
-    #[Route('/api/{id}/edit', name:'api_event_edit', methods:['PUT'])]
+    #[Route('/api/{id}/drag_edit', name:'api_event_edit', methods:['PUT'])]
 
     public function majEvent(?Calendar $calendar, Request $request, ManagerRegistry $doctrine)
     {
@@ -34,10 +34,7 @@ class ApiController extends AbstractController
         if(
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->start) && !empty($donnees->start) &&
-            isset($donnees->description) && !empty($donnees->description) &&
-            isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
-            isset($donnees->borderColor) && !empty($donnees->borderColor) &&
-            isset($donnees->textColor) && !empty($donnees->textColor)
+            isset($donnees->end) && !empty($donnees->end)
         ){
             // Les données sont complètes
             // On initialise un code
@@ -54,18 +51,9 @@ class ApiController extends AbstractController
 
             // On hydrate l'objet avec les données
             $calendar->setTitle($donnees->title);
-            $calendar->setDescription($donnees->description);
             $calendar->setStart(new DateTime($donnees->start));
-            if($donnees->allDay){
-                $calendar->setEnd(new DateTime($donnees->start));
-            }else{
-                $calendar->setEnd(new DateTime($donnees->end));
-            }
-            $calendar->setAllDay($donnees->allDay);
-            $calendar->setBackgroundColor($donnees->backgroundColor);
-            $calendar->setBorderColor($donnees->borderColor);
-            $calendar->setTextColor($donnees->textColor);
-           
+            $calendar->setEnd(new DateTime($donnees->end));
+            
 
             $em->persist($calendar);
             $em->flush();

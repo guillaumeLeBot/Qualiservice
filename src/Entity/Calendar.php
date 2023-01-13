@@ -23,10 +23,10 @@ class Calendar
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $end = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true )]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?bool $all_day = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -37,6 +37,36 @@ class Calendar
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $text_color = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $palletsNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $comment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Customer $customer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Supplier $supplier = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Driver $driver = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Building $building = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $come = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $deparure = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $commandNumber = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Platform $platform = null;
 
     public function getId(): ?int
     {
@@ -135,6 +165,126 @@ class Calendar
     public function setTextColor(?string $text_color): self
     {
         $this->text_color = $text_color;
+
+        return $this;
+    }
+
+    public function getPalletsNumber(): ?int
+    {
+        return $this->palletsNumber;
+    }
+
+    public function setPalletsNumber(?int $palletsNumber): self
+    {
+        $this->palletsNumber = $palletsNumber;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getSupplier(): ?Supplier
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(?Supplier $supplier): self
+    {
+        $this->supplier = $supplier;
+
+        return $this;
+    }
+
+    public function getDriver(): ?Driver
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?Driver $driver): self
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+    public function getBuilding(): ?Building
+    {
+        return $this->building;
+    }
+
+    public function setBuilding(?Building $building): self
+    {
+        $this->building = $building;
+
+        return $this;
+    }
+
+    public function getCome(): ?\DateTimeInterface
+    {
+        return $this->come;
+    }
+
+    public function setCome(?\DateTimeInterface $come): self
+    {
+        $this->come = $come;
+
+        return $this;
+    }
+
+    public function getDeparure(): ?\DateTimeInterface
+    {
+        return $this->deparure;
+    }
+
+    public function setDeparure(?\DateTimeInterface $deparure): self
+    {
+        $this->deparure = $deparure;
+
+        return $this;
+    }
+
+    public function getCommandNumber(): ?string
+    {
+        return $this->commandNumber;
+    }
+
+    public function setCommandNumber(string $commandNumber): self
+    {
+        $this->commandNumber = $commandNumber;
+
+        return $this;
+    }
+
+    public function getPlatform(): ?Platform
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(?Platform $platform): self
+    {
+        $this->platform = $platform;
 
         return $this;
     }

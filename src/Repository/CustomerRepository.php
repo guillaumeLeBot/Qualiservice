@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Calendar;
+use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Calendar>
+ * @extends ServiceEntityRepository<Customer>
  *
- * @method Calendar|null find($id, $lockMode = null, $lockVersion = null)
- * @method Calendar|null findOneBy(array $criteria, array $orderBy = null)
- * @method Calendar[]    findAll()
- * @method Calendar[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Customer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Customer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Customer[]    findAll()
+ * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CalendarRepository extends ServiceEntityRepository
+class CustomerRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Calendar::class);
+        parent::__construct($registry, Customer::class);
     }
 
-    public function save(Calendar $entity, bool $flush = false): void
+    public function save(Customer $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CalendarRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Calendar $entity, bool $flush = false): void
+    public function remove(Customer $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -38,10 +38,9 @@ class CalendarRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
 
 //    /**
-//     * @return Calendar[] Returns an array of Calendar objects
+//     * @return Customer[] Returns an array of Customer objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -55,7 +54,7 @@ class CalendarRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Calendar
+//    public function findOneBySomeField($value): ?Customer
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
