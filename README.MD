@@ -1,17 +1,49 @@
-## Application livraison/expédition
-> Cette application à pour but de faciliter la réception et l'expédition de la marchandise par camion au sein de la société Qualiservice.
-### Architecture du projet
-> Ce projet est codé en php 8 via le framework Symfony dans sa version 6, pour des raisons de portabilités ce projet est "contenairisé" via docker , les dossiers et fichiers docker ne sont pas versionné pour des raisons de clarté du code.
-### Mise en place du projet
->Afin de mettre en place de façon fonctionnel ce projet en local sur votre poste suivez les étapes suivantes :
->- Suivre la documentation sur ce lien (https://github.com/guillaumeLeBot/env-project).
->- Créer un dossier "app".
->- Cloner ce repository dans le dossier "app".
->- Changer les variables d'environnement.
->- Lancer les containers docker via docker-compose.
->- Dans le container php lancer la commande "composer install"
-### Si le dossier "migration" est vide
->- Creer les migrations avec la commande "symfony console make:migration"
-### Dans tous les cas
->- Lancer les migrations avec la commande "symfony console doctrine:migration:migrate"
-### Enjoy :)
+
+# Project Qualiservice
+
+Ce projet d'envergure va se décomposer en plusieurs parties:
+>- La partie gestion des receptions et expéditions
+
+>- La partie gestion des ressources humaines
+
+
+## Documentation
+
+Pour l'installation du projet suivez la doc [Documentation](app/doc/README.MD)
+
+
+
+    
+## Retours
+
+Si vous avez des remarques, des propositions ou questions à propos de ce projet.  
+Veuillez contacter informatique@qualiservice.fr
+
+
+
+
+## Autheur
+- [@GuihomeWebDev](https://github.com/GuihomeWebDev)
+
+
+
+## Version
+
+
+
+[![Qualiservice License](https://img.shields.io/badge/Qualiservice-Version%200.0.1-brightgreen)](https://choosealicense.com/licenses/Qualiservice/)
+
+
+
+
+
+## Technologies Utilisées
+
+**Client:** html / twig,  javascript / jquery, css
+
+**Server:** php 8                                                                                                                      
+
+**Environement:** Docker / docker-compose            
+
+**Framework:** Symfony 6
+
