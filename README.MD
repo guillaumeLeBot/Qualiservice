@@ -9,7 +9,7 @@ Ce projet d'envergure va se décomposer en plusieurs parties:
 
 ## Documentation
 
-Pour l'installation du projet suivez la doc [Documentation](app/doc/README.MD)
+Pour l'installation du projet suivez la doc [Documentation](https://github.com/guillaumeLeBot/quali-trucks/tree/testEventCalendar/doc)
 
 
 
