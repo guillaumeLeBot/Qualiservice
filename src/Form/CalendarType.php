@@ -27,7 +27,7 @@ class CalendarType extends AbstractType
     {
         $builder
             ->add('title', ChoiceType::class, [
-                'label' => 'Mode',
+                'label' => 'Type',
                 'choices' => [
                     'Reception' => 'Reception',
                     'Expédition' => 'Expédition',

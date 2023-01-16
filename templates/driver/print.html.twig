@@ -1,21 +1,15 @@
-{% extends 'base.html.twig' %}
-{% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
-{% endblock %}
+
 {% block body %}
 <div class="card-deck">
-    {% for driver in drivers %}
         <div class="card">
-            <div class="card-header">{{ driver.name }}</div>
+            <div class="card-header">{{ driver.name }} {{ "now"|date("d/m/Y") }}</div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>date</th>
                             <th>Nbr de palettes</th>
                             <th>Temps de déchargement estimé</th>
                             <th>Type</th>
-                            <th>Marchandises</th>
                             <th>Client</th>
                             <th>Fournisseur</th>
                             <th>Bâtiment</th>
@@ -23,31 +17,18 @@
                     </thead>
                     <tbody>
                         {% for event in events %}
-                            {% if event.driver == driver.name %}
                             <tr>
-                                <td>{{ event.start }}</td>
                                 <td>{{ event.pallets_number }}</td>
                                 <td>{{ event.time }}</td>
                                 <td>{{ event.title }}</td>
-                                <td>{{ event.description }}</td>
                                 <td>{{ event.customer }}</td>
                                 <td>{{ event.supplier }}</td>
                                 <td>{{ event.building }}</td>
                             </tr>
-                            {% endif%}
                         {% endfor %}
                     </tbody>
                 </table>
-                <a href="{{ path('app_driver_pdf', {'id': driver.id}) }}" class="btn btn-primary" onclick="printTable()" >Imprimer </a>
             </div>
         </div>
-    {% endfor %}
 </div>
 {% endblock%}
-{% block javascript%}
-    <script>
-        function printTable() {
-            window.print();
-        }
-    </script>
-{% endblock %}
