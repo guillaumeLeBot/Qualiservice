@@ -2,28 +2,28 @@
 {% block body %}
 <div class="card-deck">
         <div class="card">
-            <div class="card-header">{{ driver.name }} {{ "now"|date("d/m/Y") }}</div>
+            <div class="card-header" style="color: blue; font-size:30px ">{{ driver.name }} {{ "now"|date("d/m/Y") }}</div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Nbr de palettes</th>
-                            <th>Temps de déchargement estimé</th>
-                            <th>Type</th>
-                            <th>Client</th>
-                            <th>Fournisseur</th>
-                            <th>Bâtiment</th>
+                            <th style="text-align: center; padding-right: 20px">Nbr de palettes</th>
+                            <th style="padding-right: 20px;">Tmp déchargement (min)</th>
+                            <th style="padding-right: 20px;">Type</th>
+                            <th style="padding-right: 20px;">Clients</th>
+                            <th style="padding-right: 20px;">Fournisseurs</th>
+                            <th style="padding-right: 20px;">Bâtiments</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for event in events %}
-                            <tr>
-                                <td>{{ event.pallets_number }}</td>
-                                <td>{{ event.time }}</td>
-                                <td>{{ event.title }}</td>
-                                <td>{{ event.customer }}</td>
-                                <td>{{ event.supplier }}</td>
-                                <td>{{ event.building }}</td>
+                            <tr >
+                                <td style="text-align: center; padding-right: 20px">{{ event.pallets_number }}</td>
+                                <td style="text-align: center; padding-right: 20px">{{ event.time }}</td>
+                                <td style="padding-right: 20px">{{ event.title }}</td>
+                                <td style="padding-right: 20px">{{ event.customer }}</td>
+                                <td style="padding-right: 20px">{{ event.supplier }}</td>
+                                <td style="padding-right: 20px">{{ event.building }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

@@ -2,10 +2,15 @@
 
 {% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/calendarView.css') }}" />
 {% endblock %}
 {% block body%}
-<div id="calendar"></div>
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12" id="calendar"></div>
+    </div>
+</div>
 {% endblock%}
 {% block javascripts %}
 

@@ -1,4 +1,6 @@
 INSERT INTO building (name) VALUES ('JDC1');
+INSERT INTO building (name) VALUES ('JDC1');
+INSERT INTO building (name) VALUES ('JDC1');
 
 INSERT INTO building (name) VALUES ('JDC2');
 

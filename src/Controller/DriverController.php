@@ -30,7 +30,6 @@ class DriverController extends AbstractController
                     'supplier' => $calendar->getSupplier()->getName(),
                     'driver' => $calendar->getDriver()->getName(),
                     'building' => $calendar->getBuilding()->getName(),
-                    
                 ];
                 $events[] = $event;
             }
@@ -62,7 +61,6 @@ class DriverController extends AbstractController
                 'supplier' => $calendar->getSupplier()->getName(),
                 'driver' => $calendar->getDriver()->getName(),
                 'building' => $calendar->getBuilding()->getName(),
-                
             ];
             $events[] = $event;
         }
@@ -74,6 +72,7 @@ class DriverController extends AbstractController
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
+        $dompdf->set_paper("a4", "landscape");
         $dompdf->render();
 
         return new Response(
@@ -81,5 +80,4 @@ class DriverController extends AbstractController
             
         );
     }
-   
 }

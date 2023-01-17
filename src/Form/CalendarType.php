@@ -5,12 +5,9 @@ namespace App\Form;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
-use App\Entity\Command;
 use App\Entity\Customer;
 use App\Entity\Platform;
 use App\Entity\Supplier;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -84,12 +81,12 @@ class CalendarType extends AbstractType
                 'required' => false
             ])
             ->add('customer', EntityType::class, [
-                'label' => 'Client',
+                'label' => 'Clients',
                 'class' => Customer::class,
                 'choice_label' => 'name',
             ])
             ->add('platform', EntityType::class, [
-                'label' => 'Platform',
+                'label' => 'Platforme',
                 'class' => Platform::class,
                 'choice_label' => 'name',
             ])
