@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Dock;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
 use App\Entity\Customer;
 use App\Entity\Platform;
 use App\Entity\Supplier;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\AbstractType;
 
 class CalendarType extends AbstractType
 {
@@ -66,11 +67,16 @@ class CalendarType extends AbstractType
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nbre de palettes'
             ])
+            ->add('dock', EntityType::class, [
+                'label' => 'Quai',
+                'class' => Dock::class,
+                'choice_label' => 'name',
+            ])
             ->add('building', EntityType::class, [
                 'label' => 'Bâtiment',
                 'class' => Building::class,
                 'choice_label' => 'name',
-            ])
+            ],)
             ->add('supplier', EntityType::class, [
                 'label' => 'Fournisseurs',
                 'class' => Supplier::class,

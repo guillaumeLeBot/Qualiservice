@@ -30,6 +30,7 @@ class DriverController extends AbstractController
                     'supplier' => $calendar->getSupplier()->getName(),
                     'driver' => $calendar->getDriver()->getName(),
                     'building' => $calendar->getBuilding()->getName(),
+                    'dock' => $calendar->getDock()->getName(),
                 ];
                 $events[] = $event;
             }
@@ -61,6 +62,8 @@ class DriverController extends AbstractController
                 'supplier' => $calendar->getSupplier()->getName(),
                 'driver' => $calendar->getDriver()->getName(),
                 'building' => $calendar->getBuilding()->getName(),
+                                    'dock' => $calendar->getDock()->getName(),
+
             ];
             $events[] = $event;
         }

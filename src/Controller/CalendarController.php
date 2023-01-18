@@ -5,18 +5,24 @@ namespace App\Controller;
 use App\Entity\Calendar;
 use App\Form\CalendarType;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\Mailer;
 use App\Repository\CalendarRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Route('/calendar')]
 class CalendarController extends AbstractController
 {
-    
+
+     private $eventDispatcher;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    } 
+
     #[Route('/', name: 'calendar_index', methods: ['GET'])]
     public function index(CalendarRepository $calendarRepository): Response
     {
@@ -27,7 +33,7 @@ class CalendarController extends AbstractController
 
    
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CalendarRepository $calendarRepository, MailerInterface $mailerInterface): Response
+    public function new(Request $request, CalendarRepository $calendarRepository): Response
     {
         $calendar = new \DateTime($request->query->get('start'));
         $calendar = new Calendar();
@@ -62,13 +68,15 @@ class CalendarController extends AbstractController
     }
 
     #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
-    public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
+    public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository, EventDispatcherInterface $eventDispatcher): Response
     {
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $calendarRepository->save($calendar, true);
+            $event = new Calendar();
+            $this->eventDispatcher->dispatch($event, Calendar::EVENT_DEPARTURE);
 
             return $this->redirectToRoute('app_calendar');
         }

@@ -13,6 +13,7 @@
                             <th style="padding-right: 20px;">Clients</th>
                             <th style="padding-right: 20px;">Fournisseurs</th>
                             <th style="padding-right: 20px;">Bâtiments</th>
+                            <th style="padding-right: 20px;">Quai</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,6 +25,7 @@
                                 <td style="padding-right: 20px">{{ event.customer }}</td>
                                 <td style="padding-right: 20px">{{ event.supplier }}</td>
                                 <td style="padding-right: 20px">{{ event.building }}</td>
+                                <td style="text-align: center;padding-right: 20px">{{ event.dock }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

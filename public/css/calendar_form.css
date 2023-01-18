@@ -9,3 +9,7 @@
 .color {
     display: none;
 }
+
+.form-dock-hidden {
+    display:none;
+}

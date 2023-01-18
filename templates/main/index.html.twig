@@ -36,14 +36,14 @@
             nowIndicator: true,
             editable: true,
             eventResizableFromStart: true,
-        })
+        });
 
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/drag_edit`
         let donnees = {
             "title": e.event.title,
             "start": e.event.start,
-            "end": e.event.end,
+            "end": e.event.end
         };
         let ajaxRequest = new XMLHttpRequest();
         ajaxRequest.open("PUT", url, true)

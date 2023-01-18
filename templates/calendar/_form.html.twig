@@ -45,13 +45,17 @@
                 {% endif %}
             </div>
             <div class="row">
-                <div class="col md-6">
+                <div class="col md-4">
                     {{ form_row(form.building) }}
                 </div>
-                <div class="col md-6">
+                <div id="form_dock" class="col md-4 form-dock-hidden">
+                    {{ form_row(form.dock) }}
+                </div>
+                <div class="col md-4">
                     {{ form_row(form.driver) }}
                 </div>
             </div>
+
             <div class="row">
                 <div class="col md-4">
                     {{ form_row(form.customer) }}
@@ -84,8 +88,10 @@
     {{ form_end(form) }}
 </div>
 
-
-<script>
+{% block javascript%}
+<script>   
     $('.clockpicker').clockpicker();
     $('.datepicker').datepicker();
 </script>
+
+{% endblock %}

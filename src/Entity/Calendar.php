@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CalendarRepository::class)]
 class Calendar
 {
+    const EVENT_DEPARTURE = 'departure';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -67,6 +68,9 @@ class Calendar
 
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Platform $platform = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Dock $dock = null;
 
     public function getId(): ?int
     {
@@ -285,6 +289,18 @@ class Calendar
     public function setPlatform(?Platform $platform): self
     {
         $this->platform = $platform;
+
+        return $this;
+    }
+
+    public function getDock(): ?Dock
+    {
+        return $this->dock;
+    }
+
+    public function setDock(?Dock $dock): self
+    {
+        $this->dock = $dock;
 
         return $this;
     }
