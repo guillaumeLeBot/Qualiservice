@@ -22,4 +22,9 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\EventSubscriber\CalendarSubscriber:
+    
+    # App\EventListener\SendEmailOnDeparureListener:
+    #     arguments:
+    #         - '@mailer'
+    #     tags:
+    #         - { name: kernel.event_listener, event: send_mail_to_customer }

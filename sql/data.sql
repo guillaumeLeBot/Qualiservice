@@ -1,4 +1,6 @@
 INSERT INTO building (name) VALUES ('JDC1');
+INSERT INTO building (name) VALUES ('JDC1');
+INSERT INTO building (name) VALUES ('JDC1');
 
 INSERT INTO building (name) VALUES ('JDC2');
 
@@ -106,6 +108,13 @@ INSERT INTO platform (name) VALUES ('St Vuilbas');
 INSERT INTO platform (name) VALUES ('Vémars');
 INSERT INTO platform (name) VALUES ('SPI');
 INSERT INTO platform (name) VALUES ('SPI / St Vuilbas ');
+
+INSERT INTO dock (name) VALUES ('A');
+INSERT INTO dock (name) VALUES ('B');
+INSERT INTO dock (name) VALUES ('C');
+INSERT INTO dock (name) VALUES ('1');
+INSERT INTO dock (name) VALUES ('2');
+INSERT INTO dock (name) VALUES ('3');
 
 INSERT INTO `calendar` (`id`, `customer_id`, `supplier_id`, `driver_id`, `building_id`, `title`, `start`, `end`, `description`, `all_day`, `background_color`, `border_color`, `text_color`, `pallets_number`, `comment`, `come`, `deparure`, `command_number`) VALUES
 (1, 1, 1, 1, 1, 'Reception', '2023-01-13 08:30:00', '2023-01-13 09:30:00', 'Réceptioné', NULL, '#ff8000', NULL, '#ff8000', 10, NULL, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '124568'),

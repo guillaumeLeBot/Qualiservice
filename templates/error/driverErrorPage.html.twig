@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Ce cariste n'à pas de taches assignées</h1>
+
+    <a href="/driver"> Retournez au planning</a>
+</div>
+{% endblock %}

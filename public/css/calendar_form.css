@@ -9,3 +9,10 @@
 .color {
     display: none;
 }
+
+.form-dock-hidden {
+    display:none;
+}
+.form-calendar {
+    margin-bottom: 50px;
+}

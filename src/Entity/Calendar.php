@@ -68,6 +68,9 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Platform $platform = null;
 
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Dock $dock = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -285,6 +288,18 @@ class Calendar
     public function setPlatform(?Platform $platform): self
     {
         $this->platform = $platform;
+
+        return $this;
+    }
+
+    public function getDock(): ?Dock
+    {
+        return $this->dock;
+    }
+
+    public function setDock(?Dock $dock): self
+    {
+        $this->dock = $dock;
 
         return $this;
     }

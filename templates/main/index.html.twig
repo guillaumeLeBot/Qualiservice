@@ -2,11 +2,18 @@
 
 {% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/calendarView.css') }}" />
 {% endblock %}
 {% block body%}
-<div id="calendar"></div>
+{% block navbar %}
+    {% include "./partials/_navbar.html.twig" %}
+{% endblock navbar %}
+<div class="container">
+    <div class="row">
 
+        <div class="col-md-12" id="calendar"></div>
+    </div>
+</div>
 {% endblock%}
 {% block javascripts %}
 
@@ -32,14 +39,14 @@
             nowIndicator: true,
             editable: true,
             eventResizableFromStart: true,
-        })
+        });
 
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/drag_edit`
         let donnees = {
             "title": e.event.title,
             "start": e.event.start,
-            "end": e.event.end,
+            "end": e.event.end
         };
         let ajaxRequest = new XMLHttpRequest();
         ajaxRequest.open("PUT", url, true)
