@@ -1,7 +1,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
 {% endblock %}
-<div class="container">
+<div class="container form-calendar">
     {{ form_start(form) }}
     <div class="form-group">
             <div class="row">
@@ -30,19 +30,14 @@
                 <div class="col md-6 clockpicker">
                     {{ form_row(form.deparure) }}
                 </div>
-                {% if form.vars.data.deparure %}
                 <div class="form-group">
                     <div class="row">
                         <div class="col md-6">
-                            <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
+                            
                         </div>
                     </div>
                 </div>
-                {% else %}
-                <div style="display: none;">
-                    <button type="submit" class="btn btn-primary" name="send_mail">Envoyer mail</button>
-                </div>
-                {% endif %}
+                
             </div>
             <div class="row">
                 <div class="col md-4">
@@ -89,9 +84,9 @@
 </div>
 
 {% block javascript%}
-<script>   
-    $('.clockpicker').clockpicker();
-    $('.datepicker').datepicker();
-</script>
+    <script>   
+        $('.clockpicker').clockpicker();
+        $('.datepicker').datepicker();
+    </script>
 
 {% endblock %}

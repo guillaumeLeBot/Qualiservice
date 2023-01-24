@@ -34,8 +34,8 @@ body,
 
 .tabs-to-dropdown .tab-content .container-fluid {
     max-width: 1250px;
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 30px;
+    padding-bottom: 20px;
 }
 
 .tabs-to-dropdown .dropdown-menu {
