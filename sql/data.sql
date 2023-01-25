@@ -1,3 +1,4 @@
+INSERT INTO building (name) VALUES ('NON RENSEIGNE');
 INSERT INTO building (name) VALUES ('JDC1');
 INSERT INTO building (name) VALUES ('JDC1');
 INSERT INTO building (name) VALUES ('JDC1');
@@ -23,6 +24,7 @@ INSERT INTO driver (name) VALUES ('Bruno');
 INSERT INTO driver (name) VALUES ('Alexis');
 INSERT INTO driver (name) VALUES ('Autre');
 
+INSERT INTO supplier (name) VALUES ('NON RENSEIGNE');
 INSERT INTO supplier (name) VALUES ('C10PLAY');
 
 INSERT INTO supplier (name) VALUES ('Cartonnage Vaillant');
@@ -53,6 +55,7 @@ INSERT INTO supplier (name) VALUES ('SITCO');
 
 INSERT INTO supplier (name) VALUES ('SLEEVE CONCEPT');
 
+INSERT INTO customer (name) VALUES ('NON RENSEIGNE');
 INSERT INTO customer (name) VALUES ('GERRESHEIMER');
 
 INSERT INTO customer (name) VALUES ('GOLIATE');
@@ -97,11 +100,7 @@ INSERT INTO customer (name) VALUES ('VAPEXPO');
 INSERT INTO customer (name) VALUES ('CORA');
 INSERT INTO customer (name) VALUES ('STOEIZIE');
 
-INSERT INTO customer (name) VALUES ('NON RENSEIGNE');
-INSERT INTO supplier (name) VALUES ('NON RENSEIGNE');
-INSERT INTO building (name) VALUES ('NON RENSEIGNE');
 INSERT INTO platform (name) VALUES ('NON RENSEIGNE');
-
 INSERT INTO platform (name) VALUES ('Cloé');
 INSERT INTO platform (name) VALUES ('Vémars / Cloé');
 INSERT INTO platform (name) VALUES ('St Vuilbas');
