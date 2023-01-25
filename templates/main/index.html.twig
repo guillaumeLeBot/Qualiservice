@@ -18,7 +18,7 @@
 {% block javascripts %}
 
 <script>
-    window.onload = () => {
+window.onload = () => {
         let calendarElt = document.querySelector("#calendar")
         let calendar = new FullCalendar.Calendar(calendarElt, {
             initialView: 'timeGridDay',
@@ -60,12 +60,12 @@
     calendar.on('dateClick', function (info) {
         const start = info.dateStr;
         const end = info.dateStr;
-        window.location.href = `/calendar/new?start=${start}&end=${end}`;
+        window.location.href = `/calendar/new`;
         // Call the hydrate function after the page has loaded
         
     });
     calendar.render()
-    }
+}
 </script>
 
 {% endblock %}

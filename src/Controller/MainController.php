@@ -28,7 +28,7 @@ class MainController extends AbstractController
                 'id' => $event->getId(),
                 'title' => $event->getTitle(),                
                 'start' => $event->getStart()->format('Y-m-d H:i:s'),
-                'end' => $event->getEnd()->format('Y-m-d H:i:s')
+                'end' => $event->getEnd()->format('Y-m-d H:i:s'),
             ];
         }
         $data = json_encode($rdvs);

@@ -37,13 +37,15 @@ class CalendarType extends AbstractType
             ->add('start', DateTimeType::class, [
                 'label' => 'Début rendez vous',
                 'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
+                'time_widget' => 'choice',
+                'hours' => range(8, 18),
                 'data' => new \DateTime(),
             ])
             ->add('end', DateTimeType::class, [
                 'label' => 'Fin rendez vous',
                 'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
+                'time_widget' => 'choice',
+                'hours' => range(8, 18),
                 'data' => new \DateTime(),
             ])
             ->add('come', TimeType::class, [

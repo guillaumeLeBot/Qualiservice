@@ -2,10 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\DeliverySchedule;
+use App\Entity\Driver;
+use App\Entity\Building;
+use App\Entity\Customer;
+use App\Entity\Platform;
+use App\Entity\Supplier;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -24,29 +27,23 @@ class DashboardController extends AbstractDashboardController
     {
         
         $url = $this->adminUrlGenerator
-        ->setController(DeliveryScheduleCrudController::class)
+        ->setController(CalendarCrudController::class)
         ->generateUrl();
          return $this->redirect($url);
 
         
     }
-
-    public function configureDashboard(): Dashboard
-    {
-        return Dashboard::new()
-            ->setTitle('Qualiservice');
-    }
+    
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::subMenu('Livraison/Expédition', 'fa fa-home')->setSubItems([
-         MenuItem::linkToCrud('creation', 'fas fa-plus', DeliverySchedule::class)->setAction(Crud::PAGE_NEW),
-        ]);
-        yield MenuItem::linkToCrud('platform', 'fas fa-list', DeliverySchedule::class);
-        yield MenuItem::linkToCrud('customer', 'fas fa-list', DeliverySchedule::class);
-        yield MenuItem::linkToCrud('driver', 'fas fa-list', DeliverySchedule::class);
-        yield MenuItem::linkToCrud('delivered_shipped', 'fas fa-list', DeliverySchedule::class);
+        yield MenuItem::linkToUrl('Retour vers le Site', 'fa fa-home', '/calendar/view');
+        
+        yield MenuItem::linkToCrud('Bâtiment', 'fas fa-list', Building::class);
+        yield MenuItem::linkToCrud('Caristes', 'fas fa-list', Driver::class);
+        yield MenuItem::linkToCrud('Client', 'fas fa-list', Customer::class);
+        yield MenuItem::linkToCrud('Fournisseurs', 'fas fa-list', Supplier::class);
+        yield MenuItem::linkToCrud('Platforme', 'fas fa-list', Platform::class);
 
     }
 }
