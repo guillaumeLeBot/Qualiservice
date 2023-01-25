@@ -1,7 +1,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
 {% endblock %}
-<div class="container form-calendar">
+<div class="container ">
     {{ form_start(form) }}
     <div class="form-group">
             <div class="row">
@@ -79,7 +79,7 @@
                 </div>
             </div>
     </div>
-        <button class="btn btn-success">{{ button_label|default('Enregister') }}</button>
+        <button class="green">{{ button_label|default('Enregister') }}</button>
     {{ form_end(form) }}
 </div>
 

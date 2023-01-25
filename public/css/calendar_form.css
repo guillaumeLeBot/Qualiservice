@@ -1,4 +1,4 @@
-.bg-color {
+ .bg-color {
     display: none;
 }
 
@@ -10,9 +10,150 @@
     display: none;
 }
 
-.form-dock-hidden {
-    display:none;
+
+
+ 
+
+body,
+html {
+    background-color: #ebecf0;
 }
-.form-calendar {
-    margin-bottom: 50px;
+
+body,
+p,
+input,
+select,
+textarea,
+button {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: -0.2px;
+    font-size: 20px;
+}
+h1 {
+    font-size: 50px;
+    text-shadow: -1px -1px #eee, 1px 1px #888, -3px 0 4px #000;
+    font-family: "Segoe print", Arial, Helvetica, sans-serif;
+    color: #ccc;
+    padding: 50px;
+    letter-spacing: .2rem;
+    font-weight: lighter;
+    text-align: center;
+    display: inline;
+    line-height: 150px;
+}
+div,
+p {
+    color: #58585e;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+form {
+    padding: 16px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+.segment {
+    padding: 32px 0;
+    text-align: center;
+}
+
+button,
+input {
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    border-radius: 320px;
+    padding: 16px;
+    background-color: #ebecf0;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+label {
+    display: block;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+input {
+    margin-right: 8px;
+    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input:focus {
+    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+}
+
+button {
+    color: #61677c;
+    font-weight: bold;
+    box-shadow: -5px -5px 20px #fff, 5px 5px 20px #babecc;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+}
+
+button:active {
+    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+}
+
+button .icon {
+    margin-right: 8px;
+}
+
+button.unit {
+    border-radius: 8px;
+    line-height: 0;
+    width: 480px;
+    height: 48px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+    font-size: 19.2px;
+}
+
+button.unit .icon {
+    margin-right: 0;
+}
+
+button.red {
+    display: block;
+    width: 50%;
+    color: #ae1100;
+    font-size: 25px;
+    font-weight: bolder;
+}
+button.green {
+    display: block;
+    width: 50%;
+    color: #378a26;
+    font-size: 25px;
+    font-weight: bolder;
+}
+button.blue {
+    display: block;
+    width: 50%;
+    color: #46aae4;
+    font-size: 25px;
+    font-weight: bolder;
+}
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.input-group label {
+    margin: 0;
+    flex: 1;
 }
