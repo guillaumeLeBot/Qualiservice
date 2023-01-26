@@ -35,7 +35,7 @@ class DriverController extends AbstractController
                 $events[] = $event;
             }
             $time_formatted = date("H:i:s", mktime(0,0,$time_in_seconds));
-
+            
         }
         return $this->render('driver/index.html.twig', compact('events', 'drivers'));
     }

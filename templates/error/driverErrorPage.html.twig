@@ -1,12 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/driver_no_task.css') }}" />
 {% endblock %}
 
 {% block body %}
 <div class="container">
     <h1>Ce cariste n'à pas de taches assignées</h1>
-
-    <a href="/driver"> Retournez au planning</a>
+    <button class="blue" type="button" onclick="window.location.href='/driver'">Retournez au planning</button>
 </div>
 {% endblock %}

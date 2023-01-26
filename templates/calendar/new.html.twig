@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
+{% endblock %}
 {% block title %}New Calendar{% endblock %}
 
 {% block body %}
@@ -7,7 +9,7 @@
         <div class="row">
             <div class="col-md-6">
             <h1>Création</h1>
-                <a class="btn btn-info" href="{{ path('app_calendar') }}">Retour au calendrier</a>
+            <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au calendrier</button>
                 {{ include('calendar/_form.html.twig') }}
             </div>
     </div>
