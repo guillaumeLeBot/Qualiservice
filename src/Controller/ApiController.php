@@ -33,6 +33,7 @@ class ApiController extends AbstractController
 
         if(
             isset($donnees->title) && !empty($donnees->title) &&
+            isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->end) && !empty($donnees->end)
         ){
@@ -51,6 +52,7 @@ class ApiController extends AbstractController
 
             // On hydrate l'objet avec les données
             $calendar->setTitle($donnees->title);
+            $calendar->setBackgroundColor($donnees->backgroundColor);
             $calendar->setStart(new DateTime($donnees->start));
             $calendar->setEnd(new DateTime($donnees->end));
             

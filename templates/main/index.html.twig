@@ -45,6 +45,7 @@ window.onload = () => {
         let url = `/api/${e.event.id}/drag_edit`
         let donnees = {
             "title": e.event.title,
+            "backgroundColor": e.event.backgroundColor,
             "start": e.event.start,
             "end": e.event.end
         };

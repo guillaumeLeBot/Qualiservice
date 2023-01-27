@@ -21,6 +21,9 @@ class Driver
     #[ORM\OneToMany(mappedBy: 'driver', targetEntity: Calendar::class)]
     private Collection $calendars;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
@@ -69,6 +72,18 @@ class Driver
                 $calendar->setDriver(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230113074843 extends AbstractMigration
+final class Version20230127135214 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,10 +21,10 @@ final class Version20230113074843 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE building (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE calendar (id INT AUTO_INCREMENT NOT NULL, customer_id INT DEFAULT NULL, supplier_id INT DEFAULT NULL, driver_id INT DEFAULT NULL, building_id INT DEFAULT NULL, platform_id INT DEFAULT NULL, title VARCHAR(100) DEFAULT NULL, start DATETIME NOT NULL, end DATETIME NOT NULL, description VARCHAR(255) DEFAULT NULL, all_day TINYINT(1) DEFAULT NULL, background_color VARCHAR(255) DEFAULT NULL, border_color VARCHAR(255) DEFAULT NULL, text_color VARCHAR(255) DEFAULT NULL, pallets_number INT DEFAULT NULL, comment VARCHAR(255) DEFAULT NULL, come DATETIME DEFAULT NULL, deparure DATETIME DEFAULT NULL, command_number VARCHAR(255) DEFAULT NULL, INDEX IDX_6EA9A1469395C3F3 (customer_id), INDEX IDX_6EA9A1462ADD6D8C (supplier_id), INDEX IDX_6EA9A146C3423909 (driver_id), INDEX IDX_6EA9A1464D2A7E12 (building_id), INDEX IDX_6EA9A146FFE6496F (platform_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE calendar (id INT AUTO_INCREMENT NOT NULL, customer_id INT DEFAULT NULL, supplier_id INT DEFAULT NULL, driver_id INT DEFAULT NULL, building_id INT DEFAULT NULL, platform_id INT DEFAULT NULL, dock_id INT DEFAULT NULL, title VARCHAR(100) DEFAULT NULL, start DATETIME NOT NULL, end DATETIME NOT NULL, description VARCHAR(255) DEFAULT NULL, all_day TINYINT(1) DEFAULT NULL, background_color VARCHAR(255) DEFAULT NULL, border_color VARCHAR(255) DEFAULT NULL, text_color VARCHAR(255) DEFAULT NULL, pallets_number INT DEFAULT NULL, comment VARCHAR(255) DEFAULT NULL, come DATETIME DEFAULT NULL, deparure DATETIME DEFAULT NULL, command_number VARCHAR(255) DEFAULT NULL, INDEX IDX_6EA9A1469395C3F3 (customer_id), INDEX IDX_6EA9A1462ADD6D8C (supplier_id), INDEX IDX_6EA9A146C3423909 (driver_id), INDEX IDX_6EA9A1464D2A7E12 (building_id), INDEX IDX_6EA9A146FFE6496F (platform_id), INDEX IDX_6EA9A146B0826BBA (dock_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE customer (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE delivery_schedule (id INT AUTO_INCREMENT NOT NULL, day_call DATE NOT NULL, hours_call TIME NOT NULL, arrival_time TIME NOT NULL, appointement TIME NOT NULL, ending_appointement TIME NOT NULL, departure_time TIME NOT NULL, command_number VARCHAR(255) NOT NULL, delivered_shipped VARCHAR(255) NOT NULL, building VARCHAR(255) NOT NULL, platform VARCHAR(255) NOT NULL, supplier VARCHAR(255) NOT NULL, customer VARCHAR(255) NOT NULL, driver VARCHAR(255) NOT NULL, pallets_numbers INT NOT NULL, merchandise VARCHAR(255) NOT NULL, comment VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE driver (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE dock (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE driver (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE platform (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE reset_password_request (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', expires_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_7CE748AA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE supplier (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -35,6 +35,7 @@ final class Version20230113074843 extends AbstractMigration
         $this->addSql('ALTER TABLE calendar ADD CONSTRAINT FK_6EA9A146C3423909 FOREIGN KEY (driver_id) REFERENCES driver (id)');
         $this->addSql('ALTER TABLE calendar ADD CONSTRAINT FK_6EA9A1464D2A7E12 FOREIGN KEY (building_id) REFERENCES building (id)');
         $this->addSql('ALTER TABLE calendar ADD CONSTRAINT FK_6EA9A146FFE6496F FOREIGN KEY (platform_id) REFERENCES platform (id)');
+        $this->addSql('ALTER TABLE calendar ADD CONSTRAINT FK_6EA9A146B0826BBA FOREIGN KEY (dock_id) REFERENCES dock (id)');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
     }
 
@@ -46,11 +47,12 @@ final class Version20230113074843 extends AbstractMigration
         $this->addSql('ALTER TABLE calendar DROP FOREIGN KEY FK_6EA9A146C3423909');
         $this->addSql('ALTER TABLE calendar DROP FOREIGN KEY FK_6EA9A1464D2A7E12');
         $this->addSql('ALTER TABLE calendar DROP FOREIGN KEY FK_6EA9A146FFE6496F');
+        $this->addSql('ALTER TABLE calendar DROP FOREIGN KEY FK_6EA9A146B0826BBA');
         $this->addSql('ALTER TABLE reset_password_request DROP FOREIGN KEY FK_7CE748AA76ED395');
         $this->addSql('DROP TABLE building');
         $this->addSql('DROP TABLE calendar');
         $this->addSql('DROP TABLE customer');
-        $this->addSql('DROP TABLE delivery_schedule');
+        $this->addSql('DROP TABLE dock');
         $this->addSql('DROP TABLE driver');
         $this->addSql('DROP TABLE platform');
         $this->addSql('DROP TABLE reset_password_request');

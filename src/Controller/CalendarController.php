@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Dock;
 use App\Entity\Calendar;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
@@ -28,7 +27,7 @@ class CalendarController extends AbstractController
     public function new(Request $request, CalendarRepository $calendarRepository): Response
     {
         $calendar = new \DateTime($request->query->get('start'));
-        $calendar = new Calendar();
+        $calendar = new Calendar();        
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
 
@@ -57,7 +56,6 @@ class CalendarController extends AbstractController
         
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $calendarRepository->save($calendar, true);
             $mailEvent = new MailEvent($calendar);
@@ -71,7 +69,6 @@ class CalendarController extends AbstractController
         ]);
     }
 
-    
     #[route('/{id}/delete', name:'calendar_delete', methods:['POST'])]
     public function delete(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
     {
