@@ -3,65 +3,21 @@
 <link rel="stylesheet" href="{{ asset('css/nav.css') }}" />
 {% endblock %}
 {% block navbar %}
-{# <div class="tabs-to-dropdown">
-    <div class="nav-wrapper d-flex align-items-center justify-content-between">
-        <ul class="nav nav-pills d-none d-md-flex" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="pills-company-tab" data-toggle="pill" href="/" role="tab"
-                    aria-controls="pills-company" aria-selected="true">Accueil</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="/calendar/view" role="tab"
-                    aria-controls="pills-contact" aria-selected="false">Planning</a>
-            </li>           
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="/driver" role="tab"
-                    aria-controls="pills-contact" aria-selected="false">Planning Caristes</a>
-            </li>           
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="/admin" role="tab"
-                    aria-controls="pills-contact" aria-selected="false">Configurations</a>
-            </li>           
-        </ul>        
-    </div>
-
-    <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-company" role="tabpanel" aria-labelledby="pills-company-tab">
-            <div class="container-fluid">
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pills-product" role="tabpanel" aria-labelledby="pills-product-tab">
-            <div class="container-fluid">
-                
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pills-news" role="tabpanel" aria-labelledby="pills-news-tab">
-            <div class="container-fluid">
-                
-            </div>
-        </div>
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-            <div class="container-fluid">
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer class="page-footer">
-    <span>Qualiservice 2023</span>
-    <a href="https://qualiservice.fr/" target="_blank">
-        <img width="24" height="24" src="https://assets.codepen.io/162656/george-martsoukos-small-logo.svg"
-            alt="George Martsoukos logo">
-    </a>
-</footer> #}
-
     <nav class="navMenu">
         <a href="/">Accueil</a>
         <a href="/calendar/view">Planning</a>
         <a href="/driver">Planning Caristes</a>
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
         <a href="/admin">Configuration</a>
+        {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+        <a href="/admin">Configuration</a>
+        {% endif %}
         <div class="dot"></div>
+        {% if app.user %}
+        <a class='btn btn-danger' href="{{ path('app_logout') }}">Déconnexion</a>
+        {% else %}
+        <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
     </nav>
 {% endblock navbar %}
 

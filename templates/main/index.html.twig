@@ -9,6 +9,9 @@
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
 <div class="container">
+    {% for message in app.flashes('message') %}
+    <div class="flash-message">{{ message }}</div>
+    {% endfor %}
     <div class="row">
 
         <div class="col-md-12" id="calendar"></div>
@@ -62,9 +65,8 @@ window.onload = () => {
         const start = info.dateStr;
         const end = info.dateStr;
         window.location.href = `/calendar/new`;
-        // Call the hydrate function after the page has loaded
-        
-    });
+});
+
     calendar.render()
 }
 </script>

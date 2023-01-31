@@ -1,6 +1,7 @@
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
 {% endblock %}
+
 <div class="container ">
     {{ form_start(form) }}
     <div class="form-group">
@@ -79,7 +80,12 @@
                 </div>
             </div>
     </div>
+    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
         <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% endif %}
+        
     {{ form_end(form) }}
 </div>
 
