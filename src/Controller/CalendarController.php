@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Dock;
+use App\Entity\Building;
 use App\Entity\Calendar;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
@@ -27,8 +27,11 @@ class CalendarController extends AbstractController
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CalendarRepository $calendarRepository): Response
     {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+            return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
+        }
         $calendar = new \DateTime($request->query->get('start'));
-        $calendar = new Calendar();
+        $calendar = new Calendar();        
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
 
@@ -44,20 +47,31 @@ class CalendarController extends AbstractController
     }
 
     #[Route('/{id}/show', name: 'calendar_show', methods: ['GET'])]
-    public function show(Calendar $calendar): Response
+    public function show(Request $request, Calendar $calendar): Response
     {
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
+        
+
         return $this->render('calendar/show.html.twig', [
             'calendar' => $calendar,
+            'form' => $form->createView(),
         ]);
     }
 
     #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
     public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository, EventDispatcherInterface $eventDispatcher): Response
     {
+        if ($this->getUser() == null) {
+        return $this->redirectToRoute('app_login');
+        } elseif ($this->getUser()->getRoles() == ["ROLE_USER"]) {
+            return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
+        }
+    
+        $this->denyAccessUnlessGranted("ROLE_ADMIN");
         
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $calendarRepository->save($calendar, true);
             $mailEvent = new MailEvent($calendar);
@@ -71,7 +85,6 @@ class CalendarController extends AbstractController
         ]);
     }
 
-    
     #[route('/{id}/delete', name:'calendar_delete', methods:['POST'])]
     public function delete(Request $request, Calendar $calendar, CalendarRepository $calendarRepository): Response
     {

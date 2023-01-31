@@ -39,20 +39,25 @@ class CalendarType extends AbstractType
                 'date_widget' => 'single_text',
                 'time_widget' => 'choice',
                 'hours' => range(8, 18),
-                'data' => new \DateTime(),
+                'data' => $builder->getData() && $builder->getData()->getStart() ? $builder->getData()->getStart() : new \DateTime(),
             ])
             ->add('end', DateTimeType::class, [
                 'label' => 'Fin rendez vous',
                 'date_widget' => 'single_text',
                 'time_widget' => 'choice',
                 'hours' => range(8, 18),
-                'data' => new \DateTime(),
+                'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
+            
             ->add('come', TimeType::class, [
                 'label' => 'Arrivée camion',
+                'widget' => 'choice',
+                'hours' => range(8, 18)
             ])
             ->add('deparure', TimeType::class, [
                 'label' => 'Départ Camion',
+                'widget' => 'choice',
+                'hours' => range(8, 18)
             ])
             ->add('description', ChoiceType::class, [
                 'label' => 'Marchandise',
@@ -106,18 +111,33 @@ class CalendarType extends AbstractType
             ->add('comment', TextType::class, [
                 'label' => 'Commentaire',
                 'required' => false
-            ])
-            ->add('background_color', TextType::class, [
+            ]);
+            // use this for add differents colors by fields don't forget replace 'data => $color'
+            if($builder->getData() && $builder->getData()->getTitle() === 'Reception'){
+                $color = "#0000ff";
+             }else if($builder->getData() && $builder->getData()->getTitle() === 'Expédition'){
+                $color = "#088A08";
+             }else if($builder->getData() && $builder->getData()->getTitle() === 'Envoi Direct'){
+                $color = "#561292";
+             }else if($builder->getData() && $builder->getData()->getTitle() === 'Destruction'){
+                $color = "#FF0000";
+             }else if($builder->getData() && $builder->getData()->getTitle() === 'Inventaire'){
+                $color = "#FF8000";
+             }else{
+                $color = "#2B75D9";
+             }
+             
+            $builder->add('background_color', TextType::class, [
                 'label' => 'couleur de fond',
                 'required' => false,
-                'data' => '#ff8000'
-            ])
-            ->add('text_color', TextType::class, [
+                'data' => '#2B75D9',
+            ]);
+            
+            $builder->add('text_color', TextType::class, [
                 'label' => 'couleur du text',
                 'required' => false,
-                'data' => '#ff8000'
+                'data' => '#040404'
             ]);
-     
     }
     public function configureOptions(OptionsResolver $resolver)
     {

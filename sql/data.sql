@@ -1,7 +1,5 @@
 INSERT INTO building (name) VALUES ('NON RENSEIGNE');
 INSERT INTO building (name) VALUES ('JDC1');
-INSERT INTO building (name) VALUES ('JDC1');
-INSERT INTO building (name) VALUES ('JDC1');
 
 INSERT INTO building (name) VALUES ('JDC2');
 
@@ -11,18 +9,19 @@ INSERT INTO building (name) VALUES ('Royal Canin');
 
 INSERT INTO building (name) VALUES ('Quai salle carton');
 
-INSERT INTO driver (name) VALUES ('Fabien');
+INSERT INTO driver (name, code) VALUES ('Fabien', 'fab2023');
 
-INSERT INTO driver (name) VALUES ('Vivien');
+INSERT INTO driver (name, code) VALUES ('Vivien', 'viv2023');
 
-INSERT INTO driver (name) VALUES ('Fred Pouille');
+INSERT INTO driver (name, code) VALUES ('Fred Pouille', 'fre2023');
 
-INSERT INTO driver (name) VALUES ('José');
+INSERT INTO driver (name, code) VALUES ('José', 'jos2023');
 
-INSERT INTO driver (name) VALUES ('Bruno');
+INSERT INTO driver (name, code) VALUES ('Bruno', 'bru2023');
 
-INSERT INTO driver (name) VALUES ('Alexis');
-INSERT INTO driver (name) VALUES ('Autre');
+INSERT INTO driver (name, code) VALUES ('Alexis', 'ale2023');
+INSERT INTO driver (name, code) VALUES ('Autre', 'aut2023');
+
 
 INSERT INTO supplier (name) VALUES ('NON RENSEIGNE');
 INSERT INTO supplier (name) VALUES ('C10PLAY');
