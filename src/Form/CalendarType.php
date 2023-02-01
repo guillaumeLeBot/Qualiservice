@@ -9,6 +9,7 @@ use App\Entity\Calendar;
 use App\Entity\Customer;
 use App\Entity\Platform;
 use App\Entity\Supplier;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,8 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class CalendarType extends AbstractType
 {
@@ -33,6 +35,14 @@ class CalendarType extends AbstractType
                     'Destruction' => 'Destruction',
                     'Inventaire' => 'Inventaire',
                 ],
+            ])
+            ->add('checked', PasswordType::class, [
+                'label' => 'Code cariste',
+                'required' => false,
+            ])
+            ->add('speed_save', CheckboxType::class, [
+                'label' => 'Mofification rapide',
+                'required' => false,
             ])
             ->add('start', DateTimeType::class, [
                 'label' => 'Début rendez vous',
@@ -52,12 +62,16 @@ class CalendarType extends AbstractType
             ->add('come', TimeType::class, [
                 'label' => 'Arrivée camion',
                 'widget' => 'choice',
-                'hours' => range(8, 18)
+                'hours' => range(8, 18),
+                'data' => $builder->getData() && $builder->getData()->getCome() ? $builder->getData()->getCome() : new \DateTime(),
+
             ])
             ->add('deparure', TimeType::class, [
                 'label' => 'Départ Camion',
                 'widget' => 'choice',
-                'hours' => range(8, 18)
+                'hours' => range(8, 18),
+                'data' => $builder->getData() && $builder->getData()->getDeparure() ? $builder->getData()->getDeparure() : new \DateTime(),
+
             ])
             ->add('description', ChoiceType::class, [
                 'label' => 'Marchandise',

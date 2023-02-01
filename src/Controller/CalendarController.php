@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Building;
 use App\Entity\Calendar;
+use App\Entity\Driver;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
@@ -73,10 +74,20 @@ class CalendarController extends AbstractController
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $calendarRepository->save($calendar, true);
-            $mailEvent = new MailEvent($calendar);
-            $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
-            return $this->redirectToRoute('app_calendar');
+            if($calendar->isSpeedSave()){
+                $calendar->setBackgroundColor('orange');
+                $calendarRepository->save($calendar, true);
+                return $this->redirectToRoute('app_calendar');
+            }
+            if($calendar->getChecked() == $calendar->getDriver()->getCode()){
+                $calendar->setBackgroundColor('green');
+                $calendarRepository->save($calendar, true);
+                $mailEvent = new MailEvent($calendar);
+                $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                return $this->redirectToRoute('app_calendar');
+            }else {
+                $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou valider sans contrôle avec le code 0000');
+            }
         }
 
         return $this->render('calendar/edit.html.twig', [

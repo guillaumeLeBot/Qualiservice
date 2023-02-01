@@ -1,4 +1,4 @@
- .bg-color {
+.bg-color {
     display: none;
 }
 
@@ -9,15 +9,12 @@
 .color {
     display: none;
 }
-.checked {
-    display: none;
+.flash-error {
+    background-color: #ff0000;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }
-.speedSave {
-    display: none;
-}
-
-
- 
 
 body,
 html {
@@ -34,18 +31,20 @@ button {
     letter-spacing: -0.2px;
     font-size: 20px;
 }
+
 h1 {
     font-size: 50px;
     text-shadow: -1px -1px #eee, 1px 1px #888, -3px 0 4px #000;
-    font-family: "Segoe print", Arial, Helvetica, sans-serif;
+    font-family: 'Segoe print', Arial, Helvetica, sans-serif;
     color: #ccc;
     padding: 50px;
-    letter-spacing: .2rem;
+    letter-spacing: 0.2rem;
     font-weight: lighter;
     text-align: center;
     display: inline;
     line-height: 150px;
 }
+
 div,
 p {
     color: #58585e;
@@ -138,6 +137,7 @@ button.red {
     font-size: 25px;
     font-weight: bolder;
 }
+
 button.green {
     display: block;
     width: 50%;
@@ -145,6 +145,7 @@ button.green {
     font-size: 25px;
     font-weight: bolder;
 }
+
 button.blue {
     display: block;
     width: 50%;
@@ -152,6 +153,7 @@ button.blue {
     font-size: 25px;
     font-weight: bolder;
 }
+
 .input-group {
     display: flex;
     align-items: center;

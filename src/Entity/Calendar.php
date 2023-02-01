@@ -71,6 +71,12 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Dock $dock = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $checked = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $speedSave = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -300,6 +306,30 @@ class Calendar
     public function setDock(?Dock $dock): self
     {
         $this->dock = $dock;
+
+        return $this;
+    }
+
+    public function getChecked(): ?string
+    {
+        return $this->checked;
+    }
+
+    public function setChecked(?string $checked): self
+    {
+        $this->checked = $checked;
+
+        return $this;
+    }
+
+    public function isSpeedSave(): ?bool
+    {
+        return $this->speedSave;
+    }
+
+    public function setSpeedSave(?bool $speedSave): self
+    {
+        $this->speedSave = $speedSave;
 
         return $this;
     }
