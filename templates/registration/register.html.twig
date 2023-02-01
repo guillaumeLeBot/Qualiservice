@@ -5,43 +5,31 @@
 <link rel="stylesheet" href="{{ asset('css/register.css') }}" />
 {% endblock %}
 {% block body %}
-    {# <div class="container">
-        <h1>Créer un compte utilisateur</h1>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 class="active"> Création de compte </h2>
+        <h2 class="inactive underlineHover"><a href="/login">Connection </a></h2>
 
-        {{ form_start(registrationForm) }}
+
+
+        <!-- register Form -->
+        <div class="container">
+            <h1>Créer un compte</h1>
+
+            {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.email) }}
             {{ form_row(registrationForm.plainPassword, {
-                label: 'Mot de passe'
+            label: 'Mot de passe'
             }) }}
             <button type="submit" class="btn btn-success">Valider</button>
-        {{ form_end(registrationForm) }}
-    </div> #}
-
-    <div class="wrapper fadeInDown">
-        <div id="formContent">
-          <!-- Tabs Titles -->
-          <h2 class="active"> Création de compte </h2>
-          <h2 class="inactive underlineHover"><a href="/login">Connection </a></h2>
-      
-         
-      
-          <!-- register Form -->
-          <div class="container">
-            <h1>Créer un compte</h1>
-    
-            {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Mot de passe'
-                }) }}
-                <button type="submit" class="btn btn-success">Valider</button>
             {{ form_end(registrationForm) }}
         </div>
-    
-          <!-- Remind Passowrd -->
-          <div id="formFooter">
-          </div>
-      
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
         </div>
-      </div>
+
+    </div>
+</div>
 {% endblock %}

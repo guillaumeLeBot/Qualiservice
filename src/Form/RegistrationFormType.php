@@ -39,14 +39,14 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Ce champ ne peut être vide',
                     ]),
                     new Length([
-                        'min' => 6,                        
+                        'min' => 8,                        
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} carractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
-                    new Regex( "/^(?=.*[A-Z])(?=.*[!@#$%^&*()]).{7,}$/",
-                     'vous devez utiliser au moins 1 lettre majuscule 1 chiffre et 1 carractère spécial'
-                     ),
+                    new Regex( "/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()]).{7,}$/",
+                    'Vous devez utiliser 1 lettre majuscule 1 chiffre et 1 carractère spécial'
+                    ),
                 ],
             ])
         ;
