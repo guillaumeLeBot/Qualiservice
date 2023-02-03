@@ -82,8 +82,14 @@
                     <div class="col md-2">
                         {{ form_row(form.checked, { 'attr': {'class': 'checked'}}) }}
                     </div>
+                    <div class="col md-2">
+                        {{ form_row(form.validated_by, { 'attr': {'class': 'validated'}}) }}
+                    </div>
                     <div class="col md-6">
                         {{ form_row(form.speed_save, { 'attr': {'class': 'speedSave'}}) }}
+                    </div>
+                    <div class="col md-6">
+                        {{ form_row(form.logistic_leader, { 'attr': {'class': 'leader'}}) }}
                     </div>
                 </div>
             </div>
@@ -97,7 +103,7 @@
     {{ form_end(form) }}
 </div>
 
-{% block javascript%}
+{% block javascripts%}
     <script>   
         $('.clockpicker').clockpicker();
         $('.datepicker').datepicker();

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+
+<link rel="stylesheet" href="{{ asset('css/check_list_validator.css') }}" />
+{% endblock %}
+{% block title %}Check list{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Check liste logistique</h1>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au calendrier</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+  <legend>Validez la check liste suivante</legend>
+  <div>
+    <input type="checkbox" id="cl1" name="interest" value="cl1" />
+    <label for="cl1">Est-ce une Expédition ?</label>
+    <ul>
+        <li>
+            <input type="radio" id="yes" name="drone" value="yes">
+            <label for="yes">Oui</label>
+        </li>
+        <li>
+            <input type="radio" id="no" name="drone" value="no">
+            <label for="no">Non</label>
+        </li>
+    </ul>
+  </div>
+  <div>
+    <input type="checkbox" id="music" name="interest" value="music" />
+    <label for="music">Est-ce une réception d'alcool ?</label>
+    <li>
+        <input type="radio" id="yes" name="drone" value="yes">
+        <label for="yes">Oui</label>
+    </li>
+    <li>
+        <input type="radio" id="no" name="drone" value="no">
+        <label for="no">Non</label>
+    </li>
+  </div>
+</fieldset>
+        </div>
+    </div>
+</div>
+{% endblock %}

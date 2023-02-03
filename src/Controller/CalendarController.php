@@ -68,25 +68,32 @@ class CalendarController extends AbstractController
         } elseif ($this->getUser()->getRoles() == ["ROLE_USER"]) {
             return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
         }
-    
         $this->denyAccessUnlessGranted("ROLE_ADMIN");
         
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if($calendar->isSpeedSave()){
-                $calendar->setBackgroundColor('orange');
+                $calendar->setBackgroundColor('red');
                 $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_calendar');
             }
-            if($calendar->getChecked() == $calendar->getDriver()->getCode()){
+            if($calendar->getValidatedBy() == $calendar->getLogisticLeader()->getCode()){
                 $calendar->setBackgroundColor('green');
+                return $this->redirectToRoute('app_check_list_validator');
+                $calendarRepository->save($calendar, true);
+                $mailEvent = new MailEvent($calendar);
+                $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                return $this->redirectToRoute('app_calendar');
+            }
+            if($calendar->getChecked() == $calendar->getDriver()->getCode()){
+                $calendar->setBackgroundColor('orange');
                 $calendarRepository->save($calendar, true);
                 $mailEvent = new MailEvent($calendar);
                 $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
                 return $this->redirectToRoute('app_calendar');
             }else {
-                $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou valider sans contrôle avec le code 0000');
+                $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou faire une modification rapide en cochant la case en bas du formulaire');
             }
         }
 

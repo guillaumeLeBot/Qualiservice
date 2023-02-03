@@ -77,6 +77,12 @@ class Calendar
     #[ORM\Column(nullable: true)]
     private ?bool $speedSave = null;
 
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?LogisticLeader $logisticLeader = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $validatedBy = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -330,6 +336,30 @@ class Calendar
     public function setSpeedSave(?bool $speedSave): self
     {
         $this->speedSave = $speedSave;
+
+        return $this;
+    }
+
+    public function getLogisticLeader(): ?LogisticLeader
+    {
+        return $this->logisticLeader;
+    }
+
+    public function setLogisticLeader(?LogisticLeader $logisticLeader): self
+    {
+        $this->logisticLeader = $logisticLeader;
+
+        return $this;
+    }
+
+    public function getValidatedBy(): ?string
+    {
+        return $this->validatedBy;
+    }
+
+    public function setValidatedBy(?string $validatedBy): self
+    {
+        $this->validatedBy = $validatedBy;
 
         return $this;
     }

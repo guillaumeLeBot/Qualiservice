@@ -15,7 +15,12 @@
 .speedSave {
     display: none;
 }
-
+.leader {
+    display: none;
+}
+.validated {
+    display: none;
+}
 
  
 
