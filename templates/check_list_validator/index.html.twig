@@ -1,53 +1,137 @@
-{% extends 'base.html.twig' %}
 {% block stylesheets %}
-
 <link rel="stylesheet" href="{{ asset('css/check_list_validator.css') }}" />
 {% endblock %}
-{% block title %}Check list{% endblock %}
 
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <h1>Check liste logistique</h1>
+        <div class="col-md-6">
+            <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au
+                calendrier</button>
         </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
-            <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au calendrier</button>
+            <h1>Check liste logistique</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <fieldset>
+                    <legend>Validez la check liste suivante</legend>
+                    <div>
+                        <input type="checkbox" id="cl1" name="expedition" value="cl1" onchange="showExpedition()" />
+                        <label for="cl1">Est-ce une expédition ?</label>
+                        <ul id="expedition" style="display: none;">
+                            <div>
+                                <input type="checkbox" id="cl2" name="chargeable" value="cl2"
+                                    onchange="showChargeable()" />
+                                <label for="cl2">Est-ce une Expédition refacturable ?</label>
+                                <ul id="chargeable" style="display: none;">
+                                    <li>
+                                        <input type="text" class="chargeable" name="chargeable" value="">
+                                        <label for="yes">Montant du coût de transport </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="cl5" name="check" value="cl5" onchange="showProduct()" />
+                        <label for="cl5">Est-ce une reception ?</label>
+                        <ul id="check" style="display: none;">
+                            <div>
+                                <label for="cl6">Les bons de livraison et les documents de transport ont-ils été vérifés ?</label>
+                                <ul id="doc">
+                                    <li>
+                                        <input type="checkbox" id="productYes" name="product" value="">
+                                        <label for="yes">Oui</label>
+                                    </li>
+                                    
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="cl3" name="alcool" value="cl3" onchange="showAlcool()" />
+                        <label for="cl3">Est-ce une reception d'alcool ?</label>
+                        <ul id="alcool" style="display: none;">
+                            <div>
+                                <label for="cl4">Les formalités douanières ont-elles été effectuées ?</label>
+                                <ul id="douanne">
+                                    <li>
+                                        <input type="checkbox" id="customsYes" name="customs" value="">
+                                        <label for="yes">Oui</label>
+                                    </li>
+                                    <li>Obsevation éventuelle d'appurement
+                                    </li>
+                                    <li>
+                                        <textarea id="appurement" name="customs" rows="4" cols="50" value="plpo"> </textarea>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                    <div>
+                        <label for="avatar">Importer des documents de transport</label>
+                        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                    </div>
+                    <div class="col-md-6">
+                        <button class="green" type="button" onclick="window.location.href='/calendar/view'">Valider la réception</button>
+                    </div>
+                </fieldset>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <fieldset>
-  <legend>Validez la check liste suivante</legend>
-  <div>
-    <input type="checkbox" id="cl1" name="interest" value="cl1" />
-    <label for="cl1">Est-ce une Expédition ?</label>
-    <ul>
-        <li>
-            <input type="radio" id="yes" name="drone" value="yes">
-            <label for="yes">Oui</label>
-        </li>
-        <li>
-            <input type="radio" id="no" name="drone" value="no">
-            <label for="no">Non</label>
-        </li>
-    </ul>
-  </div>
-  <div>
-    <input type="checkbox" id="music" name="interest" value="music" />
-    <label for="music">Est-ce une réception d'alcool ?</label>
-    <li>
-        <input type="radio" id="yes" name="drone" value="yes">
-        <label for="yes">Oui</label>
-    </li>
-    <li>
-        <input type="radio" id="no" name="drone" value="no">
-        <label for="no">Non</label>
-    </li>
-  </div>
-</fieldset>
-        </div>
-    </div>
-</div>
-{% endblock %}
+    {% endblock %}
+    {% block javascripts %}
+    <script>
+        function showExpedition() {
+            var checkbox = document.getElementById("cl1");
+            var radioInput = document.getElementById("expedition");
+            if (checkbox.checked) {
+                radioInput.style.display = "block";
+            } else {
+                radioInput.style.display = "none";
+            }
+        }
+        function showChargeable() {
+            var checkbox = document.getElementById("cl2");
+            var radioInput = document.getElementById("chargeable");
+            if (checkbox.checked) {
+                radioInput.style.display = "block";
+            } else {
+                radioInput.style.display = "none";
+            }
+        }
+        function showProduct() {
+            var checkbox = document.getElementById("cl5");
+            var radioInput = document.getElementById("check");
+            if (checkbox.checked) {
+                radioInput.style.display = "block";
+            } else {
+                radioInput.style.display = "none";
+            }
+        }
+        function showAlcool() {
+            var checkbox = document.getElementById("cl3");
+            var radioInput = document.getElementById("alcool");
+            if (checkbox.checked) {
+                radioInput.style.display = "block";
+            } else {
+                radioInput.style.display = "none";
+            }
+        }
+        
+        const checkbox = document.getElementsByName('customs');
+
+        for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].addEventListener("click", function () {
+                for (let j = 0; j < checkbox.length; j++) {
+                    checkbox[j].checked = false;
+                }
+                this.checked = true;
+            });
+        }
+
+    </script>
+    {% endblock %}

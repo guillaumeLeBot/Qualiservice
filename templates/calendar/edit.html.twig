@@ -42,22 +42,23 @@
                         </div>
                     </div>
                     <div class="row">
+                        <span class="span-leader">Validez définitivement votre reception / expédition avec votre code responsable logistique</span>
                         <div class="col md-4">
                             {{ form_row(form.logistic_leader) }}
                         </div>
                         <div class="col md-4">
                             {{ form_row(form.validated_by, { 'attr': { 'autocomplete': 'off' } }) }}
                         </div>
-                        <div class="ckeck btn btn-info" id="check-list" >CheckList</div>
+                        
                     </div>
                     <div class="row">
+                        <span class="span-cariste">Validez le contrôle de votre reception / expédition avec votre code cariste</span>
                         <div class="col md-4">
                             {{ form_row(form.driver) }}
                         </div>
                         <div class="col md-4">
                             {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col md-6 clockpicker">
@@ -142,39 +143,9 @@
             {{ include('calendar/_delete_form.html.twig') }}
         </div>
     </div>
+    
     {% endblock %}
     {% block javascripts %}
-    <script>
-        var checkListButton = document.getElementById('check-list');
-        var modal = document.createElement('div');
-        modal.style.position = 'fixed';
-        modal.style.top = '50%';
-        modal.style.left = '50%';
-        modal.style.transform = 'translate(-50%, -50%)';
-        modal.style.backgroundColor = '#61677c';
-        modal.style.padding = '70px';
-        modal.style.width = '600px';
-        modal.style.height = '900px';
-
-        var checkboxes = [
-        { value: 'expedition', label: 'Expedition' },
-        { value: 'reception', label: 'Reception' },
-        { value: 'alcool', label: 'Alcool' },
-        { value: 'douanne', label: 'Douane' },
-        ];
-
-        var checkboxFields = '';
-        checkboxes.forEach(function(checkbox) {
-        checkboxFields += '<div><input type="checkbox" id="' + checkbox.value + '" value="' + checkbox.value + '">' + '<label for="' + checkbox.value + '">' + checkbox.label + '</label></div>';
-        });
-        var textFields = '<div><input type="text" id="text-field-1" value="Douanne">Douanne</div>' + '<div><input type="text" id="text-field-2" value="">Refacturable</div>';
-
-        var validateButton = '<button id="validate-button">Validate</button>';
-
-        modal.innerHTML = checkboxFields + validateButton;
-
-        checkListButton.addEventListener('click', function() {
-        document.body.appendChild(modal);
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        
     {% endblock %}
