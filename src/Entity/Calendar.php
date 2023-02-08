@@ -71,17 +71,29 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Dock $dock = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $checked = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $speedSave = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $checked = null;
 
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?LogisticLeader $logisticLeader = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $checked_at = null;
+
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $validatedBy = null;
+    private ?string $checked_by = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $validated = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $validated_at = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $validated_by = null;
 
     public function getId(): ?int
     {
@@ -352,14 +364,62 @@ class Calendar
         return $this;
     }
 
-    public function getValidatedBy(): ?string
+    public function getCheckedAt(): ?\DateTimeImmutable
     {
-        return $this->validatedBy;
+        return $this->checked_at;
     }
 
-    public function setValidatedBy(?string $validatedBy): self
+    public function setCheckedAt(?\DateTimeImmutable $checked_at): self
     {
-        $this->validatedBy = $validatedBy;
+        $this->checked_at = $checked_at;
+
+        return $this;
+    }
+
+    public function getCheckedBy(): ?string
+    {
+        return $this->checked_by;
+    }
+
+    public function setCheckedBy(?string $checked_by): self
+    {
+        $this->checked_by = $checked_by;
+
+        return $this;
+    }
+
+    public function getValidated(): ?string
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(?string $validated): self
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    public function getValidatedAt(): ?\DateTimeImmutable
+    {
+        return $this->validated_at;
+    }
+
+    public function setValidatedAt(?\DateTimeImmutable $validated_at): self
+    {
+        $this->validated_at = $validated_at;
+
+        return $this;
+    }
+
+    public function getValidatedBy(): ?string
+    {
+        return $this->validated_by;
+    }
+
+    public function setValidatedBy(?string $validated_by): self
+    {
+        $this->validated_by = $validated_by;
 
         return $this;
     }

@@ -8,6 +8,9 @@ use App\Entity\Driver;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
+use DateTime;
+use DateTimeImmutable;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,15 +81,23 @@ class CalendarController extends AbstractController
                 $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_calendar');
             }
-            if($calendar->getValidatedBy() == $calendar->getLogisticLeader()->getCode()){
+            if($calendar->getValidated() == $calendar->getLogisticLeader()->getCode()){
+                $validate = new DateTimeImmutable();
+                $validatedBy = $calendar->getLogisticLeader()->getName();
+                $calendar->setValidatedAt($validate);
+                $calendar->setValidatedBy($validatedBy);
                 $calendar->setBackgroundColor('green');
-                return $this->redirectToRoute('app_check_list_validator');
+                // return $this->redirectToRoute('app_check_list_validator');
                 $calendarRepository->save($calendar, true);
                 $mailEvent = new MailEvent($calendar);
                 $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
                 return $this->redirectToRoute('app_calendar');
             }
             if($calendar->getChecked() == $calendar->getDriver()->getCode()){
+                $checked = new DateTimeImmutable();
+                $checkedBy = $calendar->getDriver()->getName();
+                $calendar->setCheckedAt($checked);
+                $calendar->setCheckedBy($checkedBy);
                 $calendar->setBackgroundColor('orange');
                 $calendarRepository->save($calendar, true);
                 $mailEvent = new MailEvent($calendar);

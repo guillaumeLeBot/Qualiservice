@@ -45,7 +45,7 @@ class CalendarType extends AbstractType
                 'label' => 'Code cariste',
                 'required' => false,
             ])
-            ->add('validated_by', PasswordType::class, [
+            ->add('validated', PasswordType::class, [
                 'label' => 'Code responsable',
                 'required' => false,
             ])
