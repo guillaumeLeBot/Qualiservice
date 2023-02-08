@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Building;
 use App\Entity\Calendar;
+use App\Entity\Driver;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
+use DateTime;
+use DateTimeImmutable;
+use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,16 +71,41 @@ class CalendarController extends AbstractController
         } elseif ($this->getUser()->getRoles() == ["ROLE_USER"]) {
             return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
         }
-    
         $this->denyAccessUnlessGranted("ROLE_ADMIN");
         
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $calendarRepository->save($calendar, true);
-            $mailEvent = new MailEvent($calendar);
-            $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
-            return $this->redirectToRoute('app_calendar');
+            if($calendar->isSpeedSave()){
+                $calendar->setBackgroundColor('red');
+                $calendarRepository->save($calendar, true);
+                return $this->redirectToRoute('app_calendar');
+            }
+            if($calendar->getValidated() == $calendar->getLogisticLeader()->getCode()){
+                $validate = new DateTimeImmutable();
+                $validatedBy = $calendar->getLogisticLeader()->getName();
+                $calendar->setValidatedAt($validate);
+                $calendar->setValidatedBy($validatedBy);
+                $calendar->setBackgroundColor('green');
+                // return $this->redirectToRoute('app_check_list_validator');
+                $calendarRepository->save($calendar, true);
+                $mailEvent = new MailEvent($calendar);
+                $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                return $this->redirectToRoute('app_calendar');
+            }
+            if($calendar->getChecked() == $calendar->getDriver()->getCode()){
+                $checked = new DateTimeImmutable();
+                $checkedBy = $calendar->getDriver()->getName();
+                $calendar->setCheckedAt($checked);
+                $calendar->setCheckedBy($checkedBy);
+                $calendar->setBackgroundColor('orange');
+                $calendarRepository->save($calendar, true);
+                $mailEvent = new MailEvent($calendar);
+                $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                return $this->redirectToRoute('app_calendar');
+            }else {
+                $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou faire une modification rapide en cochant la case en bas du formulaire');
+            }
         }
 
         return $this->render('calendar/edit.html.twig', [

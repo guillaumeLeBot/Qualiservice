@@ -56,6 +56,7 @@ class ApiController extends AbstractController
             }
 
             // On hydrate l'objet avec les données
+            $calendar->getId($donnees->id);
             $calendar->setTitle($donnees->title);
             $calendar->setBackgroundColor($donnees->backgroundColor);
             $calendar->setStart(new DateTime($donnees->start));

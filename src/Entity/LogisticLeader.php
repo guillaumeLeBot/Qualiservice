@@ -2,27 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\SupplierRepository;
+use App\Repository\LogisticLeaderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SupplierRepository::class)]
-class Supplier
+#[ORM\Entity(repositoryClass: LogisticLeaderRepository::class)]
+class LogisticLeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'supplier', targetEntity: Calendar::class)]
-    private Collection $calendars;
-
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $mail = null;
+    private ?string $code = null;
+
+    #[ORM\OneToMany(mappedBy: 'logisticLeader', targetEntity: Calendar::class)]
+    private Collection $calendars;
 
     public function __construct()
     {
@@ -39,9 +39,21 @@ class Supplier
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }
@@ -58,7 +70,7 @@ class Supplier
     {
         if (!$this->calendars->contains($calendar)) {
             $this->calendars->add($calendar);
-            $calendar->setSupplier($this);
+            $calendar->setLogisticLeader($this);
         }
 
         return $this;
@@ -68,22 +80,10 @@ class Supplier
     {
         if ($this->calendars->removeElement($calendar)) {
             // set the owning side to null (unless already changed)
-            if ($calendar->getSupplier() === $this) {
-                $calendar->setSupplier(null);
+            if ($calendar->getLogisticLeader() === $this) {
+                $calendar->setLogisticLeader(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(?string $mail): self
-    {
-        $this->mail = $mail;
 
         return $this;
     }

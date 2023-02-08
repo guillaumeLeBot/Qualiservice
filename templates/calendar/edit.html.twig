@@ -1,20 +1,151 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ asset('css/calendar_form.css') }}" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{ asset('css/calendar_edit_form.css') }}" />
 {% endblock %}
 {% block title %}Edit Calendar{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1 class="brand-title">Modification</h1>
-                <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au calendrier</button>
-                {{ include('calendar/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+{% for message in app.flashes('message') %}
+<div class="flash-error">{{ message }}</div>
+{% endfor %}
+{% if app.session.flashBag.has('message') %}
+<ul>
+    {% for message in app.session.flashBag.get('message') %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{# formulaire #}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="brand-title">Modification</h1>
+            <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au
+                calendrier</button>
+            <div class="container ">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col md-4">
+                            {{ form_row(form.title) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.command_number) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.pallets_number) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="span-leader">Validez définitivement votre reception / expédition avec votre code responsable logistique</span>
+                        <div class="col md-4">
+                            {{ form_row(form.logistic_leader) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <span class="span-cariste">Validez le contrôle de votre reception / expédition avec votre code cariste</span>
+                        <div class="col md-4">
+                            {{ form_row(form.driver) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6 clockpicker">
+                            {{ form_row(form.start) }}
+                        </div>
+                        <div class="col md-6 clockpicker">
+                            {{ form_row(form.end) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6 clockpicker">
+                            {{ form_row(form.come) }}
+                        </div>
+                        <div class="col md-3 clockpicker">
+                            {{ form_row(form.deparure) }}
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col md-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-4">
+                            {{ form_row(form.building) }}
+                        </div>
+                        <div id="form_dock" class="col md-4 form-dock-hidden">
+                            {{ form_row(form.dock) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.customer) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.supplier) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.description) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.platform) }}
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.comment) }}
+                        </div>
+                    </div>
+                    <div class="row color">
+                        <div class="col md-6">
+                            {{ form_row(form.background_color, { 'attr': {'class': 'bg-color'} }) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
+                        </div>
+                    </div>
+                </div>
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <button class="green">{{ button_label|default('Enregister') }}</button>
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.speed_save) }}
+                        </div>
+                    </div>
+                    {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+                    <button class="green">{{ button_label|default('Enregister') }}</button>
+                    {% endif %}
+
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
         <div class="row">
             {{ include('calendar/_delete_form.html.twig') }}
         </div>
     </div>
-{% endblock %}
+    
+    {% endblock %}
+    {% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        
+    {% endblock %}

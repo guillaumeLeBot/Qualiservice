@@ -21,6 +21,9 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Calendar::class)]
     private Collection $calendars;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mail = null;
+
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
@@ -69,6 +72,18 @@ class Customer
                 $calendar->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): self
+    {
+        $this->mail = $mail;
 
         return $this;
     }

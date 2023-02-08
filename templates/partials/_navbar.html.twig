@@ -14,7 +14,7 @@
         {% endif %}
         <div class="dot"></div>
         {% if app.user %}
-        Bienvenue, {{ app.user.userIdentifier }}, <a class="btn btn-danger"
+        Bonjour, {{ app.user.userIdentifier }}, <a class="btn btn-danger"
             href="{{ path('app_logout') }}">Déconnexion</a>
         {# {% else %}
         <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}

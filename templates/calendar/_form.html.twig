@@ -78,6 +78,20 @@
                 <div class="col md-6">
                     {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
                 </div>
+                <div class="row">
+                    <div class="col md-2">
+                        {{ form_row(form.checked, { 'attr': {'class': 'checked'}}) }}
+                    </div>
+                    <div class="col md-2">
+                        {{ form_row(form.validated, { 'attr': {'class': 'validated'}}) }}
+                    </div>
+                    <div class="col md-6">
+                        {{ form_row(form.speed_save, { 'attr': {'class': 'speedSave'}}) }}
+                    </div>
+                    <div class="col md-6">
+                        {{ form_row(form.logistic_leader, { 'attr': {'class': 'leader'}}) }}
+                    </div>
+                </div>
             </div>
     </div>
     {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
@@ -89,7 +103,7 @@
     {{ form_end(form) }}
 </div>
 
-{% block javascript%}
+{% block javascripts%}
     <script>   
         $('.clockpicker').clockpicker();
         $('.datepicker').datepicker();

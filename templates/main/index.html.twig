@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/calendarView.css') }}" />
@@ -9,11 +8,7 @@
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
 <div class="container">
-    {# {% for message in app.flashes('message') %}
-    <div class="flash-message">{{ message }}</div>
-    {% endfor %} #}
     <div class="row">
-
         <div class="col-md-12" id="calendar"></div>
     </div>
 </div>
@@ -47,6 +42,7 @@ window.onload = () => {
     calendar.on('eventChange', (e) => {
         let url = `/api/${e.event.id}/drag_edit`
         let donnees = {
+            "id": e.event.id,
             "title": e.event.title,
             "backgroundColor": e.event.backgroundColor,
             "start": e.event.start,

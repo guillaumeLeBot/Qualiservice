@@ -1,4 +1,4 @@
- .bg-color {
+.bg-color {
     display: none;
 }
 
@@ -9,20 +9,13 @@
 .color {
     display: none;
 }
-.checked {
-    display: none;
+.flash-error {
+    background-color: #a81a1a;
+    color: #fff;
+    padding: 15px;
+    font-size: 25px;
+    text-align: center;
 }
-.speedSave {
-    display: none;
-}
-.leader {
-    display: none;
-}
-.validated {
-    display: none;
-}
-
- 
 
 body,
 html {
@@ -39,18 +32,20 @@ button {
     letter-spacing: -0.2px;
     font-size: 20px;
 }
+
 h1 {
     font-size: 50px;
     text-shadow: -1px -1px #eee, 1px 1px #888, -3px 0 4px #000;
-    font-family: "Segoe print", Arial, Helvetica, sans-serif;
+    font-family: 'Segoe print', Arial, Helvetica, sans-serif;
     color: #ccc;
     padding: 50px;
-    letter-spacing: .2rem;
+    letter-spacing: 0.2rem;
     font-weight: lighter;
     text-align: center;
     display: inline;
     line-height: 150px;
 }
+
 div,
 p {
     color: #58585e;
@@ -68,8 +63,8 @@ form {
     text-align: center;
 }
 
-button,
-input {
+button
+ {
     border: 0;
     outline: 0;
     font-size: 16px;
@@ -85,19 +80,6 @@ label {
     width: 100%;
 }
 
-input {
-    margin-right: 8px;
-    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
-    width: 100%;
-    box-sizing: border-box;
-    transition: all 0.2s ease-in-out;
-    appearance: none;
-    -webkit-appearance: none;
-}
-
-input:focus {
-    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
-}
 
 button {
     color: #61677c;
@@ -143,6 +125,7 @@ button.red {
     font-size: 25px;
     font-weight: bolder;
 }
+
 button.green {
     display: block;
     width: 50%;
@@ -150,6 +133,7 @@ button.green {
     font-size: 25px;
     font-weight: bolder;
 }
+
 button.blue {
     display: block;
     width: 50%;
@@ -157,13 +141,24 @@ button.blue {
     font-size: 25px;
     font-weight: bolder;
 }
-.input-group {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+ /*Modal c*/
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
-.input-group label {
-    margin: 0;
-    flex: 1;
+.span-leader {
+    color: green;
+}
+.span-cariste {
+    color: orange;
 }
