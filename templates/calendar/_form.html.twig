@@ -99,6 +99,9 @@
     {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
         <button class="green">{{ button_label|default('Enregister') }}</button>
     {% endif %}
+    {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
+    <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% endif %}
         
     {{ form_end(form) }}
 </div>

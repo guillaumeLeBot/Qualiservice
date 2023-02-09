@@ -2,19 +2,24 @@
 
 namespace App\EventSubscriber;
 
+use DateTime;
 use App\Events\MailEvent;
+use DateTimeImmutable;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 
 class SendMailSubscriber implements EventSubscriberInterface
 {
     private $mailer;
+    private $entityManager;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager)
     {
         $this->mailer = $mailer;
+        $this->entityManager = $entityManager;
     } 
 
     public static function getSubscribedEvents()
@@ -26,20 +31,17 @@ class SendMailSubscriber implements EventSubscriberInterface
 
     public function sendMailToCustomer(MailEvent $mailEvent)
     {
+        $calendar = $mailEvent->getCalendar();
+        $calendar->setMailComeAt(new DateTimeImmutable());
+        $this->entityManager->persist($calendar);
+        $this->entityManager->flush();
             $email = (new Email())
                 ->from(new Address('logistique@qualiservice.fr', "service Logistique"))
                 ->to('developpement@qualiservice.fr')
                 ->subject('Confirmation départ camion')
                 ->text('Nous vous informons le Depart ce jour : de votre camion.'.$mailEvent->getCalendar()->getDeparure()->format('d-m-Y'));
             $this->mailer->send($email);
-            // $email = new Email();
-            // $email->from(new Address("developpement@qualiservice.fr", "Qualiservice"))
-            //         ->to("client@gmail.com")
-            //         ->text("Votre camion est bien parti de nos Entrepôts".$mailEvent->getCalendar()->getDeparure()->format('d-m-Y'))
-            //         ->subject("Départ Camion");
-            // $this->mailer->send($email);
-
-            // dd($email);
+            
 
     }
 }

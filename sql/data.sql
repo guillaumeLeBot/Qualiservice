@@ -18,19 +18,11 @@ INSERT INTO driver (name, code) VALUES ('Fabien', 'fab2023');
 
 INSERT INTO driver (name, code) VALUES ('Vivien', 'viv2023');
 
-INSERT INTO
-    `user` (
-        `id`,
-        `email`,
-        `roles`,
-        `password`
-    )
-VALUES (
-        1,
-        'developpement@qualiservice.fr',
-        '[\"ROLE_ADMIN\"]',
-        '$2y$13$E7t3sCxEUtbOT0wMpBd.8eMzL.Rjit.jllM2yAr4CeLwq21/r7cRa'
-    );
+INSERT INTO `user` (`id`, `email`, `roles`, `password`) VALUES
+(1, 'developpement@qualiservice.fr', '[\"ROLE_SUPER_ADMIN\"]', '$2y$13$E7t3sCxEUtbOT0wMpBd.8eMzL.Rjit.jllM2yAr4CeLwq21/r7cRa'),
+(2, 'test@qualiservice.fr', '[\"ROLE_USER\"]', '$2y$13$xTM8vvcprb1kPoERcwGR..jnkuy1FkJUFXrcI9lQBG.0OCsBgsAVu'),
+(3, 'admin@qualiservice.fr', '[\"ROLE_ADMIN\"]', '$2y$13$mgjvHj6pkM.Pwz0HTWQ6guVGonQwJWF76NAmQHPJbz7OMOaHv7DMu');
+
 
 INSERT INTO driver (name, code) VALUES ('Fred Pouille', 'fre2023');
 
@@ -148,106 +140,9 @@ INSERT INTO dock (name) VALUES ('2');
 
 INSERT INTO dock (name) VALUES ('3');
 
-INSERT INTO
-    `calendar` (
-        `id`,
-        `customer_id`,
-        `supplier_id`,
-        `driver_id`,
-        `building_id`,
-        `platform_id`,
-        `dock_id`,
-        `logistic_leader_id`,
-        `title`,
-        `start`,
-        `end`,
-        `description`,
-        `all_day`,
-        `background_color`,
-        `border_color`,
-        `text_color`,
-        `pallets_number`,
-        `comment`,
-        `come`,
-        `deparure`,
-        `command_number`,
-        `checked`,
-        `speed_save`,
-        `validated_by`
-    )
-VALUES (
-        1,
-        14,
-        2,
-        6,
-        1,
-        2,
-        1,
-        1,
-        'Expédition',
-        '2023-02-08 08:00:00',
-        '2023-02-08 09:00:00',
-        'Expédié/Contrôlée/enregistré',
-        NULL,
-        '#2B75D9',
-        NULL,
-        '#040404',
-        50,
-        NULL,
-        '1970-01-01 12:14:00',
-        '1970-01-01 12:14:00',
-        NULL,
-        NULL,
-        0,
-        NULL
-    ), (
-        2,
-        14,
-        2,
-        5,
-        1,
-        2,
-        1,
-        1,
-        'Reception',
-        '2023-02-08 10:00:00',
-        '2023-02-08 11:00:00',
-        'Expédié/Contrôlée/enregistré',
-        NULL,
-        '#2B75D9',
-        NULL,
-        '#040404',
-        25,
-        NULL,
-        '1970-01-01 12:14:00',
-        '1970-01-01 12:14:00',
-        NULL,
-        NULL,
-        0,
-        NULL
-    ), (
-        3,
-        14,
-        2,
-        2,
-        1,
-        2,
-        1,
-        1,
-        'Destruction',
-        '2023-02-08 13:00:00',
-        '2023-02-08 14:00:00',
-        'Expédié/Contrôlée/enregistré',
-        NULL,
-        '#2B75D9',
-        NULL,
-        '#040404',
-        35,
-        NULL,
-        '1970-01-01 12:15:00',
-        '1970-01-01 12:15:00',
-        NULL,
-        NULL,
-        0,
-        NULL
-    );
+INSERT INTO `calendar` (`id`, `customer_id`, `supplier_id`, `driver_id`, `building_id`, `platform_id`, `dock_id`, `logistic_leader_id`, `title`, `start`, `end`, `description`, `all_day`, `background_color`, `border_color`, `text_color`, `pallets_number`, `comment`, `come`, `deparure`, `command_number`, `speed_save`, `checked`, `checked_at`, `checked_by`, `validated`, `validated_at`, `validated_by`) VALUES
+(1, 14, 2, 6, 1, 2, 1, 1, 'Expédition', '2023-02-09 08:00:00', '2023-02-09 09:00:00', 'Expédié/Contrôlée/enregistré', NULL, 'green', NULL, '#040404', 50, NULL, '1970-01-01 12:14:00', '1970-01-01 12:14:00', NULL, 0, NULL, '2023-02-09 07:59:07', 'Alexis', 'fablead2023', '2023-02-09 12:58:11', 'Fabien'),
+(2, 14, 2, 5, 1, 2, 1, 1, 'Reception', '2023-02-09 09:30:00', '2023-02-09 10:30:00', 'Expédié/Contrôlée/enregistré', NULL, 'green', NULL, '#040404', 25, NULL, '1970-01-01 12:14:00', '1970-01-01 12:14:00', NULL, 0, NULL, '2023-02-09 13:57:45', 'Bruno', 'fablead2023', '2023-02-09 13:58:10', 'Fabien'),
+(3, 14, 2, 2, 1, 2, 1, 1, 'Destruction', '2023-02-09 12:30:00', '2023-02-09 13:30:00', 'Expédié/Contrôlée/enregistré', NULL, '#2B75D9', NULL, '#040404', 35, NULL, '1970-01-01 12:15:00', '1970-01-01 12:15:00', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, 14, 2, 6, 1, 2, 1, 1, 'Destruction', '2023-02-09 10:56:00', '2023-02-09 11:56:00', 'Expédié/Contrôlée/enregistré', NULL, '#2B75D9', NULL, '#040404', 50, NULL, '1970-01-01 12:26:00', '1970-01-01 12:26:00', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 14, 2, 2, 1, 2, 1, 1, 'Expédition', '2023-02-09 14:06:00', '2023-02-09 15:06:00', 'Expédié/Contrôlée/enregistré', NULL, '#2B75D9', NULL, '#040404', 10, NULL, '1970-01-01 14:06:00', '1970-01-01 14:06:00', NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL);

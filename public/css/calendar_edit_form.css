@@ -9,6 +9,7 @@
 .color {
     display: none;
 }
+
 .flash-error {
     background-color: #a81a1a;
     color: #fff;
@@ -161,4 +162,14 @@ button.blue {
 }
 .span-cariste {
     color: orange;
+}
+#validated-lead{
+    color: green;
+    font-weight: bold;
+    font-size: 23px;
+}
+#checked-driver{
+    color: orange;
+    font-weight: bold;
+    font-size: 23px;
 }

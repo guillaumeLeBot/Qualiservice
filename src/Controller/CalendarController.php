@@ -31,7 +31,7 @@ class CalendarController extends AbstractController
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CalendarRepository $calendarRepository): Response
     {
-        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
             return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
         }
         $calendar = new \DateTime($request->query->get('start'));
@@ -107,7 +107,6 @@ class CalendarController extends AbstractController
                 $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou faire une modification rapide en cochant la case en bas du formulaire');
             }
         }
-
         return $this->render('calendar/edit.html.twig', [
             'calendar' => $calendar,
             'form' => $form->createView(),

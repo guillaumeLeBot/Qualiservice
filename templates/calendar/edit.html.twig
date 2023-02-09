@@ -24,7 +24,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
+            {% if calendar.validatedAt is not empty %}
+                <h1>Consultation</h1>
+            {% else %}
             <h1 class="brand-title">Modification</h1>
+            {% endif %}
             <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au
                 calendrier</button>
             <div class="container ">
@@ -42,16 +46,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <span class="span-leader">Validez définitivement votre reception / expédition avec votre code responsable logistique</span>
-                        <div class="col md-4">
-                            {{ form_row(form.logistic_leader) }}
-                        </div>
-                        <div class="col md-4">
-                            {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
-                        </div>
-                        
-                    </div>
-                    <div class="row">
+                        {% if calendar.checkedAt is not empty %}
+                            <span id="checked-driver">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</span>
+                            <div class="col md-4" style="display:none">
+                                {{ form_row(form.driver) }}
+                            </div>
+                            <div class="col md-4" style="display:none">
+                                {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
+                            </div>
+                        {% else %}
                         <span class="span-cariste">Validez le contrôle de votre reception / expédition avec votre code cariste</span>
                         <div class="col md-4">
                             {{ form_row(form.driver) }}
@@ -59,7 +62,38 @@
                         <div class="col md-4">
                             {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
                         </div>
+                        {%endif%}
                     </div>
+                    <div class="row">
+                        {% if calendar.checkedAt is empty%}
+                            <span id="validated-lead" style="display:none">La validation définitive a été effectuée par {{calendar.validatedBy}} le : {{calendar.validatedAt}}</span>
+                            <div class="col md-4" style="display:none">
+                                {{ form_row(form.logistic_leader) }}
+                            </div>
+                            <div class="col md-4" style="display:none">
+                                {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                            </div>
+                        {%else%}
+                            {% if calendar.validatedAt is not empty%}
+                                <span id="validated-lead">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
+                                <div class="col md-4" style="display:none">
+                                    {{ form_row(form.logistic_leader) }}
+                                </div>
+                                <div class="col md-4" style="display:none">
+                                    {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                                </div>
+                            {% else %}
+                                <span class="span-leader">Validez définitivement votre réception/expédition avec votre code responsable logistique</span>
+                                <div class="col md-4">
+                                    {{ form_row(form.logistic_leader) }}
+                                </div>
+                                <div class="col md-4">
+                                    {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                                </div>
+                            {% endif %}
+                        {% endif%}
+                    </div>
+                    
                     <div class="row">
                         <div class="col md-6 clockpicker">
                             {{ form_row(form.start) }}
@@ -124,12 +158,21 @@
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                 <div class="container">
                     <div class="row">
+                        {% if calendar.validatedAt is not empty %}
+                        {% else %}
                         <div class="col-md-8">
                             <button class="green">{{ button_label|default('Enregister') }}</button>
                         </div>
-                        <div class="col md-4">
+                        {%endif%}
+                        {% if calendar.validatedAt is not empty %}
+                        <div class="col md-4 speed-save" style="display:none">
                             {{ form_row(form.speed_save) }}
                         </div>
+                        {% else %}
+                        <div class="col md-4 speed-save">
+                            {{ form_row(form.speed_save) }}
+                        </div>
+                        {% endif%}
                     </div>
                     {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
                     <button class="green">{{ button_label|default('Enregister') }}</button>
@@ -139,9 +182,12 @@
                 </div>
             </div>
         </div>
+        {% if calendar.validatedAt is not empty %}
+        {% else %}
         <div class="row">
             {{ include('calendar/_delete_form.html.twig') }}
         </div>
+        {% endif %}
     </div>
     
     {% endblock %}

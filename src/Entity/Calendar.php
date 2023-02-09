@@ -95,6 +95,12 @@ class Calendar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $validated_by = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $mailComeAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $mailDeparureAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -420,6 +426,30 @@ class Calendar
     public function setValidatedBy(?string $validated_by): self
     {
         $this->validated_by = $validated_by;
+
+        return $this;
+    }
+
+    public function getMailComeAt(): ?\DateTimeImmutable
+    {
+        return $this->mailComeAt;
+    }
+
+    public function setMailComeAt(?\DateTimeImmutable $mailComeAt): self
+    {
+        $this->mailComeAt = $mailComeAt;
+
+        return $this;
+    }
+
+    public function getMailDeparureAt(): ?\DateTimeImmutable
+    {
+        return $this->mailDeparureAt;
+    }
+
+    public function setMailDeparureAt(?\DateTimeImmutable $mailDeparureAt): self
+    {
+        $this->mailDeparureAt = $mailDeparureAt;
 
         return $this;
     }

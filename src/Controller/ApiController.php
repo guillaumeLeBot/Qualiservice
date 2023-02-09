@@ -16,7 +16,7 @@ class ApiController extends AbstractController
     #[Route('/api', name: 'api')]
     public function index()
     {
-         if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
             return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
         }
         return $this->render('api/index.html.twig', [
@@ -29,7 +29,7 @@ class ApiController extends AbstractController
 
     public function majEvent(?Calendar $calendar, Request $request, ManagerRegistry $doctrine)
     {
-         if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles())) {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
             return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
         }
         $em = $doctrine->getManager();
@@ -42,6 +42,10 @@ class ApiController extends AbstractController
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->end) && !empty($donnees->end)
         ){
+            // Check if calendar has been validated
+        if($calendar->getValidatedAt() !== null) {
+            return new Response('<script>alert("This event cannot be edited because it has already been validated"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
+        }
             // Les données sont complètes
             // On initialise un code
             $code = 200;
