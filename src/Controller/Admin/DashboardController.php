@@ -5,8 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Customer;
+use App\Entity\LogisticLeader;
 use App\Entity\Platform;
 use App\Entity\Supplier;
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -43,6 +45,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Client', 'fas fa-list', Customer::class);
         yield MenuItem::linkToCrud('Fournisseurs', 'fas fa-list', Supplier::class);
         yield MenuItem::linkToCrud('Platforme', 'fas fa-list', Platform::class);
+        yield MenuItem::linkToCrud('Responsable logistique', 'fas fa-list',LogisticLeader::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
 
     }
 }

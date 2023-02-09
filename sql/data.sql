@@ -1,10 +1,6 @@
-INSERT INTO
-    logistic_leader (name, code)
-VALUES ('Fabien', 'fablead2023');
+INSERT INTO logistic_leader (name, code) VALUES ('Fabien', 'fablead2023');
 
-INSERT INTO
-    logistic_leader (name, code)
-VALUES ('Nathalie', 'natlead2023');
+INSERT INTO logistic_leader (name, code) VALUES ('Nathalie', 'natlead2023');
 
 INSERT INTO building (name) VALUES ('NON RENSEIGNE');
 
@@ -46,228 +42,85 @@ INSERT INTO driver (name, code) VALUES ('Alexis', 'ale2023');
 
 INSERT INTO driver (name, code) VALUES ('Autre', 'aut2023');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'NON RENSEIGNE',
-        'NoMail@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('NON RENSEIGNE', 'NoMail@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'C10PLAY',
-        'C10PLAY@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('C10PLAY', 'C10PLAY@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'Cartonnage Vaillant',
-        'Cartonnage.Vaillant@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('Cartonnage Vaillant', 'Cartonnage.Vaillant@example.fr');
 
 INSERT INTO supplier (name, mail) VALUES ('CHEP', 'CHEP@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'DISTRIPAC',
-        'DISTRIPAC@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('DISTRIPAC', 'DISTRIPAC@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'DS SMITH',
-        'DS.SMITH@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('DS SMITH', 'DS.SMITH@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES ('GEODIS', 'GEODIS@example.fr');
+INSERT INTO supplier (name, mail) VALUES ('GEODIS', 'GEODIS@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'GLOBAL CONCEPT',
-        'GLOBAL.CONCEPT@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('GLOBAL CONCEPT', 'GLOBAL.CONCEPT@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'INTERCARGO',
-        'INTERCARGO@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('INTERCARGO', 'INTERCARGO@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'LEGENDRE',
-        'LEGENDRE@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('LEGENDRE', 'LEGENDRE@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES ('MALIP', 'MALIP@example.fr');
+INSERT INTO supplier (name, mail) VALUES ('MALIP', 'MALIP@example.fr');
 
 INSERT INTO supplier (name, mail) VALUES ('MPO', 'MPO@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'ONDULYS',
-        'ONDULYS@example.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('ONDULYS', 'ONDULYS@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES ('CICAL', 'CICAL@exemple.fr');
+INSERT INTO supplier (name, mail) VALUES ('CICAL', 'CICAL@exemple.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES ('SITCO', 'SITCO@example.fr');
+INSERT INTO supplier (name, mail) VALUES ('SITCO', 'SITCO@example.fr');
 
-INSERT INTO
-    supplier (name, mail)
-VALUES (
-        'SLEEVE CONCEPT',
-        'SLEEVE.CONCEPT@exemple.fr'
-    );
+INSERT INTO supplier (name, mail) VALUES ('SLEEVE CONCEPT', 'SLEEVE.CONCEPT@exemple.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'NON RENSEIGNE',
-        'NoMail@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('NON RENSEIGNE', 'NoMail@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'GERRESHEIMER',
-        'GERRESHEIMER@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('GERRESHEIMER', 'GERRESHEIMER@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'GOLIATE',
-        'GOLIATE@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('GOLIATE', 'GOLIATE@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'INTERCOSMETIQUES',
-        'INTERCOSMETIQUES@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('INTERCOSMETIQUES', 'INTERCOSMETIQUES@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES ('JOONE', 'JOONE@example.fr');
+INSERT INTO customer (name, mail) VALUES ('JOONE', 'JOONE@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'JULIETTE HAS A GUN',
-        'JULIETTE.HAS.A.GUN@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('JULIETTE HAS A GUN', 'JULIETTE.HAS.A.GUN@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'LABORATOIRE NATIVE',
-        'LABORATOIRE0.NATIVE@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('LABORATOIRE NATIVE', 'LABORATOIRE0.NATIVE@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES ('LEBON', 'LEBON@example.fr');
+INSERT INTO customer (name, mail) VALUES ('LEBON', 'LEBON@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'LESIEUR',
-        'LESIEUR@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('LESIEUR', 'LESIEUR@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'LIBRAMONT',
-        'LIBRAMONT@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('LIBRAMONT', 'LIBRAMONT@example.fr');
 
 INSERT INTO customer (name, mail) VALUES ('LVMH', 'LVMH@example.fr');
 
 INSERT INTO customer (name, mail) VALUES ('MPO', 'MPO@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES ('NOCIBE', 'NOCIBE@example.fr');
+INSERT INTO customer (name, mail) VALUES ('NOCIBE', 'NOCIBE@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES ('CICAL', 'CICAL@example.fr');
+INSERT INTO customer (name, mail) VALUES ('CICAL', 'CICAL@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES ('SITCO', 'SITCO@example.fr');
+INSERT INTO customer (name, mail) VALUES ('SITCO', 'SITCO@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'PERNOD RICARD STOCKAGE',
-        'PERNOD.RICARD.STOCKAGE@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('PERNOD RICARD STOCKAGE', 'PERNOD.RICARD.STOCKAGE@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'SMURFIT KAPPA',
-        'SMURFIT.KAPPA@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('SMURFIT KAPPA', 'SMURFIT.KAPPA@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'SOFIBEL',
-        'SOFIBEL@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('SOFIBEL', 'SOFIBEL@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'SOPROCOS',
-        'SOPROCOS@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('SOPROCOS', 'SOPROCOS@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'STRATUS PACKAING',
-        'STRATUS.PACKAING@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('STRATUS PACKAING', 'STRATUS.PACKAING@example.fr');
 
 INSERT INTO customer (name, mail) VALUES ('TWF', 'TWF@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'VAPEXPO',
-        'VAPEXPO@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('VAPEXPO', 'VAPEXPO@example.fr');
 
 INSERT INTO customer (name, mail) VALUES ('CORA', 'CORA@example.fr');
 
-INSERT INTO
-    customer (name, mail)
-VALUES (
-        'STOEIZIE',
-        'STOEIZIE@example.fr'
-    );
+INSERT INTO customer (name, mail) VALUES ('STOEIZIE', 'STOEIZIE@example.fr');
 
 INSERT INTO platform (name) VALUES ('NON RENSEIGNE');
 

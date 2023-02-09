@@ -9,6 +9,8 @@
         <a href="/driver">Planning Caristes</a>
         {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
         <a href="/admin">Configuration</a>
+        {% elseif app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
+        <a href="/admin">Configuration</a>
         {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
         <a href="/admin">Configuration</a>
         {% endif %}
