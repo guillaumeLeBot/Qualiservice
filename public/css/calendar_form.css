@@ -21,8 +21,12 @@
 .validated {
     display: none;
 }
-
- 
+.come {
+    display: none;
+}
+.deparure {
+    display: none;
+}
 
 body,
 html {

@@ -25,20 +25,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col md-6 clockpicker">
-                    {{ form_row(form.come) }}
-                </div>
-                <div class="col md-6 clockpicker">
-                    {{ form_row(form.deparure) }}
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col md-6">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col md-4">
                     {{ form_row(form.building) }}
                 </div>
@@ -90,6 +76,12 @@
                     </div>
                     <div class="col md-6">
                         {{ form_row(form.logistic_leader, { 'attr': {'class': 'leader'}}) }}
+                    </div>
+                    {# <div class="col md-6">
+                        {{ form_row(form.emailComeAt, { 'attr': {'class': 'come'}}) }}
+                    </div>
+                    <div class="col md-6">
+                        {{ form_row(form.emailDeparureAt, { 'attr': {'class': 'deparure'}}) }} #}
                     </div>
                 </div>
             </div>

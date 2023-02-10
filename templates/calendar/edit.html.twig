@@ -31,6 +31,67 @@
             {% endif %}
             <button class="blue" type="button" onclick="window.location.href='/calendar/view'">Retour au
                 calendrier</button>
+            <div class="container-fluid">
+                <div class="col md-6">
+                    <ul>
+                        {% if calendar.checkedAt is empty %}
+                        <li style="display:none">
+                            {% if calendar.checkedAt is not empty %}
+                                <span id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.checkedAt is not empty %}
+                                <span id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+
+                        {% if calendar.validatedAt is empty%}
+                        <li style="display: none;">
+                            {% if calendar.validatedAt is not empty%}
+                                <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.validatedAt is not empty%}
+                                <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+
+                        {% if calendar.emailComeAt is empty %}
+                            <li style="display:none;">
+                                {% if calendar.emailComeAt is not empty %}
+                                <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le client {{ calendar.customer.name}}</span>
+                                {% endif%}
+                            </li>
+                        {% else %}
+                            <li>
+                                {% if calendar.emailComeAt is not empty %}
+                                <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le client {{ calendar.customer.name}}</span>
+                                {% endif%}
+                            </li>
+                        {% endif%}
+
+                        {% if calendar.emailDeparureAt is empty %}
+                            <li style="display: none;">
+                                {% if calendar.emailDeparureAt is not empty %}
+                                <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers le fournisseur {{ calendar.supplier.name}}</span>
+                                {% endif %}
+                            </li>
+                        {% else %}
+                            <li>
+                                {% if calendar.emailDeparureAt is not empty %}
+                                <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers le fournisseur {{ calendar.supplier.name}}</span>
+                                {% endif %}
+                            </li>
+                        {% endif%}
+                    </ul>
+                </div>    
+            </div>
             <div class="container ">
                 {{ form_start(form) }}
                 <div class="form-group">
@@ -47,7 +108,6 @@
                     </div>
                     <div class="row">
                         {% if calendar.checkedAt is not empty %}
-                            <span id="checked-driver">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</span>
                             <div class="col md-4" style="display:none">
                                 {{ form_row(form.driver) }}
                             </div>
@@ -66,7 +126,6 @@
                     </div>
                     <div class="row">
                         {% if calendar.checkedAt is empty%}
-                            <span id="validated-lead" style="display:none">La validation définitive a été effectuée par {{calendar.validatedBy}} le : {{calendar.validatedAt}}</span>
                             <div class="col md-4" style="display:none">
                                 {{ form_row(form.logistic_leader) }}
                             </div>
@@ -75,7 +134,6 @@
                             </div>
                         {%else%}
                             {% if calendar.validatedAt is not empty%}
-                                <span id="validated-lead">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
                                 <div class="col md-4" style="display:none">
                                     {{ form_row(form.logistic_leader) }}
                                 </div>
@@ -100,20 +158,6 @@
                         </div>
                         <div class="col md-6 clockpicker">
                             {{ form_row(form.end) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col md-6 clockpicker">
-                            {{ form_row(form.come) }}
-                        </div>
-                        <div class="col md-3 clockpicker">
-                            {{ form_row(form.deparure) }}
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col md-6">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -164,7 +208,7 @@
                             <button class="green">{{ button_label|default('Enregister') }}</button>
                         </div>
                         {%endif%}
-                        {% if calendar.validatedAt is not empty %}
+                        {% if calendar.validatedAt is not empty or calendar.checkedAt is not empty%}
                         <div class="col md-4 speed-save" style="display:none">
                             {{ form_row(form.speed_save) }}
                         </div>

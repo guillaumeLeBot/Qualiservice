@@ -2,9 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use DateTime;
 use App\Events\MailEvent;
-use DateTimeImmutable;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,21 +24,35 @@ class SendMailSubscriber implements EventSubscriberInterface
     {
         return [
             'sendMail.customer' => 'sendMailToCustomer',
+            'sendMail.supplier' => 'sendMAilToSupplier',
         ];
     }
 
     public function sendMailToCustomer(MailEvent $mailEvent)
     {
         $calendar = $mailEvent->getCalendar();
-        $calendar->setMailComeAt(new DateTimeImmutable());
         $this->entityManager->persist($calendar);
         $this->entityManager->flush();
             $email = (new Email())
                 ->from(new Address('logistique@qualiservice.fr', "service Logistique"))
                 ->to('developpement@qualiservice.fr')
                 ->subject('Confirmation départ camion')
-                ->text('Nous vous informons le Depart ce jour : de votre camion.'.$mailEvent->getCalendar()->getDeparure()->format('d-m-Y'));
-            $this->mailer->send($email);
+                ->text('Nous vous informons le Depart ce jour : de votre camion.');
+                $this->mailer->send($email);
+            
+
+    }
+    public function sendMAilToSupplier(MailEvent $mailEvent)
+    {
+        $calendar = $mailEvent->getCalendar();
+        $this->entityManager->persist($calendar);
+        $this->entityManager->flush();
+            $email = (new Email())
+                ->from(new Address('logistique@qualiservice.fr', "service Logistique"))
+                ->to('developpement@qualiservice.fr')
+                ->subject('Confirmation départ camion')
+                ->text('Nous vous informons le Depart ce jour : de votre camion.');
+                $this->mailer->send($email);
             
 
     }

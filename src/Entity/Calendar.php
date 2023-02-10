@@ -56,12 +56,6 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Building $building = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $come = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $deparure = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $commandNumber = null;
 
@@ -95,11 +89,11 @@ class Calendar
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $validated_by = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $mailComeAt = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $emailComeAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $mailDeparureAt = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $emailDeparureAt = null;
 
     public function getId(): ?int
     {
@@ -274,30 +268,6 @@ class Calendar
         return $this;
     }
 
-    public function getCome(): ?\DateTimeInterface
-    {
-        return $this->come;
-    }
-
-    public function setCome(?\DateTimeInterface $come): self
-    {
-        $this->come = $come;
-
-        return $this;
-    }
-
-    public function getDeparure(): ?\DateTimeInterface
-    {
-        return $this->deparure;
-    }
-
-    public function setDeparure(?\DateTimeInterface $deparure): self
-    {
-        $this->deparure = $deparure;
-
-        return $this;
-    }
-
     public function getCommandNumber(): ?string
     {
         return $this->commandNumber;
@@ -429,27 +399,27 @@ class Calendar
 
         return $this;
     }
-
-    public function getMailComeAt(): ?\DateTimeImmutable
+    
+    public function getEmailComeAt(): ?\DateTimeInterface
     {
-        return $this->mailComeAt;
+        return $this->emailComeAt;
     }
 
-    public function setMailComeAt(?\DateTimeImmutable $mailComeAt): self
+    public function setEmailComeAt(?\DateTimeInterface $emailComeAt): self
     {
-        $this->mailComeAt = $mailComeAt;
+        $this->emailComeAt = $emailComeAt;
 
         return $this;
     }
 
-    public function getMailDeparureAt(): ?\DateTimeImmutable
+    public function getEmailDeparureAt(): ?\DateTimeInterface
     {
-        return $this->mailDeparureAt;
+        return $this->emailDeparureAt;
     }
 
-    public function setMailDeparureAt(?\DateTimeImmutable $mailDeparureAt): self
+    public function setEmailDeparureAt(?\DateTimeInterface $emailDeparureAt): self
     {
-        $this->mailDeparureAt = $mailDeparureAt;
+        $this->emailDeparureAt = $emailDeparureAt;
 
         return $this;
     }

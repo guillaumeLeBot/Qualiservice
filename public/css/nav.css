@@ -45,9 +45,9 @@ nav a:before {
 
 nav a:after {
     top: 5px;
-    left: 18px;
-    width: 10px;
-    height: 10px;
+    left: 11px;
+    width: 8px;
+    height: 8px;
 }
 
 nav a:nth-child(1):before {

@@ -163,13 +163,9 @@ button.blue {
 .span-cariste {
     color: orange;
 }
-#validated-lead{
-    color: green;
-    font-weight: bold;
-    font-size: 23px;
-}
-#checked-driver{
-    color: orange;
-    font-weight: bold;
-    font-size: 23px;
+
+#info{
+    font-size: 16px;
+    font-weight: bolder;
+    font-style: italic;
 }

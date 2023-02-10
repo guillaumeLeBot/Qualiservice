@@ -11,6 +11,7 @@ use App\Entity\Platform;
 use App\Entity\Supplier;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
+use Symfony\Component\Form\FormEvent;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
@@ -19,12 +20,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\HttpFoundation\Request;
 
 class CalendarType extends AbstractType
 {
@@ -69,20 +70,15 @@ class CalendarType extends AbstractType
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
             
-            ->add('come', TimeType::class, [
-                'label' => 'Arrivée camion',
-                'widget' => 'choice',
-                'hours' => range(8, 18),
-                'data' => $builder->getData() && $builder->getData()->getCome() ? $builder->getData()->getCome() : new \DateTime(),
+            // ->add('emailComeAt', DateTimeType::class, [
+            //     'label' => 'Envoi mail arrivée camion',
+            //     'required' => false,
+            // ])
+            // ->add('emailDeparureAt', DateTimeType::class, [
+            //     'label' => 'Envoi mail Départ camion',
+            //     'required'=>false
 
-            ])
-            ->add('deparure', TimeType::class, [
-                'label' => 'Départ camion',
-                'widget' => 'choice',
-                'hours' => range(8, 18),
-                'data' => $builder->getData() && $builder->getData()->getDeparure() ? $builder->getData()->getDeparure() : new \DateTime(),
-
-            ])
+            // ])
             ->add('description', ChoiceType::class, [
                 'label' => 'Marchandise',
                 'required' => true,

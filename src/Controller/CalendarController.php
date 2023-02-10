@@ -2,20 +2,22 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Driver;
+use DateTimeImmutable;
 use App\Entity\Building;
 use App\Entity\Calendar;
-use App\Entity\Driver;
+use App\Entity\Customer;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
-use DateTime;
-use DateTimeImmutable;
+use App\Repository\CustomerRepository;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/calendar')]
 class CalendarController extends AbstractController
@@ -88,9 +90,13 @@ class CalendarController extends AbstractController
                 $calendar->setValidatedBy($validatedBy);
                 $calendar->setBackgroundColor('green');
                 // return $this->redirectToRoute('app_check_list_validator');
-                $calendarRepository->save($calendar, true);
                 $mailEvent = new MailEvent($calendar);
-                $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                $eventDispatcher->dispatch($mailEvent, 'sendMail.supplierr');
+                if($eventDispatcher->dispatch($mailEvent, 'sendMail.supplier')){
+                    $emailDeparureAt = new \DateTime();
+                    $calendar->setEmailDeparureAt($emailDeparureAt);
+                }
+                $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_calendar');
             }
             if($calendar->getChecked() == $calendar->getDriver()->getCode()){
@@ -99,9 +105,13 @@ class CalendarController extends AbstractController
                 $calendar->setCheckedAt($checked);
                 $calendar->setCheckedBy($checkedBy);
                 $calendar->setBackgroundColor('orange');
-                $calendarRepository->save($calendar, true);
                 $mailEvent = new MailEvent($calendar);
                 $eventDispatcher->dispatch($mailEvent, 'sendMail.customer');
+                if($eventDispatcher->dispatch($mailEvent, 'sendMail.customer')){
+                    $emailComeAt = new \DateTime();
+                    $calendar->setEmailComeAt($emailComeAt);
+                }
+                $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_calendar');
             }else {
                 $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou faire une modification rapide en cochant la case en bas du formulaire');
