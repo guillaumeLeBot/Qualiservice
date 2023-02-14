@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
+<style>
+    .hidden {
+      display: none;
+    }
+   
+  </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -92,9 +98,39 @@
                     </ul>
                 </div>    
             </div>
+            {# <div class="container">
+                <h4>Débutez la prise en charge du camion</h4>
+                <div class="row">
+                    <div class="col md-6">
+                        <button class="green" id="start-button">Début</button>
+                    </div>
+                    <div class="col md-6">
+                        <button class="red" id="stop-button" disabled>Fin</button>
+                    </div>
+                </div>
+            </div>
+            <div id="timer" class="hidden">
+                <span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+             #}
+           
+
+
+            
+            <div id="elapsed-time" class="hidden"></div>
             <div class="container ">
                 {{ form_start(form) }}
                 <div class="form-group">
+                    {{ form_widget(form.startLoading, {'attr': {'type': 'button', 'class': 'start-button green', 'value': 'Start'}}) }}
+                    {{ form_widget(form.stopLoading, {'attr': {'type': 'button', 'class': 'stop-button red', 'value': 'Stop', 'disabled': 'disabled'}}) }}
+                    
+                    <div class="timer hidden"></div>
+                    {# <div id="your-form-durationLoading">
+
+                        {{ form_row(form.durationLoading, {'attr': {'type': 'text', 'class': 'elapsed-time hidden'}}) }}
+                    </div> #}
+                    <div class="elapsed-time hidden"></div>
+                    
                     <div class="row">
                         <div class="col md-4">
                             {{ form_row(form.title) }}
@@ -164,9 +200,6 @@
                         <div class="col md-4">
                             {{ form_row(form.building) }}
                         </div>
-                        <div id="form_dock" class="col md-4 form-dock-hidden">
-                            {{ form_row(form.dock) }}
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col md-6">
@@ -205,7 +238,7 @@
                         {% if calendar.validatedAt is not empty %}
                         {% else %}
                         <div class="col-md-8">
-                            <button class="green">{{ button_label|default('Enregister') }}</button>
+                            <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
                         </div>
                         {%endif%}
                         {% if calendar.validatedAt is not empty or calendar.checkedAt is not empty%}
@@ -219,12 +252,13 @@
                         {% endif%}
                     </div>
                     {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
-                    <button class="green">{{ button_label|default('Enregister') }}</button>
+                    <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
                     {% endif %}
 
                     {{ form_end(form) }}
                 </div>
             </div>
+            
         </div>
         {% if calendar.validatedAt is not empty %}
         {% else %}
@@ -237,5 +271,52 @@
     {% endblock %}
     {% block javascripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $(function() {
+              var startButton = $('.start-button');
+              var stopButton = $('.stop-button');
+              var timer = $('.timer');
+              var elapsedTime = $('.elapsed-time');
+              var durationLoading = $('#your-form-durationLoading');
+          
+              startButton.on('click', function() {
+                var startTime = new Date();
+                var elapsedSeconds = 0;
+                startButton.attr('disabled', 'disabled');
+                stopButton.removeAttr('disabled');
+                timer.removeClass('hidden');
+                var intervalId = setInterval(function() {
+                  var now = new Date();
+                  elapsedSeconds = (now - startTime) / 1000;
+                  var minutesElapsed = Math.floor(elapsedSeconds / 60);
+                  var secondsElapsed = Math.floor(elapsedSeconds - (minutesElapsed * 60));
+                  timer.text(padNumber(minutesElapsed) + ':' + padNumber(secondsElapsed));
+                }, 1000);
+                stopButton.on('click', function() {
+                  clearInterval(intervalId);
+                  startButton.removeAttr('disabled');
+                  stopButton.attr('disabled', 'disabled');
+                  elapsedTime.text('Durée de la prise en charge camion: ' + formatElapsedTime(elapsedSeconds));
+                  elapsedTime.removeClass('hidden');
+                  durationLoadingField.val(formatElapsedTime(elapsedSeconds));
+                  $('#your-form').submit();
+                });
+              });
+              
+              function formatElapsedTime(seconds) {
+                var date = new Date(seconds * 1000);
+                var hours = date.getUTCHours();
+                var minutes = date.getUTCMinutes();
+                var seconds = date.getUTCSeconds();
+                return padNumber(hours) + ':' + padNumber(minutes) + ':' + padNumber(seconds);
+              }
+          
+              function padNumber(num) {
+                return num < 10 ? '0' + num : num;
+              }
+            });
+          </script>
+
+        
         
     {% endblock %}

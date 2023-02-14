@@ -27,6 +27,9 @@
 .deparure {
     display: none;
 }
+.description {
+    display: none;
+}
 
 body,
 html {

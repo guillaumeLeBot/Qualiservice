@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Dock;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
@@ -11,21 +10,21 @@ use App\Entity\Platform;
 use App\Entity\Supplier;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
-use Symfony\Component\Form\FormEvent;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\HttpFoundation\Request;
 
 class CalendarType extends AbstractType
 {
@@ -55,6 +54,19 @@ class CalendarType extends AbstractType
                 'required' => false,
                 'data' => false
             ])
+            ->add('startLoading', ButtonType::class, [
+                'label' => 'Début',
+                'attr' => ['class' => 'start-button'],
+            ])
+            ->add('stopLoading', ButtonType::class, [
+                'label' => 'Fin',
+                'attr' => ['class' => 'stop-button', 'disabled' => 'disabled'],
+            ])
+            ->add('durationLoading', TextType::class, [
+                'label' => 'Durée de prise en charge du camion',
+                'required' => false,
+                'attr' => ['id' => 'duration-loading-field']
+            ])
             ->add('start', DateTimeType::class, [
                 'label' => 'Date et heure rendez vous',
                 'date_widget' => 'single_text',
@@ -69,16 +81,6 @@ class CalendarType extends AbstractType
                 'hours' => range(8, 18),
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
-            
-            // ->add('emailComeAt', DateTimeType::class, [
-            //     'label' => 'Envoi mail arrivée camion',
-            //     'required' => false,
-            // ])
-            // ->add('emailDeparureAt', DateTimeType::class, [
-            //     'label' => 'Envoi mail Départ camion',
-            //     'required'=>false
-
-            // ])
             ->add('description', ChoiceType::class, [
                 'label' => 'Marchandise',
                 'required' => true,
@@ -93,11 +95,6 @@ class CalendarType extends AbstractType
             ])
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nbre de palettes'
-            ])
-            ->add('dock', EntityType::class, [
-                'label' => 'Quai',
-                'class' => Dock::class,
-                'choice_label' => 'name',
             ])
             ->add('building', EntityType::class, [
                 'label' => 'Bâtiment',
@@ -156,18 +153,18 @@ class CalendarType extends AbstractType
             // use this for add differents colors by fields don't forget replace 'data => $color'
             if($builder->getData() && $builder->getData()->getTitle() === 'Reception'){
                 $color = "#0000ff";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Expédition'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Expédition'){
                 $color = "#088A08";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Envoi Direct'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Envoi Direct'){
                 $color = "#561292";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Destruction'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Destruction'){
                 $color = "#FF0000";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Inventaire'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Inventaire'){
                 $color = "#FF8000";
-             }else{
+            }else{
                 $color = "#2B75D9";
-             }
-             
+            }
+
             $builder->add('background_color', TextType::class, [
                 'label' => 'couleur de fond',
                 'required' => false,

@@ -62,9 +62,6 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Platform $platform = null;
 
-    #[ORM\ManyToOne(inversedBy: 'calendars')]
-    private ?Dock $dock = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $speedSave = null;
 
@@ -94,6 +91,15 @@ class Calendar
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $emailDeparureAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startLoading = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $stopLoading = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $durationLoading = null;
 
     public function getId(): ?int
     {
@@ -292,18 +298,6 @@ class Calendar
         return $this;
     }
 
-    public function getDock(): ?Dock
-    {
-        return $this->dock;
-    }
-
-    public function setDock(?Dock $dock): self
-    {
-        $this->dock = $dock;
-
-        return $this;
-    }
-
     public function getChecked(): ?string
     {
         return $this->checked;
@@ -420,6 +414,42 @@ class Calendar
     public function setEmailDeparureAt(?\DateTimeInterface $emailDeparureAt): self
     {
         $this->emailDeparureAt = $emailDeparureAt;
+
+        return $this;
+    }
+
+    public function getStartLoading(): ?\DateTimeInterface
+    {
+        return $this->startLoading;
+    }
+
+    public function setStartLoading(?\DateTimeInterface $startLoading): self
+    {
+        $this->startLoading = $startLoading;
+
+        return $this;
+    }
+
+    public function getStopLoading(): ?\DateTimeInterface
+    {
+        return $this->stopLoading;
+    }
+
+    public function setStopLoading(?\DateTimeInterface $stopLoading): self
+    {
+        $this->stopLoading = $stopLoading;
+
+        return $this;
+    }
+
+    public function getDurationLoading(): ?string
+    {
+        return $this->durationLoading;
+    }
+
+    public function setDurationLoading(?string $durationLoading): self
+    {
+        $this->durationLoading = $durationLoading;
 
         return $this;
     }
