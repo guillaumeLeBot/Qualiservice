@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LeaderChecked{% endblock %}
+
+{% block body %}
+    <h1>LeaderChecked</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ leader_checked.id }}</td>
+            </tr>
+            <tr>
+                <th>IsDispatch</th>
+                <td>{{ leader_checked.isDispatch ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsChargeable</th>
+                <td>{{ leader_checked.isChargeable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>TransferCost</th>
+                <td>{{ leader_checked.transferCost }}</td>
+            </tr>
+            <tr>
+                <th>IsDelivery</th>
+                <td>{{ leader_checked.isDelivery ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsTruckDocChecked</th>
+                <td>{{ leader_checked.isTruckDocChecked ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsAlcohol</th>
+                <td>{{ leader_checked.isAlcohol ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsCustomDocChecked</th>
+                <td>{{ leader_checked.isCustomDocChecked ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CommentApprehensionCustom</th>
+                <td>{{ leader_checked.commentApprehensionCustom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_leader_checked_index') }}">back to list</a>
+
+    <a href="{{ path('app_leader_checked_edit', {'id': leader_checked.id}) }}">edit</a>
+
+    {{ include('leader_checked/_delete_form.html.twig') }}
+{% endblock %}

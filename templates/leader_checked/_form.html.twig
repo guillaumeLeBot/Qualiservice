@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{ asset('css/driver-checked.css') }}" />
+{{ form_start(form) }}
+            <div class="col md-6">
+                <h1>Validation camion</h1>
+            </div>
+            <div class="col md-6" style="margin-bottom: 20px;">
+                <span id="span-cariste">Attention, la validation de ce formulaire engage votre responsabilitée</span>
+            </div>
+    <div class="container ">
+        <div class="row">
+            <div class="col md-6">
+                {{ form_row(form.isDispatch) }}
+            </div>
+            <div class="col md-6">
+                {{ form_row(form.isChargeable) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                {{form_row(form.transferCost)}}
+            </div>
+            <div class="col md-6">
+                {{form_row(form.isDelivery)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                {{form_row(form.isTruckDocChecked)}}
+            </div>
+            <div class="col md-6">
+                {{form_row(form.isAlcohol)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                {{form_row(form.isCustomDocChecked)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-12">
+                {{form_row(form.commentApprehensionCustom)}}
+            </div>        
+        </div>
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% endif %}
+        {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% endif %}
+    </div>
+{{ form_end(form) }}
+

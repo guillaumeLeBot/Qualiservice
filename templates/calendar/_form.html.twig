@@ -44,6 +44,9 @@
                 <div class="col md-4">
                     {{ form_row(form.platform) }}
                 </div>
+                <div class="col md-4">
+                    {{ form_row(form.transporter) }}
+                </div>
             </div>
             <div class="row">
                 <div class="col md-6">
@@ -70,14 +73,7 @@
                     <div class="col md-6">
                         {{ form_row(form.logistic_leader, { 'attr': {'class': 'leader'}}) }}
                     </div>
-                    <div class="col md-6">
-                        {{ form_row(form.description, { 'attr': {'class': 'description'}}) }}
-                    </div>
-                    {# <div class="col md-6">
-                        {{ form_row(form.emailComeAt, { 'attr': {'class': 'come'}}) }}
-                    </div>
-                    <div class="col md-6">
-                        {{ form_row(form.emailDeparureAt, { 'attr': {'class': 'deparure'}}) }} #}
+                    
                     </div>
                 </div>
             </div>

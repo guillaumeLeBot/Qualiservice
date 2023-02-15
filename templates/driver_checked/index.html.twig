@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DriverChecked index{% endblock %}
+
+{% block body %}
+    <h1>DriverChecked index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartLoading</th>
+                <th>StopLoading</th>
+                <th>DurationLoading</th>
+                <th>IsCompliant</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for driver_checked in driver_checkeds %}
+            <tr>
+                <td>{{ driver_checked.id }}</td>
+                <td>{{ driver_checked.startLoading ? driver_checked.startLoading|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ driver_checked.stopLoading ? driver_checked.stopLoading|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ driver_checked.durationLoading }}</td>
+                <td>{{ driver_checked.isCompliant ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_driver_checked_show', {'id': driver_checked.id}) }}">show</a>
+                    <a href="{{ path('app_driver_checked_edit', {'id': driver_checked.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_driver_checked_new') }}">Create new</a>
+{% endblock %}

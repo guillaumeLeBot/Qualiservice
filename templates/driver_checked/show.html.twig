@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DriverChecked{% endblock %}
+
+{% block body %}
+    <h1>DriverChecked</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ driver_checked.id }}</td>
+            </tr>
+            <tr>
+                <th>StartLoading</th>
+                <td>{{ driver_checked.startLoading ? driver_checked.startLoading|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>StopLoading</th>
+                <td>{{ driver_checked.stopLoading ? driver_checked.stopLoading|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DurationLoading</th>
+                <td>{{ driver_checked.durationLoading }}</td>
+            </tr>
+            <tr>
+                <th>IsCompliant</th>
+                <td>{{ driver_checked.isCompliant ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_driver_checked_index') }}">back to list</a>
+
+    <a href="{{ path('app_driver_checked_edit', {'id': driver_checked.id}) }}">edit</a>
+
+    {{ include('driver_checked/_delete_form.html.twig') }}
+{% endblock %}

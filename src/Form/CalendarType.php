@@ -8,18 +8,18 @@ use App\Entity\Calendar;
 use App\Entity\Customer;
 use App\Entity\Platform;
 use App\Entity\Supplier;
+use App\Entity\Transporter;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
-use DateTime;
 use Symfony\Component\Form\AbstractType;
+use App\Repository\TransporterRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -54,19 +54,6 @@ class CalendarType extends AbstractType
                 'required' => false,
                 'data' => false
             ])
-            ->add('startLoading', ButtonType::class, [
-                'label' => 'Début',
-                'attr' => ['class' => 'start-button'],
-            ])
-            ->add('stopLoading', ButtonType::class, [
-                'label' => 'Fin',
-                'attr' => ['class' => 'stop-button', 'disabled' => 'disabled'],
-            ])
-            ->add('durationLoading', TextType::class, [
-                'label' => 'Durée de prise en charge du camion',
-                'required' => false,
-                'attr' => ['id' => 'duration-loading-field']
-            ])
             ->add('start', DateTimeType::class, [
                 'label' => 'Date et heure rendez vous',
                 'date_widget' => 'single_text',
@@ -81,18 +68,18 @@ class CalendarType extends AbstractType
                 'hours' => range(8, 18),
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
-            ->add('description', ChoiceType::class, [
-                'label' => 'Marchandise',
-                'required' => true,
-                'choices' => [
-                    'Expédié/Contrôlée/enregistré' => 'Expédié/Contrôlée/enregistré',
-                    'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
-                    'Récept/Contrôlé' => 'Récept/Contrôlé',
-                    'Récept/Contrôlée/enregistré' => 'Récept/Contrôlée/enregistré',
-                    'Réceptioné' => 'Réceptioné',
-                    'Refusé' => 'Refusé',
-                ],
-            ])
+            // ->add('description', ChoiceType::class, [
+            //     'label' => 'Marchandise',
+            //     'required' => true,
+            //     'choices' => [
+            //         'Expédié/Contrôlée/enregistré' => 'Expédié/Contrôlée/enregistré',
+            //         'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
+            //         'Récept/Contrôlé' => 'Récept/Contrôlé',
+            //         'Récept/Contrôlée/enregistré' => 'Récept/Contrôlée/enregistré',
+            //         'Réceptioné' => 'Réceptioné',
+            //         'Refusé' => 'Refusé',
+            //     ],
+            // ])
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nbre de palettes'
             ])
@@ -128,6 +115,15 @@ class CalendarType extends AbstractType
                 'class' => Platform::class,
                 'choice_label' => 'name',
                 'query_builder' => function (PlatformRepository $er) {
+                    return $er->createQueryBuilder('p')
+                            ->orderBy('p.name', 'ASC');
+                },
+            ])
+            ->add('transporter', EntityType::class, [
+                'label' => 'Transporteurs',
+                'class' => Transporter::class,
+                'choice_label' => 'name',
+                'query_builder' => function (TransporterRepository $er) {
                     return $er->createQueryBuilder('p')
                             ->orderBy('p.name', 'ASC');
                 },

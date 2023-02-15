@@ -125,8 +125,13 @@ INSERT INTO platform (name) VALUES ('St Vuilbas');
 INSERT INTO platform (name) VALUES ('Vémars');
 
 INSERT INTO platform (name) VALUES ('SPI');
-
 INSERT INTO platform (name) VALUES ('SPI / St Vuilbas ');
+
+INSERT INTO transporter (name, mail) VALUES ('GLS', 'GLS@example.fr');
+INSERT INTO transporter  (name, mail) VALUES ('Deliège', 'Deliège@example.fr');
+INSERT INTO transporter  (name, mail) VALUES ('Citra', 'Citra@example.fr');
+INSERT INTO transporter  (name, mail) VALUES ('Geodis', 'Geodis@example.fr');
+INSERT INTO transporter  (name, mail) VALUES ('UPS ', 'UPS @example.fr');
 
 INSERT INTO `calendar` (`id`, `customer_id`, `supplier_id`, `driver_id`, `building_id`, `platform_id`, `dock_id`, `logistic_leader_id`, `title`, `start`, `end`, `description`, `all_day`, `background_color`, `border_color`, `text_color`, `pallets_number`, `comment`, `come`, `deparure`, `command_number`, `speed_save`, `checked`, `checked_at`, `checked_by`, `validated`, `validated_at`, `validated_by`) VALUES
 (1, 14, 2, 6, 1, 2, 1, 1, 'Expédition', '2023-02-09 08:00:00', '2023-02-09 09:00:00', 'Expédié/Contrôlée/enregistré', NULL, 'green', NULL, '#040404', 50, NULL, '1970-01-01 12:14:00', '1970-01-01 12:14:00', NULL, 0, NULL, '2023-02-09 07:59:07', 'Alexis', 'fablead2023', '2023-02-09 12:58:11', 'Fabien'),

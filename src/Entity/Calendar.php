@@ -92,14 +92,14 @@ class Calendar
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $emailDeparureAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $startLoading = null;
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?DriverChecked $driverChecked = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $stopLoading = null;
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?LeaderChecked $leaderChecked = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $durationLoading = null;
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Transporter $transporter = null;
 
     public function getId(): ?int
     {
@@ -393,7 +393,7 @@ class Calendar
 
         return $this;
     }
-    
+
     public function getEmailComeAt(): ?\DateTimeInterface
     {
         return $this->emailComeAt;
@@ -411,45 +411,46 @@ class Calendar
         return $this->emailDeparureAt;
     }
 
-    public function setEmailDeparureAt(?\DateTimeInterface $emailDeparureAt): self
-    {
+    public function setEmailDeparureAt(
+        ?\DateTimeInterface $emailDeparureAt
+    ): self {
         $this->emailDeparureAt = $emailDeparureAt;
 
         return $this;
     }
 
-    public function getStartLoading(): ?\DateTimeInterface
+    public function getDriverChecked(): ?DriverChecked
     {
-        return $this->startLoading;
+        return $this->driverChecked;
     }
 
-    public function setStartLoading(?\DateTimeInterface $startLoading): self
+    public function setDriverChecked(?DriverChecked $driverChecked): self
     {
-        $this->startLoading = $startLoading;
+        $this->driverChecked = $driverChecked;
 
         return $this;
     }
 
-    public function getStopLoading(): ?\DateTimeInterface
+    public function getLeaderChecked(): ?LeaderChecked
     {
-        return $this->stopLoading;
+        return $this->leaderChecked;
     }
 
-    public function setStopLoading(?\DateTimeInterface $stopLoading): self
+    public function setLeaderChecked(?LeaderChecked $leaderChecked): self
     {
-        $this->stopLoading = $stopLoading;
+        $this->leaderChecked = $leaderChecked;
 
         return $this;
     }
 
-    public function getDurationLoading(): ?string
+    public function getTransporter(): ?Transporter
     {
-        return $this->durationLoading;
+        return $this->transporter;
     }
 
-    public function setDurationLoading(?string $durationLoading): self
+    public function setTransporter(?Transporter $transporter): self
     {
-        $this->durationLoading = $durationLoading;
+        $this->transporter = $transporter;
 
         return $this;
     }
