@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="{{ asset('css/driver-checked.css') }}" />
+
+{{ form_start(form) }}
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col md-12">
+                <h1>Contrôle camion</h1>
+                <span id="span-cariste">Attention la validation de ce formulaire engage votre responsabilitée</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                {{ form_row(form.startLoading) }}
+            </div>
+            <div class="col md-6">
+                {{ form_row(form.stopLoading) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
+                {{form_row(form.isCompliant)}}
+            </div>
+            <div class="col md-6">
+                {{form_row(form.palletsChecked)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-12">
+                {{form_row(form.comment)}}
+            </div>
+        </div>
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% endif %}
+        {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
+        <button class="green">{{ button_label|default('Enregister') }}</button>
+        {% endif %}
+    </div>
+{{ form_end(form) }}

@@ -2,20 +2,20 @@
 
 namespace App\Form;
 
-use App\Entity\Dock;
 use App\Entity\Driver;
 use App\Entity\Building;
 use App\Entity\Calendar;
 use App\Entity\Customer;
 use App\Entity\Platform;
 use App\Entity\Supplier;
+use App\Entity\Transporter;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
-use Symfony\Component\Form\FormEvent;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
 use Symfony\Component\Form\AbstractType;
+use App\Repository\TransporterRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +25,6 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\HttpFoundation\Request;
 
 class CalendarType extends AbstractType
 {
@@ -69,35 +68,20 @@ class CalendarType extends AbstractType
                 'hours' => range(8, 18),
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
-            
-            // ->add('emailComeAt', DateTimeType::class, [
-            //     'label' => 'Envoi mail arrivée camion',
-            //     'required' => false,
+            // ->add('description', ChoiceType::class, [
+            //     'label' => 'Marchandise',
+            //     'required' => true,
+            //     'choices' => [
+            //         'Expédié/Contrôlée/enregistré' => 'Expédié/Contrôlée/enregistré',
+            //         'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
+            //         'Récept/Contrôlé' => 'Récept/Contrôlé',
+            //         'Récept/Contrôlée/enregistré' => 'Récept/Contrôlée/enregistré',
+            //         'Réceptioné' => 'Réceptioné',
+            //         'Refusé' => 'Refusé',
+            //     ],
             // ])
-            // ->add('emailDeparureAt', DateTimeType::class, [
-            //     'label' => 'Envoi mail Départ camion',
-            //     'required'=>false
-
-            // ])
-            ->add('description', ChoiceType::class, [
-                'label' => 'Marchandise',
-                'required' => true,
-                'choices' => [
-                    'Expédié/Contrôlée/enregistré' => 'Expédié/Contrôlée/enregistré',
-                    'Préparation/Expédition/Réception' => 'Préparation/Expédition/Réception',
-                    'Récept/Contrôlé' => 'Récept/Contrôlé',
-                    'Récept/Contrôlée/enregistré' => 'Récept/Contrôlée/enregistré',
-                    'Réceptioné' => 'Réceptioné',
-                    'Refusé' => 'Refusé',
-                ],
-            ])
             ->add('pallets_number', IntegerType::class, [
                 'label' => 'Nbre de palettes'
-            ])
-            ->add('dock', EntityType::class, [
-                'label' => 'Quai',
-                'class' => Dock::class,
-                'choice_label' => 'name',
             ])
             ->add('building', EntityType::class, [
                 'label' => 'Bâtiment',
@@ -135,6 +119,15 @@ class CalendarType extends AbstractType
                             ->orderBy('p.name', 'ASC');
                 },
             ])
+            ->add('transporter', EntityType::class, [
+                'label' => 'Transporteurs',
+                'class' => Transporter::class,
+                'choice_label' => 'name',
+                'query_builder' => function (TransporterRepository $er) {
+                    return $er->createQueryBuilder('p')
+                            ->orderBy('p.name', 'ASC');
+                },
+            ])
             ->add('driver', EntityType::class, [
                 'label' => 'Cariste',
                 'class' => Driver::class,
@@ -156,18 +149,18 @@ class CalendarType extends AbstractType
             // use this for add differents colors by fields don't forget replace 'data => $color'
             if($builder->getData() && $builder->getData()->getTitle() === 'Reception'){
                 $color = "#0000ff";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Expédition'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Expédition'){
                 $color = "#088A08";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Envoi Direct'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Envoi Direct'){
                 $color = "#561292";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Destruction'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Destruction'){
                 $color = "#FF0000";
-             }else if($builder->getData() && $builder->getData()->getTitle() === 'Inventaire'){
+            }else if($builder->getData() && $builder->getData()->getTitle() === 'Inventaire'){
                 $color = "#FF8000";
-             }else{
+            }else{
                 $color = "#2B75D9";
-             }
-             
+            }
+
             $builder->add('background_color', TextType::class, [
                 'label' => 'couleur de fond',
                 'required' => false,

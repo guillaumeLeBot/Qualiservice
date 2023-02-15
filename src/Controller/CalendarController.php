@@ -5,14 +5,12 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Driver;
 use DateTimeImmutable;
-use App\Entity\Building;
 use App\Entity\Calendar;
-use App\Entity\Customer;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
-use App\Repository\CustomerRepository;
-use PhpParser\Node\Scalar\MagicConst\Dir;
+use App\Repository\DriverCheckedRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,7 +38,15 @@ class CalendarController extends AbstractController
         $calendar = new Calendar();        
         $form = $this->createForm(CalendarType::class, $calendar);
         $form->handleRequest($request);
-
+        //TODO check attribute docks vs time
+        // $events = $calendarRepository->findAll();
+        // foreach ($events as $event) {
+        //     if ($event->getStart() == $calendar->getStart() && $event->getBuilding()->getName() == $calendar->getBuilding()->getName()) {
+        //         // Si l'événement en cours de traitement a lieu au même moment et dans le même quai que l'événement en cours de création, cela signifie qu'il y a un conflit.
+        //         return $this->redirectToRoute('app_calendar');
+        //         $this->addFlash('message',"Ce quai est déjà réservé à cet horaire");
+        //     }
+        // }
         if ($form->isSubmitted() && $form->isValid()) {
         
         $calendarRepository->save($calendar, true);
@@ -97,6 +103,7 @@ class CalendarController extends AbstractController
                     $calendar->setEmailDeparureAt($emailDeparureAt);
                 }
                 $calendarRepository->save($calendar, true);
+                return $this->redirectToRoute('app_leader_checked_new');
                 return $this->redirectToRoute('app_calendar');
             }
             if($calendar->getChecked() == $calendar->getDriver()->getCode()){
@@ -112,9 +119,10 @@ class CalendarController extends AbstractController
                     $calendar->setEmailComeAt($emailComeAt);
                 }
                 $calendarRepository->save($calendar, true);
+                return $this->redirectToRoute('app_driver_checked_new');
                 return $this->redirectToRoute('app_calendar');
             }else {
-                $this->addFlash('message', 'Vous devez entrer un code cariste pour valider le contrôle de votre récéption / expédition ou faire une modification rapide en cochant la case en bas du formulaire');
+                $this->addFlash('message', 'Vous devez entrer un code cariste pour débuter la prise en charge camion ou faire une modification rapide en cochant la case en bas du formulaire.');
             }
         }
         return $this->render('calendar/edit.html.twig', [

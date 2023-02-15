@@ -46,6 +46,9 @@ class ApiController extends AbstractController
         if($calendar->getValidatedAt() !== null) {
             return new Response('<script>alert("This event cannot be edited because it has already been validated"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
         }
+        if($calendar->getCheckedAt() !== null) {
+            return new Response('<script>alert("This event cannot be edited because it has already been validated"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
+        }
             // Les données sont complètes
             // On initialise un code
             $code = 200;

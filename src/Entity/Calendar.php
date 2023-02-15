@@ -62,9 +62,6 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Platform $platform = null;
 
-    #[ORM\ManyToOne(inversedBy: 'calendars')]
-    private ?Dock $dock = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $speedSave = null;
 
@@ -94,6 +91,15 @@ class Calendar
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $emailDeparureAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?DriverChecked $driverChecked = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?LeaderChecked $leaderChecked = null;
+
+    #[ORM\ManyToOne(inversedBy: 'calendars')]
+    private ?Transporter $transporter = null;
 
     public function getId(): ?int
     {
@@ -292,18 +298,6 @@ class Calendar
         return $this;
     }
 
-    public function getDock(): ?Dock
-    {
-        return $this->dock;
-    }
-
-    public function setDock(?Dock $dock): self
-    {
-        $this->dock = $dock;
-
-        return $this;
-    }
-
     public function getChecked(): ?string
     {
         return $this->checked;
@@ -399,7 +393,7 @@ class Calendar
 
         return $this;
     }
-    
+
     public function getEmailComeAt(): ?\DateTimeInterface
     {
         return $this->emailComeAt;
@@ -417,9 +411,46 @@ class Calendar
         return $this->emailDeparureAt;
     }
 
-    public function setEmailDeparureAt(?\DateTimeInterface $emailDeparureAt): self
-    {
+    public function setEmailDeparureAt(
+        ?\DateTimeInterface $emailDeparureAt
+    ): self {
         $this->emailDeparureAt = $emailDeparureAt;
+
+        return $this;
+    }
+
+    public function getDriverChecked(): ?DriverChecked
+    {
+        return $this->driverChecked;
+    }
+
+    public function setDriverChecked(?DriverChecked $driverChecked): self
+    {
+        $this->driverChecked = $driverChecked;
+
+        return $this;
+    }
+
+    public function getLeaderChecked(): ?LeaderChecked
+    {
+        return $this->leaderChecked;
+    }
+
+    public function setLeaderChecked(?LeaderChecked $leaderChecked): self
+    {
+        $this->leaderChecked = $leaderChecked;
+
+        return $this;
+    }
+
+    public function getTransporter(): ?Transporter
+    {
+        return $this->transporter;
+    }
+
+    public function setTransporter(?Transporter $transporter): self
+    {
+        $this->transporter = $transporter;
 
         return $this;
     }

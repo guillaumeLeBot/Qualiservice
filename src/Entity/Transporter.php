@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DockRepository;
+use App\Repository\TransporterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: DockRepository::class)]
-class Dock
+#[ORM\Entity(repositoryClass: TransporterRepository::class)]
+class Transporter
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -18,8 +18,11 @@ class Dock
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'dock', targetEntity: Calendar::class)]
+    #[ORM\OneToMany(mappedBy: 'transporter', targetEntity: Calendar::class)]
     private Collection $calendars;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $mail = null;
 
     public function __construct()
     {
@@ -55,7 +58,7 @@ class Dock
     {
         if (!$this->calendars->contains($calendar)) {
             $this->calendars->add($calendar);
-            $calendar->setDock($this);
+            $calendar->setTransporter($this);
         }
 
         return $this;
@@ -65,10 +68,22 @@ class Dock
     {
         if ($this->calendars->removeElement($calendar)) {
             // set the owning side to null (unless already changed)
-            if ($calendar->getDock() === $this) {
-                $calendar->setDock(null);
+            if ($calendar->getTransporter() === $this) {
+                $calendar->setTransporter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(?string $mail): self
+    {
+        $this->mail = $mail;
 
         return $this;
     }

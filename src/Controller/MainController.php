@@ -18,8 +18,7 @@ class MainController extends AbstractController
     #[Route('/calendar/view', name: 'app_calendar')]
     public function calendar(CalendarRepository $calendarRepository): Response
     {
-      
-       $events = $calendarRepository->findAll();
+        $events = $calendarRepository->findAll();
 
         $rdvs = [];
 
