@@ -4,9 +4,11 @@
 {% endblock %}
 {% block navbar %}
     <nav class="navMenu">
-        <a href="/">Accueil</a>
+        {# <a href="/">Accueil</a> #}
         {% if app.user and 'ROLE_LOREAL' in app.user.roles %}
-        <a href="/loreal">Planning Loreal</a>
+        <a href="/calendar/view">Planning</a>
+        <a href="/loreal">Planning Détaillé</a>
+
         {% endif%}
         {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
         <a href="/calendar/view">Planning</a>

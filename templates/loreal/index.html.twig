@@ -3,16 +3,14 @@
 <link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
 {% endblock %}
 
-{% block title %}Loreal planing{% endblock %}
-
+{% block title %}Loréal planing{% endblock %}
 {% block body %}
-{% if app.user %}
-<a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnectez vous {{ app.user.userIdentifier }} </a>
-{# {% else %}
-<a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}
-{% endif %}
+{% block navbar %}
+{% include "./partials/_navbar.html.twig" %}
+{% endblock navbar %}
+
     <div class="card-deck">
-        <h1>Planning Loreal</h1>
+        <h1>Planning détaillé Loréal</h1>
         {% for event in events %}
             <div class="card">
                 
