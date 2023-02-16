@@ -16,7 +16,7 @@ class LeaderCheckedType extends AbstractType
     {
         $builder
             ->add('isDispatch', CheckboxType::class, [
-                'label' => 'S\'agit il d\une expédition ?',
+                'label' => 'S\'agit il d\'une expédition ?',
                 'required' => false
             ])
             ->add('isChargeable', CheckboxType::class, [
@@ -28,7 +28,7 @@ class LeaderCheckedType extends AbstractType
                 'required' => false
             ])
             ->add('isDelivery', CheckboxType::class, [
-                'label' => 'S\'agit-il d\une Livraison ?',
+                'label' => 'S\'agit-il d\'une Livraison ?',
                 'required' => false
             ])
             ->add('isTruckDocChecked', CheckboxType::class, [
@@ -36,7 +36,7 @@ class LeaderCheckedType extends AbstractType
                 'required' => true
             ])
             ->add('isAlcohol', CheckboxType::class, [
-                'label' => 'S\'agit il d\une Livraison d\' alcool ?',
+                'label' => 'S\'agit il d\'une Livraison d\' alcool ?',
                 'required' => false
             ])
             ->add('isCustomDocChecked', CheckboxType::class, [

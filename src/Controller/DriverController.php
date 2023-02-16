@@ -23,7 +23,6 @@ class DriverController extends AbstractController
                     'start' => $calendar->getStart()->format('d/m/Y'),
                     'time' => $time_in_seconds = round(($calendar->getPalletsNumber()*$time_per_pallet )*60 %60, 2),
                     'title' => $calendar->getTitle(),
-                    'description' => $calendar->getDescription(),
                     'pallets_number' => $calendar->getPalletsNumber(),
                     'comment' => $calendar->getComment(),
                     'customer' => $calendar->getCustomer()->getName(),
@@ -52,16 +51,13 @@ class DriverController extends AbstractController
         foreach ($calendars as $calendar) {
             $event = [
                 'start' => $calendar->getStart()->format('d/m/Y'),
-                'time' => $time_in_seconds = round(($calendar->getPalletsNumber()*$time_per_pallet )*60 %60, 2),
                 'title' => $calendar->getTitle(),
-                'description' => $calendar->getDescription(),
                 'pallets_number' => $calendar->getPalletsNumber(),
                 'comment' => $calendar->getComment(),
                 'customer' => $calendar->getCustomer()->getName(),
                 'supplier' => $calendar->getSupplier()->getName(),
                 'driver' => $calendar->getDriver()->getName(),
                 'building' => $calendar->getBuilding()->getName(),
-                'dock' => $calendar->getDock()->getName(),
 
             ];
             $events[] = $event;

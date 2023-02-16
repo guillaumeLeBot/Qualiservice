@@ -2,58 +2,41 @@
 
 {% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
 {% endblock %}
 {% block body%}
-    <div class="container">
-        <div class="section">
-            <div class="container">
-                <div class="row full-height">
-                    <div class="col-12 align-self-center">
-                        <div class="section">
-                            <div class="left-side-shadow"></div>
-                            <div class="right-side-shadow"></div>
-                            <ul class="link-list">
-                                <li>
-                                    <a href="/calendar/view" class="hover-target">
-                                        <span>Logistique -</span>
-                                        <span>Logistique -</span>
-                                        <span>Logistique -</span>
-                                        <span>Logistique -</span>
-                                        <span>Logistique -</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/rh" class="hover-target">
-                                        <span>Ressources humaines -</span>
-                                        <span>Ressources humaines -</span>
-                                        <span>Ressources humaines -</span>
-                                        <span>Ressources humaines -</span>
-                                        <span>Ressources humaines -</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/intranet" class="hover-target">
-                                        <span>Intranet -</span>
-                                        <span>Intranet -</span>
-                                        <span>Intranet -</span>
-                                        <span>Intranet -</span>
-                                        <span>Intranet -</span>
-                                </li>
-                            </ul>
-                        </div>
+<div class="container">
+    <div class="section">
+        <div class="container">
+            <div class="row full-height">
+                <div class="col-12 align-self-center">
+                    <div class="section">
+                        <div class="left-side-shadow"></div>
+                        <div class="right-side-shadow"></div>
+                        <ul class="link-list">
+                            <li>
+                                <a href="/login" class="hover-target">
+                                    <span>Connection -</span>
+                                    <span>Connection -</span>
+                                    <span>Connection -</span>
+                                    <span>Connection -</span>
+                                    <span>Connection -</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Page cursor
-            ================================================== -->
-        
-        <div class='cursor' id="cursor"></div>
-        <div class='cursor2' id="cursor2"></div>
-        <div class='cursor3' id="cursor3"></div>
     </div>
+
+    <!-- Page cursor
+            ================================================== -->
+
+    <div class='cursor' id="cursor"></div>
+    <div class='cursor2' id="cursor2"></div>
+    <div class='cursor3' id="cursor3"></div>
+</div>
 {% endblock%}
 
 {% block javascripts %}

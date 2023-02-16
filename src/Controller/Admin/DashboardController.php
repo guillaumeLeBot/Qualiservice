@@ -17,7 +17,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
-   
     public function __construct(private AdminUrlGenerator $adminUrlGenerator)
     {
         
@@ -30,7 +29,7 @@ class DashboardController extends AbstractDashboardController
         $url = $this->adminUrlGenerator
         ->setController(CalendarCrudController::class)
         ->generateUrl();
-         return $this->redirect($url);
+        return $this->redirect($url);
 
         
     }
@@ -38,7 +37,7 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToUrl('Retour vers le Site', 'fa fa-home', '/calendar/view');
+        yield MenuItem::linkToUrl('Retour vers planning', 'fa fa-home', '/calendar/view');
         
         yield MenuItem::linkToCrud('Bâtiment', 'fas fa-list', Building::class);
         yield MenuItem::linkToCrud('Caristes', 'fas fa-list', Driver::class);

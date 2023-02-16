@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
+{% endblock %}
+
+{% block title %}Loréal planing{% endblock %}
+{% block body %}
+{% block navbar %}
+{% include "./partials/_navbar.html.twig" %}
+{% endblock navbar %}
+
+    <div class="card-deck">
+        <h1>Planning détaillé Loréal</h1>
+        {% for event in events %}
+            <div class="card">
+                
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>date prise en charge camion</th>
+                                <th>Nbr de palettes</th>
+                                <th>Date de contrôle marchandises</th>
+                                <th>Date de validation marchandises</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ event.title}}</td>
+                                <td>{{ event.start}}</td>
+                                <td>{{ event.pallets_number }}</td>
+                                <td>{{ event.checkedAt }}</td>
+                                <td>{{ event.validatedAt }}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
