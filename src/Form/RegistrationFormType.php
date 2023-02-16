@@ -27,6 +27,7 @@ class RegistrationFormType extends AbstractType
 
                     new Regex(
                         '/^.+@qualiservice.fr$/',
+                        // '/^.+@(qualiservice|loreal)\.fr$/',
                         'Votre mail dois être au format ...@qualiservice.fr'
                     ),
                 ],

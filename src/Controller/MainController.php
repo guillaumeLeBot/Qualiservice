@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\CalendarRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MainController extends AbstractController
 {
@@ -16,24 +17,45 @@ class MainController extends AbstractController
     }
 
     #[Route('/calendar/view', name: 'app_calendar')]
-    public function calendar(CalendarRepository $calendarRepository): Response
+    public function calendar(CalendarRepository $calendarRepository, CustomerRepository $customerRepository): Response
     {
-        $events = $calendarRepository->findAll();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $events = $calendarRepository->findAll();
 
-        $rdvs = [];
+            $rdvs = [];
 
-        foreach($events as $event){
-            $rdvs[] = [
-                'id' => $event->getId(),
-                'title' => $event->getTitle(),                
-                'backgroundColor'=> $event->getBackgroundColor(),
-                'start' => $event->getStart()->format('Y-m-d H:i:s'),
-                'end' => $event->getEnd()->format('Y-m-d H:i:s'),
-            ];
+            foreach($events as $event){
+                $rdvs[] = [
+                    'id' => $event->getId(),
+                    'title' => $event->getTitle(),                
+                    'backgroundColor'=> $event->getBackgroundColor(),
+                    'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                    'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                ];
+            }
+            $data = json_encode($rdvs);
+
+            return $this->render('main/index.html.twig', compact('data'));
         }
-        $data = json_encode($rdvs);
+        if ($this->isGranted('ROLE_LOREAL')) {
+            $customer = $customerRepository->findOneBy(['name' => 'Loreal']);
+            $events = $calendarRepository->findBy(['customer' => $customer]);
 
-        return $this->render('main/index.html.twig', compact('data'));
+            $rdvs = [];
+
+            foreach($events as $event){
+                $rdvs[] = [
+                    'id' => $event->getId(),
+                    'title' => $event->getTitle(),                
+                    'backgroundColor'=> $event->getBackgroundColor(),
+                    'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                    'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                ];
+            }
+            $data = json_encode($rdvs);
+
+            return $this->render('main/index.html.twig', compact('data'));
+        }
     }
 }
 

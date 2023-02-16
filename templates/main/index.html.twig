@@ -7,11 +7,21 @@
 {% block navbar %}
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12" id="calendar"></div>
+{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" id="calendar"></div>
+        </div>
     </div>
-</div>
+{% endif%}
+{% if app.user and 'ROLE_LOREAL' in app.user.roles %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" id="calendar"></div>
+        </div>
+    </div>
+{% endif%}
+
 {% endblock%}
 {% block javascripts %}
 

@@ -76,7 +76,7 @@ class CalendarController extends AbstractController
     {
         if ($this->getUser() == null) {
         return $this->redirectToRoute('app_login');
-        } elseif ($this->getUser()->getRoles() == ["ROLE_USER"]) {
+        } elseif ($this->getUser()->getRoles() == ["ROLE_LOREAL"]) {
             return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
         }
         $this->denyAccessUnlessGranted("ROLE_ADMIN");

@@ -8,24 +8,20 @@
                     <thead>
                         <tr>
                             <th style="text-align: center; padding-right: 20px">Nbr de palettes</th>
-                            <th style="padding-right: 20px;">Tmp déchargement (min)</th>
                             <th style="padding-right: 20px;">Type</th>
                             <th style="padding-right: 20px;">Clients</th>
                             <th style="padding-right: 20px;">Fournisseurs</th>
-                            <th style="padding-right: 20px;">Bâtiments</th>
-                            <th style="padding-right: 20px;">Quai</th>
+                            <th style="padding-right: 20px;">Bâtiment Quai</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for event in events %}
                             <tr >
                                 <td style="text-align: center; padding-right: 20px">{{ event.pallets_number }}</td>
-                                <td style="text-align: center; padding-right: 20px">{{ event.time }}</td>
                                 <td style="padding-right: 20px">{{ event.title }}</td>
                                 <td style="padding-right: 20px">{{ event.customer }}</td>
                                 <td style="padding-right: 20px">{{ event.supplier }}</td>
                                 <td style="padding-right: 20px">{{ event.building }}</td>
-                                <td style="text-align: center;padding-right: 20px">{{ event.dock }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
