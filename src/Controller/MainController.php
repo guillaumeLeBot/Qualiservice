@@ -31,6 +31,9 @@ class MainController extends AbstractController
                     'backgroundColor'=> $event->getBackgroundColor(),
                     'start' => $event->getStart()->format('Y-m-d H:i:s'),
                     'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                    'building' => $event->getBuilding()->getName(),
+                    'customer' => $event->getCustomer()->getName(),
+                    'palletsNumber' => $event->getPalletsNumber(),
                 ];
             }
             $data = json_encode($rdvs);
@@ -50,6 +53,9 @@ class MainController extends AbstractController
                     'backgroundColor'=> $event->getBackgroundColor(),
                     'start' => $event->getStart()->format('Y-m-d H:i:s'),
                     'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                    'building' => $event->getBuilding()->getName(),
+                    'customer' => $event->getCustomer()->getName(),
+                    'palletsNumber' => $event->getPalletsNumber(),
                 ];
             }
             $data = json_encode($rdvs);

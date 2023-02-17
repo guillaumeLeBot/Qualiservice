@@ -10,7 +10,7 @@
 {% endblock navbar %}
 
     <div class="card-deck">
-        <h1>Planning détaillé Loréal</h1>
+        <h1>Planning détaillé L'Oréal</h1>
         {% for event in events %}
             <div class="card">
                 
@@ -19,8 +19,10 @@
                         <thead>
                             <tr>
                                 <th>Type</th>
-                                <th>date prise en charge camion</th>
+                                <th>date arrivée / départ prévu</th>
+                                <th>Numéro LS</th>
                                 <th>Nbr de palettes</th>
+                                <th>Contenu du camion</th>
                                 <th>Date de contrôle marchandises</th>
                                 <th>Date de validation marchandises</th>
                             </tr>
@@ -29,7 +31,9 @@
                             <tr>
                                 <td>{{ event.title}}</td>
                                 <td>{{ event.start}}</td>
+                                <td>{{ event.command_number }}</td>
                                 <td>{{ event.pallets_number }}</td>
+                                <td>{{ event.content_truck }}</td>
                                 <td>{{ event.checkedAt }}</td>
                                 <td>{{ event.validatedAt }}</td>
                             </tr>

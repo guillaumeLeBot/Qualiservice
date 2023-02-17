@@ -25,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CalendarType extends AbstractType
 {
@@ -38,7 +39,7 @@ class CalendarType extends AbstractType
                     'Envoi Direct' => 'Envoi Direct',
                     'Expédition' => 'Expédition',
                     'Inventaire' => 'Inventaire',
-                    'Reception' => 'Reception',
+                    'Réception' => 'Réception',
                 ],
             ])
             ->add('checked', PasswordType::class, [
@@ -99,7 +100,7 @@ class CalendarType extends AbstractType
             ])
             ->add('command_number', TextType::class, [
                 'label' => 'N° de commande',
-                'required' => false
+                'required' => true
             ])
             ->add('customer', EntityType::class, [
                 'label' => 'Clients',
@@ -141,6 +142,10 @@ class CalendarType extends AbstractType
                 'label' => 'Responsable logistique',
                 'class' => LogisticLeader::class,
                 'choice_label' => 'name',
+            ])
+            ->add('contentTruck', TextareaType::class, [
+                'label' => 'Contenu du camion',
+                'required' => false
             ])
             ->add('comment', TextType::class, [
                 'label' => 'Commentaire',

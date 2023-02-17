@@ -85,7 +85,6 @@ class CalendarController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if($calendar->isSpeedSave()){
-                $calendar->setBackgroundColor('red');
                 $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_calendar');
             }

@@ -101,6 +101,9 @@ class Calendar
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     private ?Transporter $transporter = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $contentTruck = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -451,6 +454,18 @@ class Calendar
     public function setTransporter(?Transporter $transporter): self
     {
         $this->transporter = $transporter;
+
+        return $this;
+    }
+
+    public function getContentTruck(): ?string
+    {
+        return $this->contentTruck;
+    }
+
+    public function setContentTruck(?string $contentTruck): self
+    {
+        $this->contentTruck = $contentTruck;
 
         return $this;
     }
