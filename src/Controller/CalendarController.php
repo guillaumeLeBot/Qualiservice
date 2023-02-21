@@ -8,9 +8,10 @@ use DateTimeImmutable;
 use App\Entity\Calendar;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
+use Symfony\Component\Form\FormError;
 use App\Repository\CalendarRepository;
-use App\Repository\DriverCheckedRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\DriverCheckedRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,34 +30,40 @@ class CalendarController extends AbstractController
     }
 
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CalendarRepository $calendarRepository): Response
-    {
-        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
-            return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
-        }
-        $calendar = new \DateTime($request->query->get('start'));
-        $calendar = new Calendar();        
-        $form = $this->createForm(CalendarType::class, $calendar);
-        $form->handleRequest($request);
-        //TODO check attribute docks vs time
-        // $events = $calendarRepository->findAll();
-        // foreach ($events as $event) {
-        //     if ($event->getStart() == $calendar->getStart() && $event->getBuilding()->getName() == $calendar->getBuilding()->getName()) {
-        //         // Si l'événement en cours de traitement a lieu au même moment et dans le même quai que l'événement en cours de création, cela signifie qu'il y a un conflit.
-        //         return $this->redirectToRoute('app_calendar');
-        //         $this->addFlash('message',"Ce quai est déjà réservé à cet horaire");
-        //     }
-        // }
-        if ($form->isSubmitted() && $form->isValid()) {
-        
-        $calendarRepository->save($calendar, true);
-        return $this->redirectToRoute('app_calendar');
-        }
-        return $this->render('calendar/new.html.twig', [
-            'calendar' => $calendar,
-            'form' => $form->createView(),
-        ]);
+public function new(Request $request, CalendarRepository $calendarRepository): Response
+{
+    if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
+        return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
     }
+    
+    $calendar = new Calendar();        
+    $form = $this->createForm(CalendarType::class, $calendar);
+    $form->handleRequest($request);
+    
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Get the start and end time of the new event
+        $startTime = $calendar->getStart();
+        $endTime = $calendar->getEnd();
+
+        // Check if there is any overlapping event in the database
+        $overlappingEvents = $calendarRepository->findOverlappingEvents($calendar->getBuilding()->getName(), $startTime, $endTime);
+
+        if (count($overlappingEvents) > 0) {
+            // $errorMessage = sprintf("Il existe déjà un évènement %s from %s to %s.", $calendar->getBuilding()->getName(), $startTime->format('H:i'), $endTime->format('H:i'));
+            $this->addFlash('error', "DTC");
+        } else {
+            // Save the new event in the database
+            $calendarRepository->save($calendar, true);
+             $this->addFlash('success', 'L\'évènement a été créé avec succès.');
+            return $this->redirectToRoute('app_calendar');
+        }
+    }
+    
+    return $this->render('calendar/new.html.twig', [
+        'calendar' => $calendar,
+        'form' => $form->createView(),
+    ]);
+}
 
     #[Route('/{id}/show', name: 'calendar_show', methods: ['GET'])]
     public function show(Request $request, Calendar $calendar): Response

@@ -63,5 +63,36 @@ class MainController extends AbstractController
             return $this->render('main/index.html.twig', compact('data'));
         }
     }
+
+    #[Route('/calendar/building/manager', name: 'app_building_manager')]
+    public function buildingManagement(CalendarRepository $calendarRepository)
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+        $events = $calendarRepository->findAll();
+        $rdvsByBuilding = [];
+
+        foreach($events as $event){
+            $building = $event->getBuilding();
+            if ($building !== null) {
+                $buildingName = $building->getName();
+                $rdvsByBuilding[$buildingName][] = [
+                    'id' => $event->getId(),
+                    'title' => $event->getTitle(),                
+                    'backgroundColor'=> $event->getBackgroundColor(),
+                    'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                    'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                    'building' => $buildingName,
+                    'customer' => $event->getCustomer()->getName(),
+                    'palletsNumber' => $event->getPalletsNumber(),
+                    'transporter' => $event->getTransporter()->getName(),
+                ];
+            }
+        }
+
+        return $this->render('main/building-manager.html.twig', [
+            'rdvsByBuilding' => $rdvsByBuilding
+        ]);
+    }
+    }
 }
 

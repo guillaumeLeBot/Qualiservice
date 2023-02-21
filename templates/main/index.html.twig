@@ -59,6 +59,7 @@
                 slotMinTime: '08:00:00',
                 slotMaxTime: '19:00:00',
             });
+            
         
             calendar.on('eventChange', (e) => {
                 let url = `/api/${e.event.id}/drag_edit`
@@ -80,6 +81,7 @@
                 };
                 let ajaxRequest = new XMLHttpRequest();
                 ajaxRequest.open("PUT", url, true)
+                ajaxRequest.setRequestHeader("Content-Type", "application/json");
                 ajaxRequest.send(JSON.stringify(donnees))
             });
         

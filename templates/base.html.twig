@@ -22,7 +22,6 @@
 <body>
     
     {% block body %}
-   
     {% if app.user %}
     <div class="mb-3">
         Vous êtes Connecté avec {{ app.user.userIdentifier }}, <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnection</a>
