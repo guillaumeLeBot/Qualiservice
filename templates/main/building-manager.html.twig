@@ -15,7 +15,7 @@
     {% endblock navbar %}
 </div>
 <div class="container">
-    <h1>Gestion des quais</h1>
+    <h1>Planning des quais</h1>
 
     {% set buildingNames = [] %}
     {% for buildingName, events in rdvsByBuilding %}
@@ -25,7 +25,7 @@
     <div class="filters">
         <form action="{{ path('app_building_manager') }}" method="GET">
             <label for="date">Filtre par date :</label>
-            <input type="date" name="date" id="date" value="{{ app.request.query.get('date') }}" />
+            <input type="date" name="date" id="date" value="{{ app.request.query.get('date', now|date('Y-m-d')) }}" />
             <button class="btn btn-success" type="submit">Filtrer</button>
         </form>
     </div>
@@ -44,24 +44,26 @@
         <tr>
             <td>{{ i }}h00-{{ i+1 }}h00</td>
             {% for buildingName in buildingNames|sort %}
-            {% set events = rdvsByBuilding[buildingName]|filter(event => event.start|date('Y-m-d') ==
-            app.request.query.get('date')) %}
-            {% set eventFound = false %}
-            {% for event in events %}
-            {% set eventStartHour = event.start|date('H') %}
-            {% set eventEndHour = event.end|date('H') %}
-            {% if eventStartHour <= i and eventEndHour> i %}
-                {% set nbEmplacement = eventEndHour - eventStartHour %}
-                <td colspan="{{ nbEmplacement }}">{{ event.title }} Nbre de palettes : {{ event.palletsNumber }} Client : {{
-                    event.customer }} transporter : {{ event.transporter }}</td>
-                {% set eventFound = true %}
-                {% endif %}
+                {% set events = rdvsByBuilding[buildingName]|filter(event => event.start|date('Y-m-d') ==
+                app.request.query.get('date')) %}
+                {% set eventFound = false %}
+                {% for event in events %}
+                    {% set eventStartHour = event.start|date('H') %}
+                    {% set eventEndHour = event.end|date('H') %}
+                    {% if eventStartHour <= i and eventEndHour > i %}
+                        {% set nbEmplacement = eventEndHour - eventStartHour %}
+                        <td onclick="window.location.href='/calendar/{{ event.id }}/edit';" style="cursor: pointer;">
+                            {{ event.title }} Nbre de palettes : {{ event.palletsNumber }} Client : {{ event.customer }} transporteur : {{ event.transporter }}
+                        </td>
+                        {% set eventFound = true %}
+                    {% endif %}
                 {% endfor %}
                 {% if not eventFound %}
-                <td></td>
+                    <td onclick="window.location.href='/calendar/new';" style="cursor: pointer;"></td>
                 {% endif %}
-                {% endfor %}
+            {% endfor %}
         </tr>
+        
         {% endfor %}
         </tbody>
     </table>

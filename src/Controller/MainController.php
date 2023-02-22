@@ -53,7 +53,7 @@ class MainController extends AbstractController
                     'backgroundColor'=> $event->getBackgroundColor(),
                     'start' => $event->getStart()->format('Y-m-d H:i:s'),
                     'end' => $event->getEnd()->format('Y-m-d H:i:s'),
-                    'building' => $event->getBuilding()->getName(),
+                    'contentTruck' => $event->getContentTruck(),
                     'customer' => $event->getCustomer()->getName(),
                     'palletsNumber' => $event->getPalletsNumber(),
                 ];
@@ -88,9 +88,10 @@ class MainController extends AbstractController
                 ];
             }
         }
-
+        $now = new \DateTime();
         return $this->render('main/building-manager.html.twig', [
-            'rdvsByBuilding' => $rdvsByBuilding
+            'rdvsByBuilding' => $rdvsByBuilding,
+            'now' => $now
         ]);
     }
     }

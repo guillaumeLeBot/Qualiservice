@@ -42,9 +42,9 @@ class ApiController extends AbstractController
         if(
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
-            isset($donnees->building) && !empty($donnees->building) &&
-            isset($donnees->palletsNumber) && !empty($donnees->palletsNumber) &&
-            isset($donnees->customer) && !empty($donnees->customer) &&
+            // isset($donnees->building) && !empty($donnees->building) &&
+            // isset($donnees->palletsNumber) && !empty($donnees->palletsNumber) &&
+            // isset($donnees->customer) && !empty($donnees->customer) &&
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->end) && !empty($donnees->end)
         ){
@@ -71,30 +71,29 @@ class ApiController extends AbstractController
             // On hydrate l'objet avec les données
             $calendar->getId($donnees->id);
             $calendar->setTitle($donnees->title);
-            $calendar->setPalletsNumber($donnees->palletsNumber);
+            // $calendar->setPalletsNumber($donnees->palletsNumber);
             $calendar->setBackgroundColor($donnees->backgroundColor);
             $calendar->setStart(new DateTime($donnees->start));
             $calendar->setEnd(new DateTime($donnees->end));
 
-            $buildingId = $donnees->building;
-            $customerId = $donnees->customer;
+            // $buildingId = $donnees->building;
+            // $customerId = $donnees->customer;
 
-            if (!is_string($buildingId) || !is_string($customerId)) {
-                return new Response('ID invalide', 400);
-            }
+            // if (!is_string($buildingId) || !is_string($customerId)) {
+            //     return new Response('ID invalide', 400);
+            // }
 
-            $building = $em->getRepository(Building::class)->find($buildingId);
-            if ($building) {
-                $calendar->setBuilding($building);
-                $donnees->building_name = $building->getName();
-            }
+            // $building = $em->getRepository(Building::class)->find($buildingId);
+            // if ($building) {
+            //     $calendar->setBuilding($building);
+            //     $donnees->building_name = $building->getName();
+            // }
             
-            $customer = $em->getRepository(Customer::class)->find($customerId);
-            if ($customer) {
-                $calendar->setCustomer($customer);
-                $donnees->customer_name = $customer->getName();
-            }
-            dd($customer);
+            // $customer = $em->getRepository(Customer::class)->find($customerId);
+            // if ($customer) {
+            //     $calendar->setCustomer($customer);
+            //     $donnees->customer_name = $customer->getName();
+            // }
             $em->persist($calendar);
             $em->flush();
 

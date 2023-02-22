@@ -50,11 +50,11 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
 
         if (count($overlappingEvents) > 0) {
             // $errorMessage = sprintf("Il existe déjà un évènement %s from %s to %s.", $calendar->getBuilding()->getName(), $startTime->format('H:i'), $endTime->format('H:i'));
-            $this->addFlash('error', "DTC");
+            return new Response('<script>alert("Il existe déjà un évènement avec ce creneau horaire sur ce quai"); window.location.href = "/calendar/building/manager"</script>', Response::HTTP_FORBIDDEN);
         } else {
             // Save the new event in the database
             $calendarRepository->save($calendar, true);
-             $this->addFlash('success', 'L\'évènement a été créé avec succès.');
+            $this->addFlash('success', 'L\'évènement a été créé avec succès.');
             return $this->redirectToRoute('app_calendar');
         }
     }
@@ -81,6 +81,9 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
     #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
     public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository, EventDispatcherInterface $eventDispatcher): Response
     {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
+            return new Response('<script>alert("Vous n\'êtes pas autorisé à Modifier des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
+        }
         if ($this->getUser() == null) {
         return $this->redirectToRoute('app_login');
         } elseif ($this->getUser()->getRoles() == ["ROLE_LOREAL"]) {
