@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class CalendarType extends AbstractType
 {
@@ -56,17 +57,20 @@ class CalendarType extends AbstractType
                 'data' => false
             ])
             ->add('start', DateTimeType::class, [
-                'label' => 'Date et heure rendez vous',
+                'label' => 'Début rendez vous',
                 'date_widget' => 'single_text',
                 'time_widget' => 'choice',
                 'hours' => range(8, 18),
+                'minutes' => range(0, 0),
+
                 'data' => $builder->getData() && $builder->getData()->getStart() ? $builder->getData()->getStart() : new \DateTime(),
             ])
             ->add('end', DateTimeType::class, [
-                'label' => 'Date et heure rendez vous',
+                'label' => 'Fin rendez vous',
                 'date_widget' => 'single_text',
                 'time_widget' => 'choice',
                 'hours' => range(8, 18),
+                'minutes' => range(0, 0),
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
             // ->add('description', ChoiceType::class, [

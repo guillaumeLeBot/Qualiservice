@@ -55,7 +55,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
             // Save the new event in the database
             $calendarRepository->save($calendar, true);
             $this->addFlash('success', 'L\'évènement a été créé avec succès.');
-            return $this->redirectToRoute('app_calendar');
+            return $this->redirectToRoute('app_building_manager');
         }
     }
     
@@ -96,7 +96,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
         if ($form->isSubmitted() && $form->isValid()) {
             if($calendar->isSpeedSave()){
                 $calendarRepository->save($calendar, true);
-                return $this->redirectToRoute('app_calendar');
+                return $this->redirectToRoute('app_building_manager');
             }
             if($calendar->getValidated() == $calendar->getLogisticLeader()->getCode()){
                 $validate = new DateTimeImmutable();
@@ -113,7 +113,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
                 }
                 $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_leader_checked_new');
-                return $this->redirectToRoute('app_calendar');
+                return $this->redirectToRoute('app_building_manager');
             }
             if($calendar->getChecked() == $calendar->getDriver()->getCode()){
                 $checked = new DateTimeImmutable();
@@ -129,7 +129,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
                 }
                 $calendarRepository->save($calendar, true);
                 return $this->redirectToRoute('app_driver_checked_new');
-                return $this->redirectToRoute('app_calendar');
+                return $this->redirectToRoute('app_building_manager');
             }else {
                 $this->addFlash('message', 'Vous devez entrer un code cariste pour débuter la prise en charge camion ou faire une modification rapide en cochant la case en bas du formulaire.');
             }
@@ -147,7 +147,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
             $calendarRepository->remove($calendar, true);
         }
 
-        return $this->redirectToRoute('app_calendar');
+        return $this->redirectToRoute('app_building_manager');
 
     }
 }
