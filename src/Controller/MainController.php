@@ -99,9 +99,9 @@ class MainController extends AbstractController
                 'now' => $now
             ]);
         }
-        if ($this->isGranted('ROLE_LOREAL')) {
-            return $this->redirectToRoute('app_calendar');
-        }
+        // if ($this->isGranted('ROLE_LOREAL')) {
+        //     return $this->redirectToRoute('app_calendar');
+        // }
     }
 
     // #[Route('/building/manager/new', name: 'manager_new', methods: ['GET', 'POST'])]
