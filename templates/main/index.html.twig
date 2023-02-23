@@ -24,7 +24,7 @@
 
 {% endblock%}
 {% block javascripts %}
-    <script>
+    {# <script>
         window.onload = () => {
             let calendarElt = document.querySelector("#calendar")
             let calendar = new FullCalendar.Calendar(calendarElt, {
@@ -97,8 +97,8 @@
         
             calendar.render()
         }
-    </script>
-    {# <script>
+    </script> #}
+    <script>
         window.onload = () => {
             let calendarElt = document.querySelector("#loreal")
             let calendar = new FullCalendar.Calendar(calendarElt, {
@@ -168,5 +168,5 @@
         
             calendar.render()
         }
-    </script> #}
+    </script>
 {% endblock %}

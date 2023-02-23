@@ -71,34 +71,37 @@ class MainController extends AbstractController
     public function buildingManagement(CalendarRepository $calendarRepository)
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-        $events = $calendarRepository->findAll();
-        $rdvsByBuilding = [];
-        foreach($events as $event){
-            $building = $event->getBuilding();
-            if ($building !== null) {
-                $buildingName = $building->getName();
-                if (!isset($rdvsByBuilding[$buildingName])) {
-                    $rdvsByBuilding[$buildingName] = [];
+            $events = $calendarRepository->findAll();
+            $rdvsByBuilding = [];
+            foreach($events as $event){
+                $building = $event->getBuilding();
+                if ($building !== null) {
+                    $buildingName = $building->getName();
+                    if (!isset($rdvsByBuilding[$buildingName])) {
+                        $rdvsByBuilding[$buildingName] = [];
+                    }
+                    $rdvsByBuilding[$buildingName][] = [
+                        'id' => $event->getId(),
+                        'title' => $event->getTitle(),                
+                        'backgroundColor'=> $event->getBackgroundColor(),
+                        'start' => $event->getStart()->format('Y-m-d H:i:s'),
+                        'end' => $event->getEnd()->format('Y-m-d H:i:s'),
+                        'building' => $buildingName,
+                        'customer' => $event->getCustomer()->getName(),
+                        'palletsNumber' => $event->getPalletsNumber(),
+                        'transporter' => $event->getTransporter()->getName(),
+                    ];
                 }
-                $rdvsByBuilding[$buildingName][] = [
-                    'id' => $event->getId(),
-                    'title' => $event->getTitle(),                
-                    'backgroundColor'=> $event->getBackgroundColor(),
-                    'start' => $event->getStart()->format('Y-m-d H:i:s'),
-                    'end' => $event->getEnd()->format('Y-m-d H:i:s'),
-                    'building' => $buildingName,
-                    'customer' => $event->getCustomer()->getName(),
-                    'palletsNumber' => $event->getPalletsNumber(),
-                    'transporter' => $event->getTransporter()->getName(),
-                ];
             }
+            $now = new \DateTime();
+            return $this->render('main/building-manager.html.twig', [
+                'rdvsByBuilding' => $rdvsByBuilding,
+                'now' => $now
+            ]);
         }
-        $now = new \DateTime();
-        return $this->render('main/building-manager.html.twig', [
-            'rdvsByBuilding' => $rdvsByBuilding,
-            'now' => $now
-        ]);
-    }
+        if ($this->isGranted('ROLE_LOREAL')) {
+            return $this->redirectToRoute('app_calendar');
+        }
     }
 
     // #[Route('/building/manager/new', name: 'manager_new', methods: ['GET', 'POST'])]
