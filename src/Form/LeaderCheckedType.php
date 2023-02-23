@@ -40,7 +40,7 @@ class LeaderCheckedType extends AbstractType
                 'required' => false
             ])
             ->add('isCustomDocChecked', CheckboxType::class, [
-                'label' => 'Les documents des douannes ont-ils été verifiés ?',
+                'label' => 'Les documents des douanes ont-ils été vérifiés ?',
                 'required' => false
             ])
             ->add('commentApprehensionCustom', TextareaType::class, [

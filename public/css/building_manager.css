@@ -1,0 +1,100 @@
+/* Styles pour la vue Building Manager */
+h1 {
+    text-align: center;
+    margin: 20px;
+}
+
+.filters {
+    margin: 20px;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+thead {
+    background-color: #ccc;
+}
+
+thead th {
+    padding: 10px;
+}
+thead th+th {
+    padding: 10px;
+    background-color:#FDFD96
+}
+thead th+th+th {
+    padding: 10px;
+    background-color:#FDFD96;
+}
+thead th+th+th+th {
+    padding: 10px;
+    background-color:#FDFD96;
+}
+thead th+th+th+th+th {
+    padding: 10px;
+    background-color: #ffd2b6;
+}
+thead th+th+th+th+th+th {
+    padding: 10px;
+    background-color: #ffd2b6;;
+}
+thead th+th+th+th+th+th+th {
+    padding: 10px;
+    background-color: #ffd2b6;;
+}
+thead th+th+th+th+th+th+th+th {
+    padding: 10px;
+    background-color: #D8BFD8;;
+}
+thead th+th+th+th+th+th+th+th+th {
+    padding: 10px;
+    background-color: #FF6961;;
+}
+
+tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+tbody td:first-child {
+    font-weight: bold;
+    background-color: #ccc;
+}
+
+tbody td+td {
+    text-align: center;
+    background-color: #58D68D;
+}
+tbody td+td+td {
+    text-align: center;
+    background-color: #5DADE2;
+}
+
+tbody td+td+td+td {
+    text-align: center;
+    background-color: #58D68D;
+}
+
+tbody td+td+td+td+td {
+    text-align: center;
+    background-color: #5DADE2;
+}
+tbody td+td+td+td+td+td {
+    text-align: center;
+    background-color: #58D68D;
+}
+tbody td+td+td+td+td+td+td {
+    text-align: center;
+    background-color: #5DADE2;
+}
+tbody td+td+td+td+td+td+td+td {
+    text-align: center;
+    background-color: #58D68D;
+}
+tbody td+td+td+td+td+td+td+td+td {
+    text-align: center;
+    background-color: #5DADE2;
+}

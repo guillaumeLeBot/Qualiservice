@@ -11,8 +11,9 @@
 
         {% endif%}
         {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-        <a href="/calendar/view">Planning</a>
-        <a href="/loreal">Planning Loreal</a>
+        {# <a href="/calendar/view">Planning</a> #}
+        <a href="/calendar/building/manager">Planning quais</a>
+        <a href="/loreal">Planning L'Oreal</a>
         <a href="/driver">Planning Caristes</a>
         <a href="/admin">Configuration</a>
         {% elseif app.user and 'ROLE_USER' not in app.user.roles %}

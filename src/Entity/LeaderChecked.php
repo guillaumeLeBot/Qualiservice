@@ -156,22 +156,22 @@ class LeaderChecked
         return $this->calendar;
     }
 
-    public function setCalendar(?Calendar $calendar): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($calendar === null && $this->calendar !== null) {
-            $this->calendar->setLeaderListValidate(null);
-        }
+    // public function setCalendar(?Calendar $calendar): self
+    // {
+    //     // unset the owning side of the relation if necessary
+    //     if ($calendar === null && $this->calendar !== null) {
+    //         $this->calendar->setLeaderListValidate(null);
+    //     }
 
-        // set the owning side of the relation if necessary
-        if ($calendar !== null && $calendar->getLeaderListValidate() !== $this) {
-            $calendar->setLeaderListValidate($this);
-        }
+    //     // set the owning side of the relation if necessary
+    //     if ($calendar !== null && $calendar->getLeaderListValidate() !== $this) {
+    //         $calendar->setLeaderListValidate($this);
+    //     }
 
-        $this->calendar = $calendar;
+    //     $this->calendar = $calendar;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, Calendar>

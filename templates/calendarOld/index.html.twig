@@ -1,65 +1,79 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Qualiservice Calendrier{% endblock %}
-
+{% block title %}Qualiservice{% endblock %}
 {% block stylesheets %}
-    <style>
-        body {
-            background-color: #ebebeb
-        }
-
-        #calendrier {
-            width: 75%;
-            background-color: #ffffff;
-            margin: auto;
-        }
-    </style>
+<link rel="stylesheet" href="{{ asset('css/calendarView.css') }}" />
 {% endblock %}
-
-{% block body %}
-<div class="container" style="margin-top:70px">
-    <div id="calendrier">
+{% block body%}
+{% block navbar %}
+{% include "./partials/_navbar.html.twig" %}
+{% endblock navbar %}
+{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" id="calendar"></div>
     </div>
 </div>
+{% endif%}
+{% if app.user and 'ROLE_LOREAL' in app.user.roles %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" id="calendar"></div>
+    </div>
+</div>
+{% endif%}
 
-{% endblock %}
-
+{% endblock%}
 {% block javascripts %}
+
 <script>
     window.onload = () => {
-            let calendarElt = document.querySelector("#calendrier")
-            let calendar = new FullCalendar.Calendar(calendarElt, {
-                initialView: 'timeGridWeek',
-                locale: 'fr',
-                timeZone: 'Europe/Paris',
-                headerToolbar: {
-                    start: 'prev,next today',
-                    center: 'title',
-                    end: 'dayGridMonth,timeGridWeek'
-                },
-                events: {{ data| raw }}
+        let calendarElt = document.querySelector("#calendar")
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'timeGridDay',
+            locale: 'fr',
+            timeZone: 'Europe/Paris',
+            headerToolbar: {
+                start: 'prev,next, timeGridDay,list',
+                center: 'title',
+                end: 'dayGridMonth,timeGridWeek'
+            },
+            buttonText: {
+                day: 'Aujoud\'hui',
+                week: 'Semaine',
+                month: 'Mois',
+                list: 'Liste'
+            },
+            events: {{ data| raw }},
+        nowIndicator: true,
         editable: true,
-            eventResizableFromStart: true
-        })
-        calendar.on('eventChange', (e) => {
-            let url = `/api/${e.event.id}/edit`
-            let datas = {
-                "title": e.event.title,
-                "description": e.event.extendedProps.description,
-                "start": e.event.start,
-                "end": e.event.end,
-                "backgroundColor": e.event.backgroundColor,
-                "borderColor": e.event.borderColor,
-                "textColor": e.event.textColor,
-                "allDay": e.event.allDay
-            }
+            eventResizableFromStart: true,
+        slotMinTime: '08:00:00',
+        slotMaxTime: '19:00:00',
+        });
+    calendar.on('eventChange', (e) => {
+        let url = `/api/${e.event.id}/drag_edit`
+        let donnees = {
+            "id": e.event.id,
+            "title": e.event.title,
+            "backgroundColor": e.event.backgroundColor,
+            "start": e.event.start,
+            "end": e.event.end
+        };
+        let ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open("PUT", url, true)
+        ajaxRequest.send(JSON.stringify(donnees))
+    });
 
-            let ajax = new XMLHttpRequest
-            ajax.open("PUT", url)
-            ajax.send(JSON.stringify(donnees))
-        })
-        calendar.render()
-    }
+    calendar.on('eventClick', (e) => {
+        window.location.href = `/calendar/${e.event.id}/edit`;
+    });
+    calendar.on('dateClick', function (info) {
+        const start = info.dateStr;
+        const end = info.dateStr;
+        window.location.href = `/calendar/new`;
+    });
+    calendar.render()
+}
 </script>
 
 {% endblock %}

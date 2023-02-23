@@ -17,64 +17,156 @@
 {% if app.user and 'ROLE_LOREAL' in app.user.roles %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12" id="calendar"></div>
+            <div class="col-md-12" id="loreal"></div>
         </div>
     </div>
 {% endif%}
 
 {% endblock%}
 {% block javascripts %}
-
-<script>
-window.onload = () => {
-        let calendarElt = document.querySelector("#calendar")
-        let calendar = new FullCalendar.Calendar(calendarElt, {
-            initialView: 'timeGridDay',
-            locale: 'fr',
-            timeZone: 'Europe/Paris',
-            headerToolbar: {
-                start: 'prev,next, timeGridDay,list',
-                center: 'title',
-                end: 'dayGridMonth,timeGridWeek'
-            },
-            buttonText: {
-                day: 'Aujoud\'hui',
-                week: 'Semaine',
-                month: 'Mois',
-                list: 'Liste'
-            },
-            events: {{ data| raw }},
-            nowIndicator: true,
-            editable: true,
-            eventResizableFromStart: true,
-        });
-
-    calendar.on('eventChange', (e) => {
-        let url = `/api/${e.event.id}/drag_edit`
-        let donnees = {
-            "id": e.event.id,
-            "title": e.event.title,
-            "backgroundColor": e.event.backgroundColor,
-            "start": e.event.start,
-            "end": e.event.end
-        };
-        let ajaxRequest = new XMLHttpRequest();
-        ajaxRequest.open("PUT", url, true)
-        ajaxRequest.send(JSON.stringify(donnees))
-    });
-    
-    calendar.on('eventClick', (e) => {
-        window.location.href = `/calendar/${e.event.id}/edit`;
-    });    
-
-    calendar.on('dateClick', function (info) {
-        const start = info.dateStr;
-        const end = info.dateStr;
-        window.location.href = `/calendar/new`;
-    });
-
-    calendar.render()
-}
-</script>
-
+    {# <script>
+        window.onload = () => {
+            let calendarElt = document.querySelector("#calendar")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'timeGridDay',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                headerToolbar: {
+                    start: 'prev,next, timeGridDay,list',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                buttonText: {
+                    day: 'Aujoud\'hui',
+                    week: 'Semaine',
+                    month: 'Mois',
+                    list: 'Liste'
+                },
+                events: {{ data| raw }},
+                nowIndicator: true,
+                editable: true,
+                eventResizableFromStart: true,
+                eventContent: function (arg) {
+                    return {
+                        html: '<b>' + arg.timeText
+                            + '</b><br>' + arg.event.title
+                            + ' - ' + arg.event.extendedProps.building
+                            +' - '+ arg.event.extendedProps.customer
+                            +' - '+'Nombre de palettes'
+                            +'  '+ arg.event.extendedProps.palletsNumber
+                    }
+                },
+                slotMinTime: '08:00:00',
+                slotMaxTime: '19:00:00',
+            });
+            
+        
+            calendar.on('eventChange', (e) => {
+                let url = `/api/${e.event.id}/drag_edit`
+                let donnees = {
+                    "id": e.event.id,
+                    "title": e.event.title,
+                    "backgroundColor": e.event.backgroundColor,
+                    "start": e.event.start,
+                    "end": e.event.end,
+                    "palletsNumber": e.event.extendedProps.palletsNumber,
+                    "building": {
+                        "id": e.event.extendedProps.building.id,
+                        "name": e.event.extendedProps.building.name
+                    },
+                    "customer": {
+                        "id": e.event.extendedProps.customer.id,
+                        "name": e.event.extendedProps.customer.name
+                    },
+                };
+                let ajaxRequest = new XMLHttpRequest();
+                ajaxRequest.open("PUT", url, true)
+                ajaxRequest.setRequestHeader("Content-Type", "application/json");
+                ajaxRequest.send(JSON.stringify(donnees))
+            });
+        
+            calendar.on('eventClick', (e) => {
+                window.location.href = `/calendar/${e.event.id}/edit`;
+            });    
+        
+            calendar.on('dateClick', function (info) {
+                const start = info.dateStr;
+                const end = info.dateStr;
+                window.location.href = `/calendar/new`;
+            });
+        
+            calendar.render()
+        }
+    </script> #}
+    <script>
+        window.onload = () => {
+            let calendarElt = document.querySelector("#loreal")
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'timeGridDay',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                headerToolbar: {
+                    start: 'prev,next, timeGridDay,list',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                buttonText: {
+                    day: 'Aujoud\'hui',
+                    week: 'Semaine',
+                    month: 'Mois',
+                    list: 'Liste'
+                },
+                events: {{ data| raw }},
+                nowIndicator: true,
+                editable: true,
+                eventResizableFromStart: true,
+                eventContent: function (arg) {
+                    return {
+                        html: '<b>' + arg.timeText
+                            + '</b><br>' + arg.event.title
+                            + ' - ' + arg.event.extendedProps.contentTruck
+                            +' - '+ arg.event.extendedProps.customer
+                            +' - '+'Nombre de palettes'
+                            +'  '+ arg.event.extendedProps.palletsNumber
+                    }
+                },
+                slotMinTime: '08:00:00',
+                slotMaxTime: '19:00:00',
+            });
+            
+        
+            calendar.on('eventChange', (e) => {
+                let url = `/api/${e.event.id}/drag_edit`
+                let donnees = {
+                    "id": e.event.id,
+                    "title": e.event.title,
+                    "backgroundColor": e.event.backgroundColor,
+                    "start": e.event.start,
+                    "end": e.event.end,
+                    "palletsNumber": e.event.extendedProps.palletsNumber,
+                    "contentTruck": e.event.extendedProps.contentTruck,                    
+                    "customer": {
+                        "id": e.event.extendedProps.customer.id,
+                        "name": e.event.extendedProps.customer.name
+                    },
+                };
+                let ajaxRequest = new XMLHttpRequest();
+                ajaxRequest.open("PUT", url, true)
+                ajaxRequest.setRequestHeader("Content-Type", "application/json");
+                ajaxRequest.send(JSON.stringify(donnees))
+            });
+        
+            calendar.on('eventClick', (e) => {
+                window.location.href = `/calendar/${e.event.id}/edit`;
+            });    
+        
+            calendar.on('dateClick', function (info) {
+                const start = info.dateStr;
+                const end = info.dateStr;
+                window.location.href = `/calendar/new`;
+            });
+        
+            calendar.render()
+        }
+    </script>
 {% endblock %}

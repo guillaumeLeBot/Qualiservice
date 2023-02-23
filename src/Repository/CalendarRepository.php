@@ -39,6 +39,20 @@ class CalendarRepository extends ServiceEntityRepository
         }
     }
     
+    public function findOverlappingEvents(string $buildingName, \DateTime $startTime, \DateTime $endTime): array
+    {
+    $qb = $this->createQueryBuilder('c');
+    $qb->join('c.building', 'b')
+        ->andWhere('b.name = :buildingName')
+        ->andWhere('c.start < :endTime')
+        ->andWhere('c.end > :startTime')
+        ->setParameter('buildingName', $buildingName)
+        ->setParameter('startTime', $startTime)
+        ->setParameter('endTime', $endTime);
+    return $qb->getQuery()->getResult();
+    }
+
+
 
 //    /**
 //     * @return Calendar[] Returns an array of Calendar objects
