@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Form\CalendarType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
+
+
 
 class ExportController extends AbstractController
 {
     #[Route('/export', name: 'app_export')]
-    public function index(Request $request): Response
+    public function index(Request $request, PersistenceManagerRegistry $doctrine): Response
     {
-        $form = $this->createForm(ExportCalendarType::class);
+        $form = $this->createForm(CalendarType::class);
         $form->handleRequest($request);
 
         $calendars = [];
@@ -21,11 +25,11 @@ class ExportController extends AbstractController
             $startDate = $data['startDate'];
             $endDate = $data['endDate'];
 
-            $calendars = $this->getDoctrine()
+            $calendars = $doctrine()
                 ->getRepository(Calendar::class)
                 ->findByDateRange($startDate, $endDate);
         }
-
+        dd($doctrine);
         return $this->render('export_calendar/index.html.twig', [
             'form' => $form->createView(),
             'calendars' => $calendars,
