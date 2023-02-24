@@ -73,24 +73,28 @@ class MainController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             $events = $calendarRepository->findAll();
             $rdvsByBuilding = [];
-            foreach($events as $event){
+            foreach ($events as $event) {
                 $building = $event->getBuilding();
                 if ($building !== null) {
                     $buildingName = $building->getName();
                     if (!isset($rdvsByBuilding[$buildingName])) {
                         $rdvsByBuilding[$buildingName] = [];
                     }
-                    $rdvsByBuilding[$buildingName][] = [
+                    $eventData = [
                         'id' => $event->getId(),
-                        'title' => $event->getTitle(),                
-                        'backgroundColor'=> $event->getBackgroundColor(),
+                        'title' => $event->getTitle(),
+                        'comandNumber' => $event->getCommandNumber(),
+                        'backgroundColor' => $event->getBackgroundColor(),
                         'start' => $event->getStart()->format('Y-m-d H:i:s'),
                         'end' => $event->getEnd()->format('Y-m-d H:i:s'),
                         'building' => $buildingName,
                         'customer' => $event->getCustomer()->getName(),
                         'palletsNumber' => $event->getPalletsNumber(),
                         'transporter' => $event->getTransporter()->getName(),
+                        'validatedAt' => $event->getValidatedAt() != null ? $event->getValidatedAt()->format('d-m-Y') : null,
+                        'checkedAt' => $event->getCheckedAt() != null ? $event->getCheckedAt()->format('d-m-Y') : null,
                     ];
+                    $rdvsByBuilding[$buildingName][] = $eventData;
                 }
             }
             $now = new \DateTime();
@@ -99,45 +103,10 @@ class MainController extends AbstractController
                 'now' => $now
             ]);
         }
+        return $this->redirectToRoute('app_building_manager');
         // if ($this->isGranted('ROLE_LOREAL')) {
         //     return $this->redirectToRoute('app_calendar');
         // }
     }
-
-    // #[Route('/building/manager/new', name: 'manager_new', methods: ['GET', 'POST'])]
-    // public function newFromBuilding(Request $request, CalendarRepository $calendarRepository): Response
-    // {
-    //     if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
-    //         return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
-    //     }
-        
-    //     $calendar = new Calendar();        
-    //     $form = $this->createForm(CalendarType::class, $calendar);
-    //     $form->handleRequest($request);
-        
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         // Get the start and end time of the new event
-    //         $startTime = $calendar->getStart();
-    //         $endTime = $calendar->getEnd();
-
-    //         // Check if there is any overlapping event in the database
-    //         $overlappingEvents = $calendarRepository->findOverlappingEvents($calendar->getBuilding()->getName(), $startTime, $endTime);
-
-    //         if (count($overlappingEvents) > 0) {
-    //             // $errorMessage = sprintf("Il existe déjà un évènement %s from %s to %s.", $calendar->getBuilding()->getName(), $startTime->format('H:i'), $endTime->format('H:i'));
-    //             return new Response('<script>alert("Il existe déjà un évènement avec ce creneau horaire sur ce quai"); window.location.href = "/calendar/building/manager"</script>', Response::HTTP_FORBIDDEN);
-    //         } else {
-    //             // Save the new event in the database
-    //             $calendarRepository->save($calendar, true);
-    //             $this->addFlash('success', 'L\'évènement a été créé avec succès.');
-    //             return $this->redirectToRoute('app_building_manager');
-    //         }
-    //     }
-        
-    //     return $this->render('partials/_form_new.html.twig', [
-    //         'calendar' => $calendar,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 }
 

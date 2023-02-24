@@ -74,7 +74,13 @@
                     {% if eventStartHour <= i and eventEndHour > i %}
                         {% set nbEmplacement = eventEndHour - eventStartHour %}
                         <td onclick="window.location.href='/calendar/{{ event.id }}/edit';" style="cursor: pointer;">
-                            {{ event.title }} Nbre de palettes : {{ event.palletsNumber }} Client : {{ event.customer }} transporteur : {{ event.transporter }}
+                            {{ event.title }}
+                            {{event.comandNumber}} <br>    
+                            Nbre palettes : {{ event.palletsNumber }}<br>
+                            Client : {{ event.customer }} <br>
+                            transporteur : {{ event.transporter }} <br>
+                            {% if event.checkedAt is not empty %}Controle cariste le : {{ event.checkedAt|format('d-m-Y') }}<br>{% endif %}
+                            {% if event.validatedAt is not empty %}Validation logistique le : {{ event.validatedAt|format('d-m-Y') }}<br>{% endif %}
                         </td>
                         {% set eventFound = true %}
                     {% endif %}
