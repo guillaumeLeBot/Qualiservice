@@ -30,22 +30,25 @@
     {% endif %}
     {% endfor %}
     {% endfor %}
-    
-    <div class="filters">
-        <form action="{{ path('app_building_manager') }}" method="GET">
-            <label for="date">Filtre par date :</label>
-            <input type="date" name="date" id="date" value="{{ app.request.query.get('date', now|date('Y-m-d')) }}" />
-            <label for="customer">Filtre par client :</label>
-            <select name="customer" id="customer">
-                <option value="all" {% if not app.request.query.get('customer') or app.request.query.get('customer')=='all'
-                    %}selected{% endif %}>Tous</option>
-                {% for customer in customers|sort %}
-                <option value="{{ customer }}" {% if app.request.query.get('customer')==customer %}selected{% endif %}>{{
-                    customer }}</option>
-                {% endfor %}
-            </select>
-            <button class="btn btn-success" type="submit">Filtrer</button>
-        </form>
+    <div class="container">
+        <a href="{{ path('app_building_export', { 'start_date': app.request.query.get('start_date'), 'end_date': app.request.query.get('end_date') }) }}" class="btn btn-primary">Exporter en CSV</a>
+
+        <div class="filters">
+            <form action="{{ path('app_building_manager') }}" method="GET">
+                <label for="date">Filtre par date :</label>
+                <input type="date" name="date" id="date" value="{{ app.request.query.get('date', now|date('Y-m-d')) }}" />
+                <label for="customer">Filtre par client :</label>
+                <select name="customer" id="customer">
+                    <option value="all" {% if not app.request.query.get('customer') or app.request.query.get('customer')=='all'
+                        %}selected{% endif %}>Tous</option>
+                    {% for customer in customers|sort %}
+                    <option value="{{ customer }}" {% if app.request.query.get('customer')==customer %}selected{% endif %}>{{
+                        customer }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-success" type="submit">Filtrer</button>
+            </form>
+        </div>
     </div>
 
     <table>

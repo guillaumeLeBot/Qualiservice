@@ -1,48 +1,73 @@
 {% extends 'base.html.twig' %}
+
 {% block stylesheets %}
 <link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
 {% endblock %}
 
 {% block title %}Loréal planing{% endblock %}
+
 {% block body %}
 {% block navbar %}
 {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
 
-    <div class="card-deck">
-        <h1>Planning détaillé L'Oréal</h1>
-        {% for event in events %}
-            <div class="card">
-                
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>date arrivée / départ prévu</th>
-                                <th>Numéro LS</th>
-                                <th>Nbr de palettes</th>
-                                <th>Contenu du camion</th>
-                                <th>Date de contrôle marchandises</th>
-                                <th>Date de validation marchandises</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ event.title}}</td>
-                                <td>{{ event.start}}</td>
-                                <td>{{ event.command_number }}</td>
-                                <td>{{ event.pallets_number }}</td>
-                                <td>{{ event.content_truck }}</td>
-                                <td>{{ event.checkedAt }}</td>
-                                <td>{{ event.validatedAt }}</td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                    
-                </div>
-            </div>
-        {% endfor %}
+<div class="card-deck">
+    <h1>Planning détaillé L'Oréal</h1>
+    {# <div class="container">
+        <form method="get" action="{{ path('app_loreal') }}">
+            <label for="start_date">Filtrer par date:</label>
+            <input type="date" name="date" id="date" value="{{ app.request.query.get('date')|default(now|date('Y-m-d')) }}" />
+        
+            <button class="btn btn-success" type="submit">Filter</button>
+        </form>
     </div>
+    
+    {% set events = events|filter(event => event.start|date('Y-m-d') == app.request.query.get('date')|default(now|date('Y-m-d'))) %} #}
+    <div class="container">
+        <a href="{{ path('app_loreal_export', { 'start_date': app.request.query.get('start_date'), 'end_date': app.request.query.get('end_date') }) }}" class="btn btn-primary">Exporter en CSV</a>
+        <form method="get" action="{{ path('app_loreal') }}">
+            <label for="start_date">Filtrer par date:</label>
+            <input type="date" name="start_date" id="start_date" value="{{ app.request.query.get('start_date')|default(now|date('Y-m-d')) }}" />
+            <input type="date" name="end_date" id="end_date" value="{{ app.request.query.get('end_date')|default(now|date('Y-m-d')) }}" />
+            <button class="btn btn-success" type="submit">Filter</button>
+        </form>
+    </div>
+    {% set events = events|filter(event => event.start|date('Y-m-d') >= app.request.query.get('start_date')|default(now|date('Y-m-d')))|filter(event => event.start|date('Y-m-d') <= app.request.query.get('end_date')|default(now|date('Y-m-d'))) %}    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Arrivée Qualiservice</th>
+                        <th>Départ Qualiservice</th>
+                        <th>Numéro LS</th>
+                        <th>Nbr de palettes</th>
+                        <th>Contenu du camion</th>
+                        <th>Date de contrôle marchandises</th>
+                        <th>Date de validation marchandises</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                    <tr>
+                        <td>{{ event.title}}</td>
+                        {% if event.title == 'Reception'%}
+                        <td>{{ event.start|date('d-m-Y H:i:s')}}</td>
+                        {% endif %}
+                        {% if event.title == 'Expedition'%}
+                        <td>{{ event.start|date('d-m-Y H:i:s')}}</td>
+                        {% endif%}
+                        <td>{{ event.command_number }}</td>
+                        <td>{{ event.pallets_number }}</td>
+                        <td>{{ event.content_truck }}</td>
+                        <td>{{ event.checkedAt }}</td>
+                        <td>{{ event.validatedAt }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
