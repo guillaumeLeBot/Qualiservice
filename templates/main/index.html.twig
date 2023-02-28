@@ -24,7 +24,8 @@
 
 {% endblock%}
 {% block javascripts %}
-    {# <script>
+{% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+    <script>
         window.onload = () => {
             let calendarElt = document.querySelector("#calendar")
             let calendar = new FullCalendar.Calendar(calendarElt, {
@@ -97,7 +98,8 @@
         
             calendar.render()
         }
-    </script> #}
+    </script>
+{%endif%}
     {% if app.user and 'ROLE_LOREAL' in app.user.roles %}
         <script>
             window.onload = () => {

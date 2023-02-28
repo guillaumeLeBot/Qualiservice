@@ -31,8 +31,25 @@
     {% endfor %}
     {% endfor %}
     <div class="container">
-        <a href="{{ path('app_building_export', { 'start_date': app.request.query.get('start_date'), 'end_date': app.request.query.get('end_date') }) }}" class="btn btn-primary">Exporter en CSV</a>
-
+        <form action="{{ path('app_building_export') }}" method="get">
+            <div class="row">
+                <div class="col md-4">
+                    <label for="start_date">Date de début :</label>
+                    <input type="date" name="start_date" id="start_date" class="form-control"
+                        value="{{ app.request.query.get('start_date') }}" required>
+                </div>
+                <div class="col md-4">
+                    <label for="end_date">Date de fin :</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control"
+                        value="{{ app.request.query.get('end_date') }}" required>
+                </div>
+                <div class="col md-4">
+                    <button type="submit" class="btn btn-primary mt-4">Exporter en CSV</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container">
         <div class="filters">
             <form action="{{ path('app_building_manager') }}" method="GET">
                 <label for="date">Filtre par date :</label>
