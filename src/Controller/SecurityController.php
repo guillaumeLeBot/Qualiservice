@@ -13,22 +13,24 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     { 
-        if ($this->getUser()) {
-            if ($this->isGranted('ROLE_LOREAL') && $this->isGranted('ROLE_USER')) {
+        $user = $this->getUser();
+        if ($user) {
+            if ($this->isGranted('ROLE_LOREAL')) {
                 return $this->redirectToRoute('app_loreal');
             }
             if ($this->isGranted('ROLE_ADMIN')) {
-                return $this->redirectToRoute('app_calendar');
+                return $this->redirectToRoute('app_building_manager');
             }
         }
+        dump($user);
         $referer = $request->headers->get('referer');
-        
-        $lastRoute = $referer ? $referer : ($this->isGranted('ROLE_LOREAL') ? $this->generateUrl('app_loreal') : $this->generateUrl('app_calendar'));
-        
+
+        // $lastRoute = $referer ? $referer : ($this->isGranted('ROLE_LOREAL') ? $this->generateUrl('app_loreal') : $this->generateUrl('app_building_manager'));
+
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
-            'lastRoute' => $lastRoute,
+            // 'lastRoute' => $lastRoute,
         ]);
     }
 

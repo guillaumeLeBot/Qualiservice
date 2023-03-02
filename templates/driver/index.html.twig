@@ -8,7 +8,7 @@
 {% block navbar %}
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
-<div class="card-deck">
+<div class="card-deck" style="padding-top: 65px;">
     {% for driver in drivers %}
         <div class="card">
             <div class="card-header">{{ driver.name }}</div>
