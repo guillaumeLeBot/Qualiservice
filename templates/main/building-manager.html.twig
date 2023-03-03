@@ -1,9 +1,11 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-2imU6zjZ6JfU1lhnUyLxNlmKZX+CX6Nv8NnE/6UhtZ6Urr/o/omhcx6MfLxoyTGWyAFOGAsiQmRlHTKjXzdzg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 {% block stylesheets %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('css/building_manager.css') }}" />
 {% endblock %}
 {% block navbar %}
@@ -12,7 +14,7 @@
 {% block Body %}
 <div class="container" style="padding-top: 85px;">
     <h1>Planning des quais</h1>
-
+    
     {% set buildingNames = [] %}
     {% for buildingName, events in rdvsByBuilding %}
     {% set buildingNames = buildingNames|merge([buildingName]) %}
@@ -26,18 +28,18 @@
     {% endif %}
     {% endfor %}
     {% endfor %}
-    <div class="container">
+    <div class="container" style="max-width: 1000px; display:flex; justify-content:center; align-items:center; margin: 0 auto;">
         <form action="{{ path('app_building_export') }}" method="get">
             <div class="row">
                 <div class="col md-4">
                     <label for="start_date">Date de début :</label>
                     <input type="date" name="start_date" id="start_date" class="form-control"
-                        value="{{ app.request.query.get('start_date') }}" required>
+                        value="{{ app.request.query.get('start_date')|default(now|date('Y-m-d')) }}" required>
                 </div>
                 <div class="col md-4">
                     <label for="end_date">Date de fin :</label>
                     <input type="date" name="end_date" id="end_date" class="form-control"
-                        value="{{ app.request.query.get('end_date') }}" required>
+                        value="{{ app.request.query.get('end_date')|default(now|date('Y-m-d')) }}" required>
                 </div>
                 <div class="col md-4">
                     <button type="submit" class="btn btn-primary mt-4">Exporter en CSV</button>
@@ -45,7 +47,7 @@
             </div>
         </form>
     </div>
-    <div class="container">
+    <div class="container"style="max-width: 900px; display:flex; justify-content:center; align-items:center; margin: 0 auto;">
         <div class="filters">
             <form action="{{ path('app_building_manager') }}" method="GET">
                 <label for="date">Filtre par date :</label>
@@ -61,6 +63,22 @@
                 </select>
                 <button class="btn btn-success" type="submit">Filtrer</button>
             </form>
+        </div>
+    </div>
+    <div class="container"style="max-width: 700px; display:flex; justify-content:center; align-items:center; margin: 0 auto;">
+        <div class="row" >
+            <div class="col md-4"><p>
+                <img src="{{ asset('image/smiley-colere.png') }}" alt="angry emoji">
+                : Aucun contrôle marchandise
+            </p></div>
+            <div class="col md-4"> <p>
+                <img src="{{ asset('image/smiley-pensif.png') }}" alt="pensive emoji">
+                : Contrôle marchandise uniquement
+            </p></div>
+            <div class="col md-4"><p>
+                <img src="{{ asset('image/smiley-content.png') }}" alt="content emoji">
+                : Contrôle marchandise et documents + stock
+            </p></div>
         </div>
     </div>
 
@@ -95,8 +113,21 @@
                             Nbre palettes : {{ event.palletsNumber }}<br>
                             Client : {{ event.customer }} <br>
                             transporteur : {{ event.transporter }} <br>
-                            {% if event.checkedAt is not empty %}Controle cariste le : {{ event.checkedAt|format('d-m-Y') }}<br>{% endif %}
-                            {% if event.validatedAt is not empty %}Validation logistique le : {{ event.validatedAt|format('d-m-Y') }}<br>{% endif %}
+                            {# {% if event.validatedAt is not empty %}Validation logistique le : {{ event.validatedAt|format('d-m-Y') }}<br>{% endif %} #}
+                            {% if event.checkedAt is empty and event.validatedAt is empty %}
+                                <img src="{{ asset('image/smiley-colere.png') }}" alt="angry emoji">
+                            {% elseif event.checkedAt is not empty %}
+                                Controle Marchandise le : {{ event.checkedAt|format('d-m-Y') }}<br>
+                                {% if event.validatedAt is not empty %}
+                                Controle documents + stock le : {{ event.validatedAt|format('d-m-Y') }}<br>
+                                    <img src="{{ asset('image/smiley-content.png') }}" alt="content emoji">
+                                {% else %}
+                                    <img src="{{ asset('image/smiley-pensif.png') }}" alt="pensive emoji">
+                                {% endif %}
+                            {% elseif event.validatedAt is not empty %}
+                            Controle documents + stock le : {{ event.validatedAt|format('d-m-Y') }}<br>
+                                <img src="{{ asset('image/smiley-content.png') }}" alt="content emoji">
+                            {% endif %}
                         </td>
                         {% set eventFound = true %}
                     {% endif %}

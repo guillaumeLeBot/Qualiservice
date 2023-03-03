@@ -64,15 +64,15 @@ class CalendarRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findLorealEventsByDate(DateTimeInterface $startDate, DateTimeInterface $endDate): array
+    public function findLorealEventsByDate(\DateTimeInterface $startDate, \DateTimeInterface $endDate): array
     {
         $qb = $this->createQueryBuilder('e');
 
         $qb->leftJoin('e.customer', 'c')
-            ->where('c.name = :customer_name')
+            ->where('c.name = :customerName')
             ->andWhere('e.start >= :start')
             ->andWhere('e.end <= :end')
-            ->setParameter('customer_name', 'LOREAL')
+            ->setParameter('customerName', 'LOREAL')
             ->setParameter('start', $startDate)
             ->setParameter('end', $endDate)
             ->orderBy('e.start', 'ASC');

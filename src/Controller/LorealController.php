@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Calendar;
 use App\Repository\CalendarRepository;
 use App\Repository\CustomerRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -62,10 +63,11 @@ class LorealController extends AbstractController
         $endDate = \DateTime::createFromFormat('Y-m-d', $endDate);
 
         // Find calendar events for L'Oréal customer in date range
-        if($lorealCustomer){
+        $calendarEvents = [];
+        if($lorealCustomer == "LOREAL"){
             $calendarEvents = $calendarRepository->findLorealEventsByDate($startDate, $endDate);
-
         }
+        
         // Create a new Spreadsheet object
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -81,7 +83,7 @@ class LorealController extends AbstractController
         // Set data
         $rowIndex = 2;
         foreach ($calendarEvents as $event) {
-            if ($event->getCustomer()->getName() == 'Loreal') {
+            if ($event->getCustomer() == $lorealCustomer) {
                 $sheet->setCellValue('A' . $rowIndex, $event->getTitle());
                 $sheet->setCellValue('B' . $rowIndex, $event->getStart()->format('d-m-Y H:i:s'));
                 $sheet->setCellValue('C' . $rowIndex, $event->getCommandNumber());

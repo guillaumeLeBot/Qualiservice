@@ -1,13 +1,9 @@
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-2imU6zjZ6JfU1lhnUyLxNlmKZX+CX6Nv8NnE/6UhtZ6Urr/o/omhcx6MfLxoyTGWyAFOGAsiQmRlHTKjXzdzg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-</head>
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/nav.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-DsK8uO7V1wE4y4qV4e9mPoh69aFvLmxZJ7rlFNtk8ODjrWV7w1cLuZh98VNG4+J9KjVtgyFNkrZIY+89SdC8nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- JS de Bootstrap (nécessite jQuery) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-c7o6uJmiEjLIX+Pj0zZAdmXiR2RmB8XZ5nfD6tKjZu3qZ5JhEX9vHfnSH6YJQ6Z1lBQBx8JjHvDyddtBp18+3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-YVtqW4Cw4V7/Bu1yUEfVzJW1IDvL+7e+kZjNpVd0F8aM+Pf/2z2tuT1FrIje9BJc13a+uZ/hJLuFnEhLzD8HOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="{{ asset('css/nav.css') }}" />
 {% endblock %}
 {% block navbar %}
     <nav role="navigation">
@@ -22,41 +18,43 @@
                 <li><a href="{{path('app_loreal')}}">Planning Détaillé</a></li>
                 {% endif%}
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-                <li class="dropdown">
-                    <a class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" href="#0">Planning clients</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Planning clients
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{path('app_loreal')}}">Loreal</a></li>
                         <li><a class="dropdown-item" href="#">Goliate</a></li>
                         <li><a class="dropdown-item" href="#">Guerresheismer</a></li>
                     </ul>
                 </li>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown button
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Planning transporteur
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{path('app_loreal')}}">CITRA</a></li>
+                        
                     </ul>
-                </div>
+                </li>
                 <li><a href="/calendar/building/manager">Planning quais</a></li>
                 <li><a href="{{path('app_driver')}}">Planning caristes</a></li>
                 <li><a href="{{path('admin')}}">Configuration</a></li>
-                
+
                 {% endif%}
                 <li>{% if app.user %}
-                {# <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnectez vous {{ app.user.userIdentifier }} </a> #}
-                <a id="link-logout" href="{{ path('app_logout') }}">
-                    <i id="logout" class="fa fa-sign-out"></i> Déconnexion {{ app.user.userIdentifier }}
-                </a>
-                {# {% else %}
-                <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}
-                {% endif %}</li>
+                    {# <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnectez vous {{ app.user.userIdentifier
+                        }} </a> #}
+                        <a id="link-logout" href="{{ path('app_logout') }}">
+                            <img src="{{ asset('../image/logout_icon.png') }}" alt="Déconnexion" />
+                            {{ app.user.userIdentifier }}
+                        </a>
+                    {# {% else %}
+                    <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}
+                    {% endif %}
+                </li>
             </ul>
         </div>
     </nav>
 {% endblock navbar %}
-
-

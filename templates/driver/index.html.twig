@@ -8,42 +8,50 @@
 {% block navbar %}
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
-<div class="card-deck" style="padding-top: 65px;">
-    {% for driver in drivers %}
-        <div class="card">
-            <div class="card-header">{{ driver.name }}</div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>date</th>
-                            <th>Nbr de palettes</th>
-                            <th>Type</th>
-                            <th>Client</th>
-                            <th>Fournisseur</th>
-                            <th>Bâtiment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for event in events %}
-                            {% if event.driver == driver.name %}
+
+    <div class="filters">
+        <form action="{{ path('app_driver') }}" method="GET">
+            <label for="date">Filtre par date :</label>
+            <input type="date" name="date" id="date" value="{{ app.request.query.get('date', now|date('Y-m-d')) }}" />
+            <button class="btn btn-success" type="submit">Filtrer</button>
+        </form>
+    </div>
+    <div class="card-deck" style="padding-top: 65px;">
+        {% for driver in drivers %}
+            <div class="card">
+                <div class="card-header">{{ driver.name }}</div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{ event.start }}</td>
-                                <td>{{ event.pallets_number }}</td>
-                                <td>{{ event.title }}</td>
-                                <td>{{ event.customer }}</td>
-                                <td>{{ event.supplier }}</td>
-                                <td>{{ event.building }}</td>
+                                <th>date</th>
+                                <th>Nbr de palettes</th>
+                                <th>Type</th>
+                                <th>Client</th>
+                                <th>Fournisseur</th>
+                                <th>Bâtiment</th>
                             </tr>
-                            {% endif%}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <a href="{{ path('app_driver_pdf', {'id': driver.id}) }}" class="btn btn-primary" onclick="printTable()">Imprimer </a>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                                {% if event.driver == driver.name and event.start() == date %}
+                                    <tr>
+                                        <td>{{ event.start }}</td>
+                                        <td>{{ event.pallets_number }}</td>
+                                        <td>{{ event.title }}</td>
+                                        <td>{{ event.customer }}</td>
+                                        <td>{{ event.supplier }}</td>
+                                        <td>{{ event.building }}</td>
+                                    </tr>
+                                {% endif%}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_driver_pdf', {'id': driver.id}) }}" class="btn btn-primary" onclick="printTable()">Imprimer </a>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 {% endblock%}
 {% block javascript%}
     <script>

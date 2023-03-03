@@ -2,14 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\Calendar;
 use App\Entity\DriverChecked;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class DriverCheckedType extends AbstractType
 {
@@ -33,6 +35,11 @@ class DriverCheckedType extends AbstractType
             // ->add('durationLoading')
             ->add('isCompliant', CheckboxType::class, [
                 'label' => 'Avez vous effectué le controle des marchandises ?'
+            ])
+            ->add('calendar', EntityType::class, [
+                'label' => 'Nombre de palette Théorique',
+                'class' => Calendar::class,
+                'choice_label' => 'pallets_number',
             ])
             ->add('palletsChecked', TextType::class, [
                 'label' => 'Nombre de palettes contrôlées',

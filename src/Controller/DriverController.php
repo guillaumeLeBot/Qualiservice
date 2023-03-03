@@ -33,9 +33,10 @@ class DriverController extends AbstractController
                 $events[] = $event;
             }
             // $time_formatted = date("H:i:s", mktime(0,0,$time_in_seconds));
-            
+            $now = new \DateTime();
+
         }
-        return $this->render('driver/index.html.twig', compact('events', 'drivers'));
+        return $this->render('driver/index.html.twig', compact('events', 'drivers', 'now'));
     }
 
     #[Route('/driver/{id}/pdf', name:"app_driver_pdf")]

@@ -22,15 +22,14 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('app_building_manager');
             }
         }
-        dump($user);
         $referer = $request->headers->get('referer');
 
-        // $lastRoute = $referer ? $referer : ($this->isGranted('ROLE_LOREAL') ? $this->generateUrl('app_loreal') : $this->generateUrl('app_building_manager'));
+        $lastRoute = $referer ? $referer : ($this->isGranted('ROLE_LOREAL') ? $this->generateUrl('app_loreal') : $this->generateUrl('app_building_manager'));
 
         return $this->render('security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
-            // 'lastRoute' => $lastRoute,
+            'lastRoute' => $lastRoute,
         ]);
     }
 

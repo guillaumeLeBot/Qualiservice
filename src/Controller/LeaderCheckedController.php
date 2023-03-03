@@ -31,7 +31,7 @@ class LeaderCheckedController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $leaderCheckedRepository->save($leaderChecked, true);
 
-            return $this->redirectToRoute('app_calendar', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_building_manager', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('leader_checked/new.html.twig', [
