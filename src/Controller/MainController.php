@@ -112,7 +112,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/calendar/building/export', name: 'app_building_export')]
-    public function export(CalendarRepository $calendarRepository, CustomerRepository $customerRepository, Request $request): Response
+    public function export(CalendarRepository $calendarRepository, Request $request): Response
     {
         // Get start and end dates from request parameters
         $startDate = $request->query->get('start_date');

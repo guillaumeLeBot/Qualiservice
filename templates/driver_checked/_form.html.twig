@@ -1,45 +1,119 @@
 <link rel="stylesheet" href="{{ asset('css/driver-checked.css') }}" />
 
 {{ form_start(form) }}
-    <div class="container-fluid ">
-        <div class="row">
-            <div class="col md-12">
-                <h1>Contrôle Marchandise</h1>
-                <span id="span-cariste">Attention la validation de ce formulaire engage votre responsabilité</span>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col md-12">
+            <h1>Contrôle camion</h1>
+            <span id="span-cariste">Attention la validation de ce formulaire engage votre responsabilité</span>
         </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.startLoading) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.stopLoading) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{form_row(form.pallets_number)}}
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{form_row(form.isCompliant)}}
-            </div>
-            <div class="col md-6">
-                {{form_row(form.palletsChecked)}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-12">
-                {{form_row(form.comment)}}
-            </div>
-        </div>
-        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-        <button class="green">{{ button_label|default('Enregister') }}</button>
-        {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
-        <button class="green">{{ button_label|default('Enregister') }}</button>
-        {% endif %}
-        {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
-        <button class="green">{{ button_label|default('Enregister') }}</button>
-        {% endif %}
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                {{ form_widget(form.startLoading, {'attr': {'class': 'form-control start-loading', 'readonly': 'true'}}) }}
+                <div class="input-group-append">
+                    <button class="btn btn-success start-btn start-timer" type="button">Start</button>
+                </div>
+            </div>
+            <div class="input-group mt-3">
+                <div class="timer d-none">
+                    <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                {{ form_widget(form.stopLoading, {'attr': {'class': 'form-control stop-loading', 'readonly': 'true'}}) }}
+                <div class="input-group-append">
+                    <button class="btn btn-danger stop-btn stop-timer" type="button">Stop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col md-6">
+            {{form_row(form.isCompliant)}}
+        </div>
+        <div class="col md-6">
+            {{form_row(form.palletsChecked)}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col md-12">
+            {{form_row(form.comment)}}
+        </div>
+    </div>
+    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+    <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+    <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% endif %}
+    {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
+    <button class="green">{{ button_label|default('Enregister') }}</button>
+    {% endif %}
+</div>
 {{ form_end(form) }}
+
+{% block javascripts %}
+<script>
+    const startBtn = document.querySelector('.start-btn');
+const stopBtn = document.querySelector('.stop-btn');
+const startLoadingInput = document.querySelector('.start-loading');
+const stopLoadingInput = document.querySelector('.stop-loading');
+const timerDiv = document.querySelector('.timer');
+
+let startTime, stopTime, timerInterval;
+
+startBtn.addEventListener('click', function () {
+    startTime = new Date();
+    const hours = startTime.getHours().toString().padStart(2, '0');
+    const minutes = startTime.getMinutes().toString().padStart(2, '0');
+    const seconds = startTime.getSeconds().toString().padStart(2, '0');
+    const timeString = hours + ':' + minutes + ':' + seconds;
+
+    startLoadingInput.value = timeString;
+    timerDiv.classList.remove('d-none');
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    timerInterval = setInterval(updateTimer, 1000);
+});
+
+stopBtn.addEventListener('click', function () {
+    clearInterval(timerInterval);
+    stopTime = new Date();
+    const hours = stopTime.getHours().toString().padStart(2, '0');
+    const minutes = stopTime.getMinutes().toString().padStart(2, '0');
+    const seconds = stopTime.getSeconds().toString().padStart(2, '0');
+    const timeString = hours + ':' + minutes + ':' + seconds;
+    stopLoadingInput.value = timeString;
+});
+
+function updateTimer() {
+    const now = new Date();
+    const diff = now - startTime;
+    const hours = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+    const minutes = Math.floor((diff / (1000 * 60)) % 60).toString().padStart(2, '0');
+    const seconds = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+    const timeString = hours + ':' + minutes + ':' + seconds;
+    document.getElementById('hours').textContent = hours;
+    document.getElementById('minutes').textContent = minutes;
+    document.getElementById('seconds').textContent = seconds;
+}
+
+setTimeout(function () {
+    clearInterval(timerInterval);
+    const now = new Date();
+    const diff = now - startTime;
+    const diffMinutes = Math.floor(diff / (1000 * 60));
+    const diffSeconds = Math.floor((diff / 1000) % 60);
+    const diffString = diffMinutes.toString().padStart(2, '0') + ':' + diffSeconds.toString().padStart(2, '0');
+
+    if (diff > 4800000) { // 1h20 en millisecondes
+        alert('Le temps de chargement a dépassé 1h20.');
+        sendEmail('developpement@qualiservice.fr', 'Chronomètre dépassé', 'Le temps de chargement a dépassé 1h20.');
+    }
+}, 4800000);
+
+</script>
+{% endblock%}

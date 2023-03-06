@@ -14,6 +14,7 @@ table {
     margin: 0 auto;
 }
 
+
 thead {
     background-color: #ccc;
 }
@@ -97,4 +98,7 @@ tbody td+td+td+td+td+td+td+td {
 tbody td+td+td+td+td+td+td+td+td {
     text-align: center;
     background-color: #5DADE2;
+}
+#link-logout{
+    font-size: 1rem;
 }

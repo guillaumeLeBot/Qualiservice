@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('css/driver.css') }}" />
@@ -8,50 +9,44 @@
 {% block navbar %}
     {% include "./partials/_navbar.html.twig" %}
 {% endblock navbar %}
+{% for driver in drivers %}
+{% if eventsByDriver[driver.name] is defined and eventsByDriver[driver.name]|length > 0 %}
 
-    <div class="filters">
-        <form action="{{ path('app_driver') }}" method="GET">
-            <label for="date">Filtre par date :</label>
-            <input type="date" name="date" id="date" value="{{ app.request.query.get('date', now|date('Y-m-d')) }}" />
-            <button class="btn btn-success" type="submit">Filtrer</button>
-        </form>
+<div class="card">
+    <div class="card-header">{{ driver.name }}</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>date</th>
+                    <th>Nbr de palettes</th>
+                    <th>Type</th>
+                    <th>Client</th>
+                    <th>Fournisseur</th>
+                    <th>Bâtiment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in eventsByDriver[driver.name] %}
+                {% if event.driver == driver.name and event.start == now|date('d/m/Y') %}
+                    <tr>
+                        <td>{{ event.start }}</td>
+                        <td>{{ event.pallets_number }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.customer }}</td>
+                        <td>{{ event.supplier }}</td>
+                        <td>{{ event.building }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('app_driver_pdf', {'id': driver.id}) }}" class="btn btn-primary"
+            onclick="printTable()">Imprimer </a>
     </div>
-    <div class="card-deck" style="padding-top: 65px;">
-        {% for driver in drivers %}
-            <div class="card">
-                <div class="card-header">{{ driver.name }}</div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>date</th>
-                                <th>Nbr de palettes</th>
-                                <th>Type</th>
-                                <th>Client</th>
-                                <th>Fournisseur</th>
-                                <th>Bâtiment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for event in events %}
-                                {% if event.driver == driver.name and event.start() == date %}
-                                    <tr>
-                                        <td>{{ event.start }}</td>
-                                        <td>{{ event.pallets_number }}</td>
-                                        <td>{{ event.title }}</td>
-                                        <td>{{ event.customer }}</td>
-                                        <td>{{ event.supplier }}</td>
-                                        <td>{{ event.building }}</td>
-                                    </tr>
-                                {% endif%}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="{{ path('app_driver_pdf', {'id': driver.id}) }}" class="btn btn-primary" onclick="printTable()">Imprimer </a>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+</div>
+{% endif %}
+{% endfor %}
 {% endblock%}
 {% block javascript%}
     <script>

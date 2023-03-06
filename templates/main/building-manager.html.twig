@@ -1,7 +1,5 @@
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-2imU6zjZ6JfU1lhnUyLxNlmKZX+CX6Nv8NnE/6UhtZ6Urr/o/omhcx6MfLxoyTGWyAFOGAsiQmRlHTKjXzdzg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 </head>
 {% block stylesheets %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -69,20 +67,20 @@
         <div class="row" >
             <div class="col md-4"><p>
                 <img src="{{ asset('image/smiley-colere.png') }}" alt="angry emoji">
-                : Aucun contrôle marchandise
+                : Aucun contrôle marchandises
             </p></div>
             <div class="col md-4"> <p>
                 <img src="{{ asset('image/smiley-pensif.png') }}" alt="pensive emoji">
-                : Contrôle marchandise uniquement
+                : Contrôle marchandises uniquement
             </p></div>
             <div class="col md-4"><p>
                 <img src="{{ asset('image/smiley-content.png') }}" alt="content emoji">
-                : Contrôle marchandise et documents + stock
+                : Contrôle marchandises + documents + stock
             </p></div>
         </div>
     </div>
 
-    <table>
+    <table  id="events-table">
         <thead>
             <tr>
                 <th>Time</th>
@@ -113,11 +111,10 @@
                             Nbre palettes : {{ event.palletsNumber }}<br>
                             Client : {{ event.customer }} <br>
                             transporteur : {{ event.transporter }} <br>
-                            {# {% if event.validatedAt is not empty %}Validation logistique le : {{ event.validatedAt|format('d-m-Y') }}<br>{% endif %} #}
                             {% if event.checkedAt is empty and event.validatedAt is empty %}
                                 <img src="{{ asset('image/smiley-colere.png') }}" alt="angry emoji">
                             {% elseif event.checkedAt is not empty %}
-                                Controle Marchandise le : {{ event.checkedAt|format('d-m-Y') }}<br>
+                                Controle Marchandises le : {{ event.checkedAt|format('d-m-Y') }}<br>
                                 {% if event.validatedAt is not empty %}
                                 Controle documents + stock le : {{ event.validatedAt|format('d-m-Y') }}<br>
                                     <img src="{{ asset('image/smiley-content.png') }}" alt="content emoji">
