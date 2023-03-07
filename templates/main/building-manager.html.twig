@@ -140,3 +140,11 @@
     </table>
 </div>
 {% endblock %}
+{%block javascripts%}
+    <script>
+        function simulateRefresh() {
+                window.location.reload();
+            }
+            setInterval(simulateRefresh, 10 * 1000);
+    </script>
+{% endblock %}

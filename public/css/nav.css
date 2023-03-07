@@ -138,6 +138,6 @@ body {
 #logout{
     color: red;
 }
-#link-logout :hover{
-    color: red;
+#link-logout {
+    font-size: 1rem;
 }

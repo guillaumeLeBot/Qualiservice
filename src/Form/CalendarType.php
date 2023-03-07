@@ -11,22 +11,24 @@ use App\Entity\Supplier;
 use App\Entity\Transporter;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
+use Symfony\Component\Form\FormEvent;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use App\Repository\TransporterRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class CalendarType extends AbstractType
 {
@@ -62,14 +64,13 @@ class CalendarType extends AbstractType
                 'time_widget' => 'choice',
                 'hours' => range(8, 18),
                 'minutes' => range(0, 0),
-
                 'data' => $builder->getData() && $builder->getData()->getStart() ? $builder->getData()->getStart() : new \DateTime(),
             ])
             ->add('end', DateTimeType::class, [
                 'label' => 'Fin rendez vous',
                 'date_widget' => 'single_text',
                 'time_widget' => 'choice',
-                'hours' => range(8, 18),
+                'hours' => range(9, 19),
                 'minutes' => range(0, 0),
                 'data' => $builder->getData() && $builder->getData()->getEnd() ? $builder->getData()->getEnd() : new \DateTime(),
             ])
@@ -89,18 +90,21 @@ class CalendarType extends AbstractType
                 'label' => 'Nbre de palettes'
             ])
             ->add('building', EntityType::class, [
-                'label' => 'Bâtiment',
+                'label' => 'Quais',
                 'class' => Building::class,
                 'choice_label' => 'name',
-            ],)
+            ])
             ->add('supplier', EntityType::class, [
                 'label' => 'Fournisseurs',
                 'class' => Supplier::class,
                 'choice_label' => 'name',
                 'query_builder' => function (SupplierRepository $er) {
                     return $er->createQueryBuilder('s')
-                            ->orderBy('s.name', 'ASC');
+                        ->orderBy('s.name', 'ASC');
                 },
+                'placeholder' => 'NON RENSEIGNE', // Ajout de la valeur par défaut
+                'empty_data' => null, // Définition de la valeur vide à null
+                'required' => false // Rendre le champ facultatif
             ])
             ->add('command_number', TextType::class, [
                 'label' => 'N° de commande',
@@ -114,6 +118,9 @@ class CalendarType extends AbstractType
                     return $er->createQueryBuilder('c')
                             ->orderBy('c.name', 'ASC');
                 },
+                'placeholder' => 'NON RENSEIGNE', // Ajout de la valeur par défaut
+                'empty_data' => null, // Définition de la valeur vide à null
+                'required' => false // Rendre le champ facultatif
             ])
             ->add('platform', EntityType::class, [
                 'label' => 'Platforme',
@@ -123,6 +130,9 @@ class CalendarType extends AbstractType
                     return $er->createQueryBuilder('p')
                             ->orderBy('p.name', 'ASC');
                 },
+                'placeholder' => 'NON RENSEIGNE', // Ajout de la valeur par défaut
+                'empty_data' => null, // Définition de la valeur vide à null
+                'required' => false // Rendre le champ facultatif
             ])
             ->add('transporter', EntityType::class, [
                 'label' => 'Transporteurs',
@@ -132,6 +142,9 @@ class CalendarType extends AbstractType
                     return $er->createQueryBuilder('p')
                             ->orderBy('p.name', 'ASC');
                 },
+                'placeholder' => 'NON RENSEIGNE', // Ajout de la valeur par défaut
+                'empty_data' => null, // Définition de la valeur vide à null
+                'required' => false // Rendre le champ facultatif
             ])
             ->add('driver', EntityType::class, [
                 'label' => 'Cariste',

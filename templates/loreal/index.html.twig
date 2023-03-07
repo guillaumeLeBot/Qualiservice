@@ -56,12 +56,14 @@
                 <thead>
                     <tr>
                         <th>Type</th>
-                        <th>Arrivée ou départ camion prévue</th>
+                        <th>Début ou arrivée camion prévue</th>
+                        <th>Fin ou départ camion prévue</th>
                         <th>Numéro LS</th>
                         <th>Nbr de palettes</th>
                         <th>Contenu du camion</th>
-                        <th>Date de contrôle marchandises</th>
-                        <th>Date de validation marchandises</th>
+                        <th>Contrôle marchandises</th>
+                        <th>Validation récèption - éxpédition</th>
+                        <th>Retard constaté</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,11 +71,13 @@
                     <tr>
                         <td>{{ event.title}}</td>
                         <td>{{ event.start|date('d-m-Y H:i:s')}}</td>
+                        <td>{{ event.end|date('d-m-Y H:i:s')}}</td>
                         <td>{{ event.command_number }}</td>
                         <td>{{ event.pallets_number }}</td>
                         <td>{{ event.content_truck }}</td>
                         <td>{{ event.checkedAt }}</td>
                         <td>{{ event.validatedAt }}</td>
+                        <td>{{ event.delay }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

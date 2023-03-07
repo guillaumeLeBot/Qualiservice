@@ -16,21 +16,22 @@ class DriverCheckedType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('startLoading', TimeType::class, [
-                'label' => 'Début de la prise en charge du camion',
-                'required' => true,
-                'widget' => 'single_text',
-                'html5' => true,
-                'attr' => ['class' => 'start-loading']
-            ])
-            ->add('stopLoading', TimeType::class, [
-                'label' => 'Fin de la prise en charge du camion',
-                'required' => true,
-                'widget' => 'single_text',
-                'html5' => true,
-                'attr' => ['class' => 'stop-loading']
-            ])
+        $builder->add('startLoading', TimeType::class, [
+    'label' => 'Début de la prise en charge du camion',
+    'required' => true,
+    'widget' => 'single_text',
+    'html5' => true,
+    'attr' => ['class' => 'start-loading'],
+    'data' => new \DateTime() // Définit la valeur par défaut à la date actuelle
+])
+->add('stopLoading', TimeType::class, [
+    'label' => 'Fin de la prise en charge du camion',
+    'required' => true,
+    'widget' => 'single_text',
+    'html5' => true,
+    'attr' => ['class' => 'stop-loading'],
+    'data' => new \DateTime() // Définit la valeur par défaut à la date actuelle
+])
             // ->add('durationLoading')
             ->add('isCompliant', CheckboxType::class, [
                 'label' => 'Avez vous effectué le controle des marchandises ?'

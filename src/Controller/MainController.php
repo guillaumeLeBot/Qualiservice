@@ -95,9 +95,9 @@ class MainController extends AbstractController
                     'start' => $event->getStart()->format('Y-m-d H:i:s'),
                     'end' => $event->getEnd()->format('Y-m-d H:i:s'),
                     'building' => $buildingName,
-                    'customer' => $event->getCustomer()->getName(),
+                    'customer' => $event->getCustomer() ? $event->getCustomer()->getName() : 'NON RENSEIGNE',
                     'palletsNumber' => $event->getPalletsNumber(),
-                    'transporter' => $event->getTransporter()->getName(),
+                    'transporter' => $event->getTransporter() ? $event->getTransporter()->getName() : 'NON RENSEIGNE',
                     'validatedAt' => $event->getValidatedAt() != null ? $event->getValidatedAt()->format('d-m-Y') : null,
                     'checkedAt' => $event->getCheckedAt() != null ? $event->getCheckedAt()->format('d-m-Y') : null,
                 ];

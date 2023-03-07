@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Calendar;
+use App\Entity\DriverChecked;
 use App\Repository\CalendarRepository;
 use App\Repository\CustomerRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -16,8 +17,16 @@ class LorealController extends AbstractController
     #[Route('/loreal', name: 'app_loreal')]
     public function index(CalendarRepository $calendarRepository, CustomerRepository $customerRepository): Response
     {
+        
         $customer = $customerRepository->findOneBy(['name' => 'Loreal']);
         $calendarEvents = $calendarRepository->findBy(['customer' => $customer]);
+        $duration = new DriverChecked();
+        $delay= 0;
+        $time= 80 * 60;
+        if ($duration->getDurationLoading() > $time) {
+            $delaySeconds = $duration->getDurationLoading() - $time;
+            $delay = sprintf('%02d:%02d:%02d', ($delaySeconds/3600),($delaySeconds/60%60), ($delaySeconds%60));
+        }
         $events = [];
         foreach ($calendarEvents as $calendar) {
         $checkedAt = null;
@@ -31,7 +40,7 @@ class LorealController extends AbstractController
         }
             $event = [
                 'start' => $calendar->getStart(),
-                'end' => $calendar->getEnd()->format('d/m/Y H:i:s'),
+                'end' => $calendar->getEnd(),
                 'title' => $calendar->getTitle(),
                 'command_number' => $calendar->getCommandNumber(),
                 'pallets_number' => $calendar->getPalletsNumber(),
@@ -39,6 +48,7 @@ class LorealController extends AbstractController
                 'comment' => $calendar->getComment(),
                 'checkedAt' => $checkedAt,
                 'validatedAt' => $validatedAt,
+                'delay' => $delay,
                 
             ];
             $now = new \DateTime();

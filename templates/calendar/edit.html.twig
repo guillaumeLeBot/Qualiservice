@@ -99,7 +99,7 @@
                         <li>
                             {% if calendar.emailDeparureAt is not empty %}
                             <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers
-                                le fournisseur {{ calendar.supplier.name}}</span>
+                                le fournisseur </span>
                             {% endif %}
                         </li>
                         {% endif%}
@@ -232,7 +232,6 @@
                 </div>
                 {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
                 <div class="container">
-                   
                     {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
                     <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
                     {% endif %}

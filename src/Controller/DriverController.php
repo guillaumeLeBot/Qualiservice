@@ -24,8 +24,8 @@ class DriverController extends AbstractController
                     'title' => $calendar->getTitle(),
                     'pallets_number' => $calendar->getPalletsNumber(),
                     'comment' => $calendar->getComment(),
-                    'customer' => $calendar->getCustomer()->getName(),
-                    'supplier' => $calendar->getSupplier()->getName(),
+                    'customer' => $calendar->getCustomer() ? $calendar->getCustomer()->getName() : 'NON RENSEIGNE',
+                    'supplier' => $calendar->getSupplier() ? $calendar->getSupplier()->getName() : 'NON RENSEIGNE',
                     'driver' => $calendar->getDriver()->getName(),
                     'building' => $calendar->getBuilding()->getName(),
                 ];
@@ -57,8 +57,8 @@ class DriverController extends AbstractController
                     'title' => $calendar->getTitle(),
                     'pallets_number' => $calendar->getPalletsNumber(),
                     'comment' => $calendar->getComment(),
-                    'customer' => $calendar->getCustomer()->getName(),
-                    'supplier' => $calendar->getSupplier()->getName(),
+                    'customer' => $calendar->getCustomer() ? $calendar->getCustomer()->getName() : 'NON RENSEIGNE',
+                    'supplier' => $calendar->getSupplier() ? $calendar->getSupplier()->getName() : 'NON RENSEIGNE',
                     'driver' => $calendar->getDriver()->getName(),
                     'building' => $calendar->getBuilding()->getName(),
 
