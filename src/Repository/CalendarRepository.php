@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Calendar;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTimeInterface;
 
 /**
  * @extends ServiceEntityRepository<Calendar>
@@ -52,8 +53,32 @@ class CalendarRepository extends ServiceEntityRepository
     return $qb->getQuery()->getResult();
     }
 
+    public function findByDateRange(DateTimeInterface $startDate, DateTimeInterface $endDate): array
+    {
+        $qb = $this->createQueryBuilder('c');
+        
+        $qb->andWhere($qb->expr()->between('c.start', ':start', ':end'))
+        ->setParameter('start', $startDate->format('Y-m-d'))
+        ->setParameter('end', $endDate->format('Y-m-d'));
+        
+        return $qb->getQuery()->getResult();
+    }
 
+    public function findLorealEventsByDate(\DateTimeInterface $startDate, \DateTimeInterface $endDate): array
+    {
+        $qb = $this->createQueryBuilder('e');
 
+        $qb->leftJoin('e.customer', 'c')
+            ->where('c.name = :customerName')
+            ->andWhere('e.start >= :start')
+            ->andWhere('e.end <= :end')
+            ->setParameter('customerName', 'LOREAL')
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->orderBy('e.start', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Calendar[] Returns an array of Calendar objects
 //     */

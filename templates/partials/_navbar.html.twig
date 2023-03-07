@@ -1,34 +1,60 @@
-{# navbar #}
 {% block stylesheets %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-DsK8uO7V1wE4y4qV4e9mPoh69aFvLmxZJ7rlFNtk8ODjrWV7w1cLuZh98VNG4+J9KjVtgyFNkrZIY+89SdC8nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- JS de Bootstrap (nécessite jQuery) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-c7o6uJmiEjLIX+Pj0zZAdmXiR2RmB8XZ5nfD6tKjZu3qZ5JhEX9vHfnSH6YJQ6Z1lBQBx8JjHvDyddtBp18+3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-YVtqW4Cw4V7/Bu1yUEfVzJW1IDvL+7e+kZjNpVd0F8aM+Pf/2z2tuT1FrIje9BJc13a+uZ/hJLuFnEhLzD8HOw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="{{ asset('css/nav.css') }}" />
 {% endblock %}
 {% block navbar %}
-    <nav class="navMenu">
-        {# <a href="/">Accueil</a> #}
-        {% if app.user and 'ROLE_LOREAL' in app.user.roles %}
-        <a href="/calendar/view">Planning</a>
-        <a href="/loreal">Planning Détaillé</a>
+    <nav role="navigation">
+        <div id="menuToggle">
+            <input type="checkbox" />
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul id="menu">
+                {% if app.user and 'ROLE_LOREAL' in app.user.roles %}
+                <li><a href="{{path('app_calendar')}}">Planning</a></li>
+                <li><a href="{{path('app_loreal')}}">Planning Détaillé</a></li>
+                {% endif%}
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Planning clients
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{path('app_loreal')}}">Loreal</a></li>
+                        <li><a class="dropdown-item" href="#">Goliate</a></li>
+                        <li><a class="dropdown-item" href="#">Guerresheismer</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Planning transporteur
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{path('app_loreal')}}">CITRA</a></li>
+                        
+                    </ul>
+                </li>
+                <li><a href="/calendar/building/manager">Planning quais</a></li>
+                <li><a href="{{path('app_driver')}}">Planning caristes</a></li>
+                <li><a href="{{path('admin')}}">Configuration</a></li>
 
-        {% endif%}
-        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-        {# <a href="/calendar/view">Planning</a> #}
-        <a href="/calendar/building/manager">Planning quais</a>
-        <a href="/loreal">Planning L'Oreal</a>
-        <a href="/driver">Planning Caristes</a>
-        <a href="/admin">Configuration</a>
-        {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
-        <a href="/admin">Configuration</a>
-        {% endif %}
-        {% if app.user and 'ROLE_SUPER_ADMIN' in app.user.roles %}
-        <a href="/admin">Configuration</a>
-        {% endif %}
-        <div class="dot"></div>
-        {% if app.user %}
-        <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnectez vous {{ app.user.userIdentifier }} </a>
-        {# {% else %}
-        <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}
-        {% endif %}
+                {% endif%}
+                <li>{% if app.user %}
+                    {# <a class="btn btn-danger" href="{{ path('app_logout') }}">Déconnectez vous {{ app.user.userIdentifier
+                        }} </a> #}
+                        <a id="link-logout" href="{{ path('app_logout') }}">
+                            <img src="{{ asset('../image/logout_icon.png') }}" alt="Déconnexion" />
+                            {{ app.user.userIdentifier }}
+                        </a>
+                    {# {% else %}
+                    <a class="btn btn-success" href="{{ path('app_login') }}">Connexion</a> #}
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
     </nav>
 {% endblock navbar %}
-
-

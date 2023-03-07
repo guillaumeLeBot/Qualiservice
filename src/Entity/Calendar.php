@@ -344,6 +344,11 @@ class Calendar
 
     public function setCheckedAt(?\DateTimeImmutable $checked_at): self
     {
+        if ($checked_at !== null) {
+            // Ajouter une heure à la date et l'heure en entrée
+            $checked_at = $checked_at->add(new \DateInterval('PT1H'));
+        }
+
         $this->checked_at = $checked_at;
 
         return $this;
@@ -399,11 +404,23 @@ class Calendar
 
     public function getEmailComeAt(): ?\DateTimeInterface
     {
+        
         return $this->emailComeAt;
     }
 
     public function setEmailComeAt(?\DateTimeInterface $emailComeAt): self
     {
+        if ($emailComeAt !== null) {
+            // Convertir la date et l'heure en entrée en objet DateTime
+            $dateTime = \DateTime::createFromFormat('Y-m-d H:i:s', $emailComeAt->format('Y-m-d H:i:s'));
+
+            // Ajouter une heure à la date et l'heure en entrée
+            $dateTime->add(new \DateInterval('PT1H'));
+
+            // Définir la propriété emailComeAt sur la nouvelle date et heure
+            $emailComeAt = $dateTime;
+        }
+
         $this->emailComeAt = $emailComeAt;
 
         return $this;

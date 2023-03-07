@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col md-6 clockpicker">
+                <div id="calendar_start" class="col md-6 clockpicker" style="width: 50%;">
                     {{ form_row(form.start) }}
                 </div>
-                <div class="col md-6 clockpicker">
+                <div id="calendar_end" class="col md-6 clockpicker">
                     {{ form_row(form.end) }}
                 </div>
             </div>
@@ -97,6 +97,6 @@
     <script>   
         $('.clockpicker').clockpicker();
         $('.datepicker').datepicker();
+        
     </script>
-
 {% endblock %}

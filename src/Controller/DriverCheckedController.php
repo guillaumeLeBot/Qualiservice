@@ -42,7 +42,7 @@ class DriverCheckedController extends AbstractController
                         }
                     } else {
                         $driverCheckedRepository->save($driverChecked, true);
-                        return $this->redirectToRoute('app_calendar', [], Response::HTTP_SEE_OTHER);
+                        return $this->redirectToRoute('app_building_manager', [], Response::HTTP_SEE_OTHER);
                     }
         }
         

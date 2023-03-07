@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Calendar;
+use App\Entity\DriverChecked;
 use App\Repository\CalendarRepository;
 use App\Repository\CustomerRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,8 +17,16 @@ class LorealController extends AbstractController
     #[Route('/loreal', name: 'app_loreal')]
     public function index(CalendarRepository $calendarRepository, CustomerRepository $customerRepository): Response
     {
+        
         $customer = $customerRepository->findOneBy(['name' => 'Loreal']);
         $calendarEvents = $calendarRepository->findBy(['customer' => $customer]);
+        $duration = new DriverChecked();
+        $delay= 0;
+        $time= 80 * 60;
+        if ($duration->getDurationLoading() > $time) {
+            $delaySeconds = $duration->getDurationLoading() - $time;
+            $delay = sprintf('%02d:%02d:%02d', ($delaySeconds/3600),($delaySeconds/60%60), ($delaySeconds%60));
+        }
         $events = [];
         foreach ($calendarEvents as $calendar) {
         $checkedAt = null;
@@ -27,8 +39,8 @@ class LorealController extends AbstractController
             $validatedAt = $calendar->getValidatedAt()->format('Y-m-d H:i:s');
         }
             $event = [
-                'start' => $calendar->getStart()->format('d/m/Y h:i:s'),
-                'end' => $calendar->getEnd()->format('d/m/Y h:i:s'),
+                'start' => $calendar->getStart(),
+                'end' => $calendar->getEnd(),
                 'title' => $calendar->getTitle(),
                 'command_number' => $calendar->getCommandNumber(),
                 'pallets_number' => $calendar->getPalletsNumber(),
@@ -36,11 +48,80 @@ class LorealController extends AbstractController
                 'comment' => $calendar->getComment(),
                 'checkedAt' => $checkedAt,
                 'validatedAt' => $validatedAt,
+                'delay' => $delay,
                 
             ];
+            $now = new \DateTime();
             $events[] = $event;
         }
         
-        return $this->render('loreal/index.html.twig', compact('events'));
+        return $this->render('loreal/index.html.twig', compact('events', 'now'));
+    }
+
+    #[Route('/loreal/export', name: 'app_loreal_export')]
+    public function export(CalendarRepository $calendarRepository, CustomerRepository $customerRepository, Request $request): Response
+    {
+        // Get L'Oréal customer object
+        $lorealCustomer = $customerRepository->findOneBy(['name' => 'Loreal']);
+
+        // Get start and end dates from request parameters
+        $startDate = $request->query->get('start_date');
+        $endDate = $request->query->get('end_date');
+
+        // Convert start and end dates to DateTimeInterface objects
+        $startDate = \DateTime::createFromFormat('Y-m-d', $startDate);
+        $endDate = \DateTime::createFromFormat('Y-m-d', $endDate);
+
+        // Find calendar events for L'Oréal customer in date range
+        $calendarEvents = [];
+        if($lorealCustomer == "LOREAL"){
+            $calendarEvents = $calendarRepository->findLorealEventsByDate($startDate, $endDate);
+        }
+        
+        // Create a new Spreadsheet object
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Set headers
+        $sheet->setCellValue('A1', 'Type');
+        $sheet->setCellValue('B1', 'Date arrivée / départ prévu');
+        $sheet->setCellValue('C1', 'Numéro LS');
+        $sheet->setCellValue('D1', 'Nbr de palettes');
+        $sheet->setCellValue('E1', 'Contenu du camion');
+        $sheet->setCellValue('F1', 'Date de contrôle marchandises');
+
+        // Set data
+        $rowIndex = 2;
+        foreach ($calendarEvents as $event) {
+            if ($event->getCustomer() == $lorealCustomer) {
+                $sheet->setCellValue('A' . $rowIndex, $event->getTitle());
+                $sheet->setCellValue('B' . $rowIndex, $event->getStart()->format('d-m-Y H:i:s'));
+                $sheet->setCellValue('C' . $rowIndex, $event->getCommandNumber());
+                $sheet->setCellValue('D' . $rowIndex, $event->getPalletsNumber());
+                $sheet->setCellValue('E' . $rowIndex, $event->getContentTruck());
+                $sheet->setCellValue('F' . $rowIndex, $event->getCheckedAt());
+                $rowIndex++;
+            }
+        }
+
+        // Create a new CSV writer object
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+
+        // Set the output file name
+        $fileName = 'loreal_planning.csv';
+
+        // Create the response object
+        $response = new Response();
+
+        // Set the response headers
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+
+        // Set the content of the response to the CSV file
+        ob_start();
+        $writer->save('php://output');
+        $csvContent = ob_get_clean();
+        $response->setContent($csvContent);
+        return $response;
     }
 }

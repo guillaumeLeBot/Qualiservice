@@ -30,40 +30,40 @@ class CalendarController extends AbstractController
     }
 
     #[Route('/new', name: 'calendar_new', methods: ['GET', 'POST'])]
-public function new(Request $request, CalendarRepository $calendarRepository): Response
-{
-    if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
-        return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
-    }
-    
-    $calendar = new Calendar();        
-    $form = $this->createForm(CalendarType::class, $calendar);
-    $form->handleRequest($request);
-    
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Get the start and end time of the new event
-        $startTime = $calendar->getStart();
-        $endTime = $calendar->getEnd();
-
-        // Check if there is any overlapping event in the database
-        $overlappingEvents = $calendarRepository->findOverlappingEvents($calendar->getBuilding()->getName(), $startTime, $endTime);
-
-        if (count($overlappingEvents) > 0) {
-            // $errorMessage = sprintf("Il existe déjà un évènement %s from %s to %s.", $calendar->getBuilding()->getName(), $startTime->format('H:i'), $endTime->format('H:i'));
-            return new Response('<script>alert("Il existe déjà un évènement avec ce creneau horaire sur ce quai"); window.location.href = "/calendar/building/manager"</script>', Response::HTTP_FORBIDDEN);
-        } else {
-            // Save the new event in the database
-            $calendarRepository->save($calendar, true);
-            $this->addFlash('success', 'L\'évènement a été créé avec succès.');
-            return $this->redirectToRoute('app_building_manager');
+    public function new(Request $request, CalendarRepository $calendarRepository): Response
+    {
+        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
+            return new Response('<script>alert("Vous n\'êtes pas autorisé à créer des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
         }
+        
+        $calendar = new Calendar();        
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get the start and end time of the new event
+            $startTime = $calendar->getStart();
+            $endTime = $calendar->getEnd();
+
+            // Check if there is any overlapping event in the database
+            $overlappingEvents = $calendarRepository->findOverlappingEvents($calendar->getBuilding()->getName(), $startTime, $endTime);
+
+            if (count($overlappingEvents) > 0) {
+                // $errorMessage = sprintf("Il existe déjà un évènement %s from %s to %s.", $calendar->getBuilding()->getName(), $startTime->format('H:i'), $endTime->format('H:i'));
+                return new Response('<script>alert("Il existe déjà un évènement avec ce creneau horaire sur ce quai"); window.location.href = "/calendar/building/manager"</script>', Response::HTTP_FORBIDDEN);
+            } else {
+                // Save the new event in the database
+                $calendarRepository->save($calendar, true);
+                $this->addFlash('success', 'L\'évènement a été créé avec succès.');
+                return $this->redirectToRoute('app_building_manager');
+            }
+        }
+        
+        return $this->render('calendar/new.html.twig', [
+            'calendar' => $calendar,
+            'form' => $form->createView(),
+        ]);
     }
-    
-    return $this->render('calendar/new.html.twig', [
-        'calendar' => $calendar,
-        'form' => $form->createView(),
-    ]);
-}
 
     #[Route('/{id}/show', name: 'calendar_show', methods: ['GET'])]
     public function show(Request $request, Calendar $calendar): Response
@@ -131,7 +131,7 @@ public function new(Request $request, CalendarRepository $calendarRepository): R
                 return $this->redirectToRoute('app_driver_checked_new');
                 return $this->redirectToRoute('app_building_manager');
             }else {
-                $this->addFlash('message', 'Vous devez entrer un code cariste pour débuter la prise en charge camion ou faire une modification rapide en cochant la case en bas du formulaire.');
+                $this->addFlash('message', 'Vous devez entrer un code cariste pour débuter la prise en charge du camion ou faire une modification rapide en cochant la case.');
             }
         }
         return $this->render('calendar/edit.html.twig', [

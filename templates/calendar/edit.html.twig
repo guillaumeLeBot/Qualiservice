@@ -30,223 +30,226 @@
     <div class="row">
         <div class="col-md-6">
             {% if calendar.validatedAt is not empty %}
-                <h1>Consultation</h1>
+            <h1>Consultation</h1>
             {% else %}
             <h1 class="brand-title">Modification</h1>
             {% endif %}
-            <div class="container">
+            <button class="blue" type="button" onclick="window.location.href='/calendar/building/manager'">Retour au
+                calendrier</button>
+            <div class="container-fluid">
+                <div class="col md-6">
+                    <ul>
+                        {% if calendar.checkedAt is empty %}
+                        <li style="display:none">
+                            {% if calendar.checkedAt is not empty %}
+                            <p id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le:
+                                {{calendar.checkedAt|date('d/m/Y H:i:s') }}</p>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.checkedAt is not empty %}
+                            <p id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le:
+                                {{calendar.checkedAt|date('d/m/Y H:i:s') }}</p>
+                            {# <p id="info">La Durée de la prise en charge du camion est de {{calendar.driverChecked}}
+                            </p> #}
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                        {% if calendar.validatedAt is empty%}
+                        <li style="display: none;">
+                            {% if calendar.validatedAt is not empty%}
+                            <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le
+                                {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.validatedAt is not empty%}
+                            <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le
+                                {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+
+                        {% if calendar.emailComeAt is empty %}
+                        <li style="display:none;">
+                            {% if calendar.emailComeAt is not empty %}
+                            <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le
+                                client {{ calendar.customer.name}}</span>
+                            {% endif%}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.emailComeAt is not empty %}
+                            <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le
+                                client {{ calendar.customer.name}}</span>
+                            {% endif%}
+                        </li>
+                        {% endif%}
+
+                        {% if calendar.emailDeparureAt is empty %}
+                        <li style="display: none;">
+                            {% if calendar.emailDeparureAt is not empty %}
+                            <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers
+                                le fournisseur {{ calendar.supplier.name}}</span>
+                            {% endif %}
+                        </li>
+                        {% else %}
+                        <li>
+                            {% if calendar.emailDeparureAt is not empty %}
+                            <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers
+                                le fournisseur </span>
+                            {% endif %}
+                        </li>
+                        {% endif%}
+                    </ul>
+                </div>
+            </div>
+            <div class="container ">
+                {{ form_start(form) }}
                 <div class="row">
-                    <div class="col md-12">
-                        <button class="blue" type="button" onclick="window.location.href='/calendar/building/manager'">Retour au planning des quais</button>
+                    {% if calendar.validatedAt is not empty %}
+                    {% else %}
+                    <div class="col-md-8">
+                        <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
+                    </div>
+                    {%endif%}
+                    {% if calendar.validatedAt is not empty or calendar.checkedAt is not empty%}
+                    <div class="col md-4 speed-save" style="display:none">
+                        {{ form_row(form.speed_save) }}
+                    </div>
+                    {% else %}
+                    <div class="col md-4 speed-save">
+                        {{ form_row(form.speed_save) }}
+                    </div>
+                    {% endif%}
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        {% if calendar.checkedAt is not empty %}
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.driver) }}
+                        </div>
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        {% else %}
+                        <span class="span-cariste">Débutez la prise en charge du camion en entrant votre code
+                            cariste</span>
+                        <div class="col md-4">
+                            {{ form_row(form.driver) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        {%endif%}
+                    </div>
+                    <div class="row">
+                        {% if calendar.checkedAt is empty%}
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.logistic_leader) }}
+                        </div>
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        {%else%}
+                        {% if calendar.validatedAt is not empty%}
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.logistic_leader) }}
+                        </div>
+                        <div class="col md-4" style="display:none">
+                            {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        {% else %}
+                        <span class="span-leader">Validez la prise en charge du camion avec votre code responsable
+                            logistique</span>
+                        <div class="col md-4">
+                            {{ form_row(form.logistic_leader) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
+                        </div>
+                        {% endif %}
+                        {% endif%}
+                    </div>
+                    <div class="row">
+                        <div class="col md-4">
+                            {{ form_row(form.title) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.command_number) }}
+                        </div>
+                        <div class="col md-4">
+                            {{ form_row(form.pallets_number) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6 clockpicker">
+                            {{ form_row(form.start) }}
+                        </div>
+                        <div class="col md-6 clockpicker">
+                            {{ form_row(form.end) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-4">
+                            {{ form_row(form.building) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.customer) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.supplier) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.transporter) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.platform) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col md-6">
+                            {{ form_row(form.comment) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.contentTruck) }}
+                        </div>
+                    </div>
+                    <div class="row color">
+                        <div class="col md-6">
+                            {{ form_row(form.background_color, { 'attr': {'class': 'bg-color'} }) }}
+                        </div>
+                        <div class="col md-6">
+                            {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
+                        </div>
                     </div>
                 </div>
+                {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                <div class="container">
+                    {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
+                    <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
+                    {% endif %}
+                    {{ form_end(form) }}
+                </div>
             </div>
+
         </div>
-
-    <div class="row">
-        <div class="col md-6">
-            <ul>
-                {% if calendar.checkedAt is empty %}
-                <li style="display:none">
-                    {% if calendar.checkedAt is not empty %}
-                        <p id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</p>
-                    {% endif %}
-                </li>
-                {% else %}
-                <li>
-                    {% if calendar.checkedAt is not empty %}
-                        <p id="info">Le contrôle cariste à été effectué par {{calendar.checkedBy}} le: {{calendar.checkedAt|date('d/m/Y H:i:s') }}</p>
-                        {# <p id="info">La Durée de la prise en charge du camion est de  {{calendar.driverChecked}} </p> #}
-                    {% endif %}
-                </li>
-                {% endif %}
-                {% if calendar.validatedAt is empty%}
-                <li style="display: none;">
-                    {% if calendar.validatedAt is not empty%}
-                        <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
-                    {% endif %}
-                </li>
-                {% else %}
-                <li>
-                    {% if calendar.validatedAt is not empty%}
-                        <span id="info">La validation définitive a été effectuée par {{calendar.validatedBy}} le {{calendar.validatedAt|date('d/m/Y H:i:s') }}</span>
-                    {% endif %}
-                </li>
-                {% endif %}
-
-                {% if calendar.emailComeAt is empty %}
-                    <li style="display:none;">
-                        {% if calendar.emailComeAt is not empty %}
-                        <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le client {{ calendar.customer.name}}</span>
-                        {% endif%}
-                    </li>
-                {% else %}
-                    <li>
-                        {% if calendar.emailComeAt is not empty %}
-                        <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le client {{ calendar.customer.name}}</span>
-                        {% endif%}
-                    </li>
-                {% endif%}
-
-                {% if calendar.emailDeparureAt is empty %}
-                    <li style="display: none;">
-                        {% if calendar.emailDeparureAt is not empty %}
-                        <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers le fournisseur {{ calendar.supplier.name}}</span>
-                        {% endif %}
-                    </li>
-                {% else %}
-                    <li>
-                        {% if calendar.emailDeparureAt is not empty %}
-                        <span id="info">Un mail est parti le : {{calendar.emailDeparureAt|date('d/m/Y H:i:s')}} vers le fournisseur {{ calendar.supplier.name}}</span>
-                        {% endif %}
-                    </li>
-                {% endif%}
-            </ul>
-        </div>    
-<div class="container ">
-    {{ form_start(form) }}
-    
-    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
-    <div class="row">
         {% if calendar.validatedAt is not empty %}
         {% else %}
-        <div class="col-md-8">
-            <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
+        <div class="row">
+            {{ include('calendar/_delete_form.html.twig') }}
         </div>
-        {%endif%}
-        {% if calendar.validatedAt is not empty or calendar.checkedAt is not empty%}
-        <div class="col md-4 speed-save" style="display:none">
-            {{ form_row(form.speed_save) }}
-        </div>
-        {% else %}
-        <div class="col md-4 speed-save">
-            {{ form_row(form.speed_save) }}
-        </div>
-        {% endif%}
+        {% endif %}
     </div>
-    {% elseif app.user and 'ROLE_USER' not in app.user.roles %}
-    <button id="your-form" class="green">{{ button_label|default('Enregister') }}</button>
-    {% endif %}
-    
-    <div class="form-group">
-        <div class="row">
-            {% if calendar.checkedAt is not empty %}
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.driver) }}
-            </div>
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
-            </div>
-            {% else %}
-            <span class="span-cariste">Débutez la prise en charge du camion en entrant votre code cariste</span>
-            <div class="col md-4">
-                {{ form_row(form.driver) }}
-            </div>
-            <div class="col md-4">
-                {{ form_row(form.checked, { 'attr': { 'autocomplete': 'off' } }) }}
-            </div>
-            {%endif%}
-        </div>
-        <div class="row">
-            {% if calendar.checkedAt is empty%}
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.logistic_leader) }}
-            </div>
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
-            </div>
-            {%else%}
-            {% if calendar.validatedAt is not empty%}
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.logistic_leader) }}
-            </div>
-            <div class="col md-4" style="display:none">
-                {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
-            </div>
-            {% else %}
-            <span class="span-leader">Validez la prise en charge du camion avec votre code responsable
-                logistique</span>
-            <div class="col md-4">
-                {{ form_row(form.logistic_leader) }}
-            </div>
-            <div class="col md-4">
-                {{ form_row(form.validated, { 'attr': { 'autocomplete': 'off' } }) }}
-            </div>
-            {% endif %}
-            {% endif%}
-        </div>
-        <div class="row">
-            <div class="col md-4">
-                {{ form_row(form.title) }}
-            </div>
-            <div class="col md-4">
-                {{ form_row(form.command_number) }}
-            </div>
-            <div class="col md-4">
-                {{ form_row(form.pallets_number) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.start) }}
-            </div>
-            <div class="col md-6 clockpicker">
-                {{ form_row(form.end) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-4">
-                {{ form_row(form.building) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.customer) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.supplier) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.transporter) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.platform) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col md-6">
-                {{ form_row(form.comment) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.contentTruck) }}
-            </div>
-        </div>
-        <div class="row color">
-            <div class="col md-6">
-                {{ form_row(form.background_color, { 'attr': {'class': 'bg-color'} }) }}
-            </div>
-            <div class="col md-6">
-                {{ form_row(form.text_color, { 'attr': {'class': 'txt-color'} }) }}
-            </div>
-        </div>
-        <div class="container">
-            <div class="col md-8">
-                {% if calendar.validatedAt is not empty %}
-                {% else %}
-                <div class="row">
-                    {{ include('calendar/_delete_form.html.twig') }}
-                </div>
-                {% endif %}
-            </div>
-        </div>
-            {{ form_end(form) }}
-</div>
-            
-        
-    
-{% endblock %}
-{% block javascripts %}
+
+    {% endblock %}
+    {% block javascripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{% endblock %}
+
+    {% endblock %}
