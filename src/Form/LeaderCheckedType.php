@@ -47,6 +47,10 @@ class LeaderCheckedType extends AbstractType
                 'label' => 'Commentaire appurement',
                 'required' => false
             ])
+            ->add('isStockMovement', TextType::class, [
+                'label' => 'Avez vous réalisez les mouvements de stock ?',
+                'required' => false
+            ])
         ;
     }
 

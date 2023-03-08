@@ -36,6 +36,12 @@ class DriverChecked
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $comment = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSplited = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $splitedNumber = null;
     
     public function __construct()
     {
@@ -145,6 +151,30 @@ class DriverChecked
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function isIsSplited(): ?bool
+    {
+        return $this->isSplited;
+    }
+
+    public function setIsSplited(?bool $isSplited): self
+    {
+        $this->isSplited = $isSplited;
+
+        return $this;
+    }
+
+    public function getSplitedNumber(): ?string
+    {
+        return $this->splitedNumber;
+    }
+
+    public function setSplitedNumber(?string $splitedNumber): self
+    {
+        $this->splitedNumber = $splitedNumber;
 
         return $this;
     }

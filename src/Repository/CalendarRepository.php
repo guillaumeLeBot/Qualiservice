@@ -2,10 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Calendar;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use DateTimeInterface;
+use App\Entity\Building;
+use App\Entity\Calendar;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Calendar>
@@ -52,6 +53,39 @@ class CalendarRepository extends ServiceEntityRepository
         ->setParameter('endTime', $endTime);
     return $qb->getQuery()->getResult();
     }
+
+    // public function findBuildingByOverlappingEvents(Building $building, \DateTime $startTime, \DateTime $endTime)
+    
+    // {
+    //     $qb = $this->createQueryBuilder('c');
+    //     $qb->select('c')
+    //         ->join('c.building', 'b')
+    //         ->where('b.name = :buildingName')
+    //         ->andWhere('c.start < :endTime')
+    //         ->andWhere('c.end > :startTime')
+    //         ->setParameter('buildingName', (string)$building)
+    //         ->setParameter('startTime', $startTime)
+    //         ->setParameter('endTime', $endTime);
+
+    //     $buildingsWithEvents = $qb->getQuery()->getResult();
+
+    //     $qb = $this->getEntityManager()->createQueryBuilder();
+    //     $qb->select('b.name')
+    //         ->from(Building::class, 'b');
+
+    //     if (!empty($buildingsWithEvents)) {
+    //         $qb->where($qb->expr()->notIn('b', ':buildings'))
+    //         ->setParameter('buildings', array_map(function ($event) {
+    //             return $event->getBuilding();
+    //         }, $buildingsWithEvents));
+    //     }
+
+    //     $buildingNames = array_map(function ($building) {
+    //         return $building['name'];
+    //     }, $qb->getQuery()->getResult());
+
+    //     return $buildingNames;
+    // }
 
     public function findByDateRange(DateTimeInterface $startDate, DateTimeInterface $endDate): array
     {

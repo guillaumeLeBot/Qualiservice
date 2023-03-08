@@ -10,8 +10,7 @@ INSERT INTO building (name) VALUES ('JDC1 Quai C');
 INSERT INTO building (name) VALUES ('JDC2 Quai 1');
 INSERT INTO building (name) VALUES ('JDC2 Quai 2');
 INSERT INTO building (name) VALUES ('JDC2 Quai 3');
-INSERT INTO building (name) VALUES ('Royal Canin');
-INSERT INTO building (name) VALUES ('Quai salle carton');
+INSERT INTO building (name) VALUES ('JDC2 Quai 4');
 
 INSERT INTO driver (name, code) VALUES ('Fabien', 'fab2023');
 

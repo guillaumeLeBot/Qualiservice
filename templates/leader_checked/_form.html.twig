@@ -12,15 +12,15 @@
                 {{ form_row(form.isDispatch) }}
             </div>
             <div class="col md-6">
-                {{ form_row(form.isChargeable) }}
+                {{ form_row(form.isDelivery) }}
             </div>
         </div>
         <div class="row">
-            <div class="col md-6">
-                {{form_row(form.transferCost)}}
+            <div class="col md-6" id="isChargeableField" style="display:none">
+                {{form_row(form.isChargeable, {'required': form.isChargeable.vars.value}))}}
             </div>
             <div class="col md-6">
-                {{form_row(form.isDelivery)}}
+                {{form_row(form.transferCost)}}
             </div>
         </div>
         <div class="row">
@@ -37,8 +37,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col md-12">
+            <div class="col md-6">
                 {{form_row(form.commentApprehensionCustom)}}
+            </div>        
+            <div class="col md-6">
+                {{form_row(form.isStockMovement)}}
             </div>        
         </div>
         {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
@@ -52,3 +55,17 @@
     </div>
 {{ form_end(form) }}
 
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var isSplitedCheckbox = document.getElementById('{{ form.isChargeable.vars.id }}');
+            var isChargeableField = document.getElementById('isChargeableField');
+        
+            isChargeableCheckbox.addEventListener('change', function() {
+                isChargeableField.style.display = this.checked ? 'block' : 'none';
+                var isChargeableInput = isChargeableField.getElementsByTagName('input')[0];
+                isChargeableInput.required = this.checked;
+            });
+        });
+    </script>
+{% end block%}

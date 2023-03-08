@@ -12,6 +12,7 @@ use App\Entity\Transporter;
 use App\Entity\LogisticLeader;
 use App\Repository\DriverRepository;
 use Symfony\Component\Form\FormEvent;
+use App\Repository\BuildingRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\PlatformRepository;
 use App\Repository\SupplierRepository;
@@ -90,7 +91,7 @@ class CalendarType extends AbstractType
                 'label' => 'Nbre de palettes'
             ])
             ->add('building', EntityType::class, [
-                'label' => 'Quais',
+                'label' => 'Quai',
                 'class' => Building::class,
                 'choice_label' => 'name',
             ])
@@ -199,6 +200,7 @@ class CalendarType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Calendar::class,
+            'buildings' => [],
         ]);
     }
 }

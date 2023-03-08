@@ -45,6 +45,9 @@ class LeaderChecked
     #[ORM\OneToMany(mappedBy: 'leaderChecked', targetEntity: Calendar::class)]
     private Collection $calendars;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isStockMovement = null;
+
     public function __construct()
     {
         $this->calendars = new ArrayCollection();
@@ -199,6 +202,18 @@ class LeaderChecked
                 $calendar->setLeaderChecked(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsStockMovement(): ?bool
+    {
+        return $this->isStockMovement;
+    }
+
+    public function setIsStockMovement(?bool $isStockMovement): self
+    {
+        $this->isStockMovement = $isStockMovement;
 
         return $this;
     }
