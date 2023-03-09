@@ -48,6 +48,15 @@ class DriverCheckedType extends AbstractType
                 'label' => 'Indiquez le nombre de palettes splitées',
                 'required' => false
             ])
+            ->add('isImproper', CheckboxType::class, [
+                'label' => 'Y a t-il des retours non conformes ?',
+                'required' => false,
+                
+            ])
+            ->add('improperNumber', TextType::class, [
+                'label' => 'Indiquez le nombre de palettes non conformes',
+                'required' => false
+            ])
             ->add('comment', TextareaType::class, [
                 'label' => 'Indiquez vos remarques',
                 'required' => false

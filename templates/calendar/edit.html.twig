@@ -83,7 +83,7 @@
                         <li>
                             {% if calendar.emailComeAt is not empty %}
                             <span id="info">Un mail est parti le : {{calendar.emailComeAt|date('d/m/Y H:i:s')}} vers le
-                                client {{ calendar.customer.name}}</span>
+                                client </span>
                             {% endif%}
                         </li>
                         {% endif%}
@@ -240,7 +240,7 @@
             </div>
 
         </div>
-        {% if calendar.validatedAt is not empty %}
+        {% if calendar.validatedAt is not empty or calendar.checkedAt is not empty%}
         {% else %}
         <div class="row">
             {{ include('calendar/_delete_form.html.twig') }}

@@ -42,6 +42,12 @@ class DriverChecked
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $splitedNumber = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isImproper = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $improperNumber = null;
     
     public function __construct()
     {
@@ -175,6 +181,30 @@ class DriverChecked
     public function setSplitedNumber(?string $splitedNumber): self
     {
         $this->splitedNumber = $splitedNumber;
+
+        return $this;
+    }
+
+    public function isIsImproper(): ?bool
+    {
+        return $this->isImproper;
+    }
+
+    public function setIsImproper(?bool $isImproper): self
+    {
+        $this->isImproper = $isImproper;
+
+        return $this;
+    }
+
+    public function getImproperNumber(): ?string
+    {
+        return $this->improperNumber;
+    }
+
+    public function setImproperNumber(?string $improperNumber): self
+    {
+        $this->improperNumber = $improperNumber;
 
         return $this;
     }

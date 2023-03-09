@@ -40,16 +40,16 @@ class LeaderCheckedType extends AbstractType
                 'required' => false
             ])
             ->add('isCustomDocChecked', CheckboxType::class, [
-                'label' => 'Les documents des douanes ont-ils été vérifiés ?',
+                'label' => 'Les formalités douanière ont-ils été réalisés ?',
                 'required' => false
             ])
             ->add('commentApprehensionCustom', TextareaType::class, [
                 'label' => 'Commentaire appurement',
                 'required' => false
             ])
-            ->add('isStockMovement', TextType::class, [
-                'label' => 'Avez vous réalisez les mouvements de stock ?',
-                'required' => false
+            ->add('isStockMovement', CheckboxType::class, [
+                'label' => 'Avez vous réalisés les mouvements de stock ?',
+                'required' => true
             ])
         ;
     }

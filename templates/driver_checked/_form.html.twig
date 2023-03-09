@@ -44,10 +44,17 @@
             {{ form_row(form.isSplited) }}
         </div>
         <div class="col md-6" id="splitedNumberField" style="display:none">
-            {{ form_row(form.splitedNumber, {'required': form.isSplited.vars.value}) }}
+            {{ form_row(form.splitedNumber) }}
         </div>
     </div>
-    
+    <div class="row">
+        <div class="col md-6">
+            {{ form_row(form.isImproper) }}
+        </div>
+        <div class="col md-6" id="improperNumberField" style="display:none">
+            {{ form_row(form.improperNumber) }}
+        </div>
+    </div>
     <div class="row">
         <div class="col md-12">
             {{form_row(form.comment)}}
@@ -123,6 +130,7 @@
                 sendEmail('developpement@qualiservice.fr', 'Chronomètre dépassé', 'Le temps de chargement a dépassé 1h20.');
             }
         }, 4800000);
+        
         document.addEventListener('DOMContentLoaded', function() {
             var isSplitedCheckbox = document.getElementById('{{ form.isSplited.vars.id }}');
             var splitedNumberField = document.getElementById('splitedNumberField');
@@ -131,6 +139,16 @@
                 splitedNumberField.style.display = this.checked ? 'block' : 'none';
                 var splitedNumberInput = splitedNumberField.getElementsByTagName('input')[0];
                 splitedNumberInput.required = this.checked;
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var isImproperCheckbox = document.getElementById('{{ form.isImproper.vars.id }}');
+            var improperNumberField = document.getElementById('improperNumberField');
+        
+            isImproperCheckbox.addEventListener('change', function() {
+                improperNumberField.style.display = this.checked ? 'block' : 'none';
+                var improperNumberInput = improperNumberField.getElementsByTagName('input')[0];
+                improperNumberInput.required = this.checked;
             });
         });
     </script>

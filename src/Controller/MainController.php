@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Calendar;
-use App\Form\CalendarType;
 use App\Repository\CalendarRepository;
 use App\Repository\CustomerRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -132,7 +130,7 @@ class MainController extends AbstractController
         // Set headers
         $sheet->setCellValue('A1', 'Type');
         $sheet->setCellValue('B1', 'Date arrivée / départ prévu');
-        $sheet->setCellValue('C1', 'Numéro LS');
+        $sheet->setCellValue('C1', 'Numéro commandes');
         $sheet->setCellValue('D1', 'Nbr de palettes');
         $sheet->setCellValue('E1', 'Contenu du camion');
         $sheet->setCellValue('F1', 'Date de contrôle marchandises');

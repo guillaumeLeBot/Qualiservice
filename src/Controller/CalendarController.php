@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Driver;
 use DateTimeImmutable;
 use App\Entity\Calendar;
+use App\Entity\DriverChecked;
 use App\Events\MailEvent;
 use App\Form\CalendarType;
 use Symfony\Component\Form\FormError;
@@ -54,7 +55,7 @@ class CalendarController extends AbstractController
             } else {
                 // Save the new event in the database
                 $calendarRepository->save($calendar, true);
-                $this->addFlash('success', 'L\'évènement a été créé avec succès.');
+                // $this->addFlash('success', 'L\'évènement a été créé avec succès.');
                 return $this->redirectToRoute('app_building_manager');
             }
         }
@@ -81,14 +82,14 @@ class CalendarController extends AbstractController
     #[route('/{id}/edit', name:'calendar_edit', methods:['GET', 'POST', 'PUT'])]
     public function edit(Request $request, Calendar $calendar, CalendarRepository $calendarRepository, EventDispatcherInterface $eventDispatcher): Response
     {
-        if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
-            return new Response('<script>alert("Vous n\'êtes pas autorisé à Modifier des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
-        }
-        if ($this->getUser() == null) {
-        return $this->redirectToRoute('app_login');
-        } elseif ($this->getUser()->getRoles() == ["ROLE_LOREAL"]) {
-            return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
-        }
+        // if (!in_array("ROLE_ADMIN", $this->getUser()->getRoles()) && !in_array("ROLE_SUPER_ADMIN", $this->getUser()->getRoles())) {
+        //     return new Response('<script>alert("Vous n\'êtes pas autorisé à Modifier des évenements"); window.location.href = "/calendar/view"</script>', Response::HTTP_FORBIDDEN);
+        // }
+        // if ($this->getUser() == null) {
+        // return $this->redirectToRoute('app_login');
+        // } elseif ($this->getUser()->getRoles() == ["ROLE_LOREAL"]) {
+        //     return $this->redirectToRoute("calendar_show", ['id' => $calendar->getId()]);
+        // }
         $this->denyAccessUnlessGranted("ROLE_ADMIN");
         
         $form = $this->createForm(CalendarType::class, $calendar);
@@ -104,7 +105,6 @@ class CalendarController extends AbstractController
                 $calendar->setValidatedAt($validate);
                 $calendar->setValidatedBy($validatedBy);
                 $calendar->setBackgroundColor('green');
-                // return $this->redirectToRoute('app_check_list_validator');
                 $mailEvent = new MailEvent($calendar);
                 $eventDispatcher->dispatch($mailEvent, 'sendMail.supplierr');
                 if($eventDispatcher->dispatch($mailEvent, 'sendMail.supplier')){

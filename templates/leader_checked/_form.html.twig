@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{ asset('css/driver-checked.css') }}" />
 {{ form_start(form) }}
             <div class="col md-6">
-                <h1>Validation camion</h1>
+                <h1 style="font-size: 1.5em;">Validation Document + stock</h1>
             </div>
             <div class="col md-6" style="margin-bottom: 20px;">
                 <span id="span-cariste">Attention, la validation de ce formulaire engage votre responsabilité</span>
@@ -16,11 +16,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col md-6" id="isChargeableField" style="display:none">
-                {{form_row(form.isChargeable, {'required': form.isChargeable.vars.value}))}}
-            </div>
             <div class="col md-6">
-                {{form_row(form.transferCost)}}
+                {{ form_row(form.isChargeable) }}
+            </div>
+            <div class="col md-6" id="transferCostField" style="display:none">
+                {{ form_row(form.transferCost) }}
             </div>
         </div>
         <div class="row">
@@ -28,20 +28,20 @@
                 {{form_row(form.isTruckDocChecked)}}
             </div>
             <div class="col md-6">
+                {{form_row(form.isStockMovement)}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col md-6">
                 {{form_row(form.isAlcohol)}}
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="AlcoholFields" style="display: none;">
             <div class="col md-6">
-                {{form_row(form.isCustomDocChecked)}}
+                {{form_row(form.isCustomDocChecked) }}
             </div>
-        </div>
-        <div class="row">
             <div class="col md-6">
                 {{form_row(form.commentApprehensionCustom)}}
-            </div>        
-            <div class="col md-6">
-                {{form_row(form.isStockMovement)}}
             </div>        
         </div>
         {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
@@ -57,15 +57,30 @@
 
 {% block javascripts %}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var isSplitedCheckbox = document.getElementById('{{ form.isChargeable.vars.id }}');
-            var isChargeableField = document.getElementById('isChargeableField');
-        
-            isChargeableCheckbox.addEventListener('change', function() {
-                isChargeableField.style.display = this.checked ? 'block' : 'none';
-                var isChargeableInput = isChargeableField.getElementsByTagName('input')[0];
-                isChargeableInput.required = this.checked;
+        document.addEventListener('DOMContentLoaded', function () {
+                var isChargeableCheckbox = document.getElementById('{{ form.isChargeable.vars.id }}');
+                var transferCostField = document.getElementById('transferCostField');
+
+                isChargeableCheckbox.addEventListener('change', function () {
+                    transferCostField.style.display = this.checked ? 'block' : 'none';
+                    var transferCostInput = transferCostField.getElementsByTagName('input')[0];
+                    transferCostInput.required = this.checked;
+                });
             });
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+                var isAlcoholCheckbox = document.getElementById('{{ form.isAlcohol.vars.id }}');
+                var AlcoholFields = document.getElementById('AlcoholFields');
+                var isCustomDocCheckedInput = document.getElementById('{{ form.isCustomDocChecked.vars.id }}');
+
+                isAlcoholCheckbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        AlcoholFields.style.display = 'block';
+                        isCustomDocCheckedInput.required = true;
+                    } else {
+                        AlcoholFields.style.display = 'none';
+                        isCustomDocCheckedInput.required = false;
+                    }
+                });
+            });
     </script>
-{% end block%}
+{% endblock%}

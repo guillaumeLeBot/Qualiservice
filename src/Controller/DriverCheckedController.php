@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\DriverChecked;
 use App\Form\DriverCheckedType;
+use Psr\Http\Client\ClientInterface;
+use App\Repository\CalendarRepository;
 use App\Repository\DriverCheckedRepository;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,33 +27,35 @@ class DriverCheckedController extends AbstractController
     }
 
     #[Route('/new', name: 'app_driver_checked_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DriverCheckedRepository $driverCheckedRepository, ValidatorInterface $validator): Response
+    public function new( Request $request, DriverCheckedRepository $driverCheckedRepository, ValidatorInterface $validator): Response
     {
-        $driverChecked = new DriverChecked();
-        $form = $this->createForm(DriverCheckedType::class, $driverChecked);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-                $startLoading = $driverChecked->getStartLoading();
-                $stopLoading = $driverChecked->getStopLoading();
-                $duration = $startLoading->diff($stopLoading)->format('%H:%I:%S');
-                $driverChecked->setDurationLoading($duration);
-                $errors = $validator->validate($driverChecked);
-
-                    if (count($errors) > 0) {
-                        foreach ($errors as $error) {
-                            $this->addFlash('error', $error->getMessage());
-                        }
-                    } else {
-                        $driverCheckedRepository->save($driverChecked, true);
-                        return $this->redirectToRoute('app_building_manager', [], Response::HTTP_SEE_OTHER);
-                    }
-        }
         
-        return $this->renderForm('driver_checked/new.html.twig', [
-            'driver_checked' => $driverChecked,
-            'form' => $form,
-        ]);
+        // ];
+            $driverChecked = new DriverChecked();
+            $form = $this->createForm(DriverCheckedType::class, $driverChecked);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                    $startLoading = $driverChecked->getStartLoading();
+                    $stopLoading = $driverChecked->getStopLoading();
+                    $duration = $startLoading->diff($stopLoading)->format('%H:%I:%S');
+                    $driverChecked->setDurationLoading($duration);
+                    $errors = $validator->validate($driverChecked);
+
+                        if (count($errors) > 0) {
+                            foreach ($errors as $error) {
+                                $this->addFlash('error', $error->getMessage());
+                            }
+                        } else {
+                            $driverCheckedRepository->save($driverChecked, true);
+                            return $this->redirectToRoute('app_building_manager', [], Response::HTTP_SEE_OTHER);
+                        }
+            }
+            
+            return $this->renderForm('driver_checked/new.html.twig', [
+                'driver_checked' => $driverChecked,
+                'form' => $form,
+            ]);
     }
 
     #[Route('/{id}', name: 'app_driver_checked_show', methods: ['GET'])]
